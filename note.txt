@@ -1,0 +1,1 @@
+1. profileScreen, upload image phần add ko nhận id (không upload được ảnh)
