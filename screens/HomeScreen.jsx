@@ -27,7 +27,10 @@ const HomeScreen = () => {
         setCourses(coursesData);
     }
 
-    const goToCourse = async () => {};
+    const goToCourse = async (aliasUrl) => {
+        const courseData = await CourseStore.get(aliasUrl);
+        navigation.navigate('CourseScreen', { data: courseData });
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -40,7 +43,11 @@ const HomeScreen = () => {
                     {courses?.length > 0 ? (
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                             {courses.map((course, index) => (
-                                <TouchableOpacity onPress={goToCourse} key={index} style={styles.course}>
+                                <TouchableOpacity
+                                    onPress={() => goToCourse(course.aliasUrl)}
+                                    key={index}
+                                    style={styles.course}
+                                >
                                     <View>
                                         {course.thumbnailUrl?.length > 0 ? (
                                             <Image source={{ uri: course.thumbnailUrl }} style={styles.courseImg} />

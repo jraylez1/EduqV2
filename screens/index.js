@@ -12,6 +12,8 @@ import CartScreen from './storeScreen/CartScreen';
 import ProductDetailScreen from './storeScreen/ProductDetailScreen';
 import OrderInfoScreen from './storeScreen/OrderInfoScreen';
 import OrderFinishScreen from './storeScreen/OrderFinishScreen';
+import CourseScreen from './courseScreen/CourseScreen';
+import LessonScreen from './courseScreen/LessonScreen';
 
 export {
     HomeScreen,
@@ -28,4 +30,6 @@ export {
     ProductDetailScreen,
     OrderInfoScreen,
     OrderFinishScreen,
+    CourseScreen,
+    LessonScreen,
 };

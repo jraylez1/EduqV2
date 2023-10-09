@@ -160,7 +160,9 @@ const UserInforScreen = () => {
                             </View>
                         </>
                     ) : (
-                        <Text>Loading user data...</Text>
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={styles.title}>Loading user data...</Text>
+                        </View>
                     )}
                 </View>
             </NativeBaseProvider>
@@ -206,6 +208,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#1976D2',
         padding: 16,
         borderRadius: 8,
+    },
+    title: {
+        color: '#fff',
+        fontWeight: '700',
+        fontSize: 24,
+        lineHeight: 32,
+        marginTop: 24,
     },
 });
 export default UserInforScreen;
