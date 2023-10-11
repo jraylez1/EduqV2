@@ -23,6 +23,7 @@ import {
     VideoScreen,
     BuyCourse,
     BuyCourseFinish,
+    QuestionScreen,
 } from './screens';
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,7 @@ export default function App() {
                 <Stack.Screen name="VideoScreen" component={VideoScreen} />
                 <Stack.Screen name="BuyCourse" component={BuyCourse} />
                 <Stack.Screen name="BuyCourseFinish" component={BuyCourseFinish} />
+                <Stack.Screen name="QuestionScreen" component={QuestionScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -151,7 +151,7 @@ const SupportKit = ({ data, cartItems, setCartItems, navigation }) => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             backgroundColor: '#c45840',
-                            width: '60%',
+                            width: '100%',
                             marginTop: 12,
                             borderRadius: 6,
                         }}

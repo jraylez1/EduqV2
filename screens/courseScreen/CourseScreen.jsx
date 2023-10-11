@@ -2,7 +2,6 @@ import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity } from 'r
 import React, { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
-// import IeltsQtest from '../components/IeltsQtest/IeltsQtest';
 import { NativeBaseProvider } from 'native-base';
 import { CourseStore } from '../../services/course';
 

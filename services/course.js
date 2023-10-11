@@ -36,9 +36,16 @@ export const CourseStore = {
         }
     },
     async getStudyRoute(aliasUrl, idStudyRoute, studyRouteAliasUrl, idTopic) {
+        const token = await AsyncStorage.getItem('access_token');
+
         try {
             const response = await axios.get(
                 `${EDUQ}/api/course/study-route.json?aliasUrl=${aliasUrl}&idStudyRoute=${idStudyRoute}&studyRouteAliasUrl=${studyRouteAliasUrl}&idTopic=${idTopic}&extendKeys=Course&extendKeys=MainLessons&extendKeys=AdditionLessons&extendKeys=SteamQDataFilters`,
+                {
+                    headers: {
+                        Authorization: token,
+                    },
+                },
             );
             if (response.data && response.data.data) {
                 return response.data.data;
@@ -109,6 +116,27 @@ export const CourseStore = {
             } else {
                 console.error('Invalid response format:', response.data);
                 return null;
+            }
+        } catch (error) {
+            return null;
+        }
+    },
+    async questions(idLesson, isMain, studyRouteAliasUrl, aliasUrl) {
+        const token = await AsyncStorage.getItem('access_token');
+        try {
+            const response = await axios.get(
+                `${EDUQ}/api/course/questions.json?idLesson=${idLesson}&isMain=${isMain}&studyRouteAliasUrl=${studyRouteAliasUrl}&aliasUrl=${aliasUrl}`,
+                {
+                    headers: {
+                        Authorization: token,
+                    },
+                },
+            );
+            if (response.data.error) {
+                console.error('Invalid response format:', response.data);
+                return null;
+            } else {
+                return response.data.data.questions;
             }
         } catch (error) {
             return null;

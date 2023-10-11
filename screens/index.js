@@ -17,6 +17,7 @@ import LessonScreen from './courseScreen/LessonScreen';
 import VideoScreen from './courseScreen/VideoScreen';
 import BuyCourse from './courseScreen/BuyCourse';
 import BuyCourseFinish from './courseScreen/BuyCourseFinish';
+import QuestionScreen from './courseScreen/QuestionScreen';
 
 export {
     HomeScreen,
@@ -38,4 +39,5 @@ export {
     VideoScreen,
     BuyCourse,
     BuyCourseFinish,
+    QuestionScreen,
 };

@@ -44,7 +44,7 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
                 }}
             >
                 <View style={{ width: '100%', alignItems: 'flex-end', paddingVertical: 8 }}>
-                    {item.isTrial ? (
+                    {item.isTrial || item.isOwner ? (
                         <View
                             style={{
                                 width: 100,
@@ -78,7 +78,7 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {item.isTrial ? (
+                    {item.isTrial || item.isOwner ? (
                         <AntDesign name="play" size={45} color="#005DB4" />
                     ) : (
                         <View
