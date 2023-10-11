@@ -1,14 +1,18 @@
 import { View, Text, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { CourseStore } from '../../services/course';
 import { SvgUri } from 'react-native-svg';
-import { FontAwesome } from '@expo/vector-icons';
+import ListLession from '../../components/listLession/ListLession';
+import { useTranslation } from 'react-i18next';
+
 const LessonScreen = ({ route }) => {
     const navigation = useNavigation();
     const [data, setData] = useState(route?.params?.data);
     const studyRouteAliasUrl = route?.params?.studyAliasUrl;
+    const scrollViewRef = useRef(null);
+    const { t } = useTranslation();
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -31,11 +35,6 @@ const LessonScreen = ({ route }) => {
         });
     }, []);
 
-    const goToFreeQVideo = async (idLesson) => {
-        const freeQVideoData = await CourseStore.getLesson(data.course.aliasUrl, data.course.id, idLesson, true);
-        navigation.navigate('FreeQVideoScreen', { data: freeQVideoData });
-    };
-
     const changeStudyRoute = async (idTopic) => {
         const lessonData = await CourseStore.getStudyRoute(
             data.extendData.course.aliasUrl,
@@ -46,7 +45,7 @@ const LessonScreen = ({ route }) => {
         setData(lessonData);
     };
     return (
-        <ScrollView style={{ backgroundColor: '#081D49', height: '100%', width: '100%' }}>
+        <ScrollView style={{ backgroundColor: '#081D49', height: '100%', width: '100%' }} ref={scrollViewRef}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
@@ -58,7 +57,7 @@ const LessonScreen = ({ route }) => {
                 }}
             >
                 {data.extendData.filters.lessonTopics.map((item, index) => (
-                    <View style={{ padding: 4 }}>
+                    <View style={{ padding: 4 }} key={index}>
                         <TouchableOpacity
                             style={{
                                 height: '80%',
@@ -81,242 +80,60 @@ const LessonScreen = ({ route }) => {
                 ))}
             </ScrollView>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>Bài học chính</Text>
+                <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Main lesson')}</Text>
             </View>
             {data.extendData.mainLessons.length > 0 ? (
-                <View style={{ width: '100%', paddingHorizontal: 16, paddingBottom: 16 }}>
+                <View
+                    style={{
+                        width: '100%',
+                        paddingHorizontal: 16,
+                        paddingBottom: 16,
+                        transform: [{ translateY: -30 }],
+                    }}
+                >
                     {data.extendData.mainLessons.map((item, index) => (
-                        <TouchableOpacity style={{ width: '100%' }} onPress={() => goToFreeQVideo(item.id)} key={index}>
-                            <View
-                                style={{
-                                    width: '100%',
-                                    paddingHorizontal: 16,
-                                    zIndex: 99,
-                                    transform: [{ translateY: 45 }],
-                                }}
-                            >
-                                <Image
-                                    source={{ uri: item.coverUrl }}
-                                    style={{ height: 96, width: 160, borderRadius: 12 }}
-                                />
-                            </View>
-                            <View
-                                style={{
-                                    width: '100%',
-                                    backgroundColor: '#fff',
-                                    borderRadius: 12,
-                                    paddingHorizontal: 8,
-                                    paddingBottom: 8,
-                                }}
-                            >
-                                <View style={{ width: '100%', alignItems: 'flex-end', paddingVertical: 8 }}>
-                                    {item.isTrial ? (
-                                        <View
-                                            style={{
-                                                width: 100,
-                                                backgroundColor: '#00a2ce',
-                                                padding: 8,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                borderRadius: 6,
-                                            }}
-                                        >
-                                            <Text
-                                                style={{ fontSize: 16, color: '#fff' }}
-                                                numberOfLines={2}
-                                                ellipsizeMode="tail"
-                                            >
-                                                Đã mở
-                                            </Text>
-                                        </View>
-                                    ) : (
-                                        <View
-                                            style={{
-                                                width: 100,
-                                                backgroundColor: '#d12700',
-                                                padding: 8,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                borderRadius: 6,
-                                            }}
-                                        >
-                                            <Text
-                                                style={{ fontSize: 16, color: '#fff' }}
-                                                numberOfLines={2}
-                                                ellipsizeMode="tail"
-                                            >
-                                                Đang khóa
-                                            </Text>
-                                        </View>
-                                    )}
-                                </View>
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    {item.isTrial ? (
-                                        <AntDesign name="play" size={45} color="#005DB4" />
-                                    ) : (
-                                        <View
-                                            style={{
-                                                paddingHorizontal: 14,
-                                                paddingVertical: 8,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                backgroundColor: '#d12700',
-                                                borderRadius: 9999,
-                                            }}
-                                        >
-                                            <FontAwesome name="lock" size={30} color="#fff" />
-                                        </View>
-                                    )}
-                                    <View style={{ marginLeft: 8, width: '85%' }}>
-                                        <Text
-                                            style={{
-                                                color: '#005DB4',
-                                                fontSize: 20,
-                                                lineHeight: 28,
-                                                fontWeight: 700,
-                                            }}
-                                            numberOfLines={2}
-                                            ellipsizeMode="tail"
-                                        >
-                                            {item.name}
-                                        </Text>
-                                        <Text
-                                            style={{ fontSize: 16, color: '#939393' }}
-                                            numberOfLines={2}
-                                            ellipsizeMode="tail"
-                                        >
-                                            {item.description}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        <ListLession
+                            studyRouteAliasUrl={studyRouteAliasUrl}
+                            item={item}
+                            data={data}
+                            key={index}
+                            scrollViewRef={scrollViewRef}
+                            isScroll={false}
+                        />
                     ))}
                 </View>
             ) : (
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={styles.title}>No lessons</Text>
+                    <Text style={styles.title}>{t('No lessons')}</Text>
                 </View>
             )}
 
             <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
-                <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>Bài học Bổ trợ</Text>
+                <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Additional lesson')}</Text>
             </View>
             {data.extendData.additionLessons.length > 0 ? (
-                <View style={{ width: '100%', paddingHorizontal: 16, paddingBottom: 16 }}>
+                <View
+                    style={{
+                        width: '100%',
+                        paddingHorizontal: 16,
+                        paddingBottom: 16,
+                    }}
+                >
                     {data.extendData.additionLessons.map((item, index) => (
-                        <TouchableOpacity style={{ width: '100%' }} onPress={() => goToFreeQVideo(item.id)} key={index}>
-                            <View
-                                style={{
-                                    width: '100%',
-                                    paddingHorizontal: 16,
-                                    zIndex: 99,
-                                    transform: [{ translateY: 45 }],
-                                }}
-                            >
-                                <Image
-                                    source={{ uri: item.coverUrl }}
-                                    style={{ height: 96, width: 160, borderRadius: 12 }}
-                                />
-                            </View>
-                            <View
-                                style={{
-                                    width: '100%',
-                                    backgroundColor: '#fff',
-                                    borderRadius: 12,
-                                    paddingHorizontal: 8,
-                                    paddingBottom: 8,
-                                }}
-                            >
-                                <View style={{ width: '100%', alignItems: 'flex-end', paddingVertical: 8 }}>
-                                    {item.isTrial ? (
-                                        <View
-                                            style={{
-                                                width: 100,
-                                                backgroundColor: '#00a2ce',
-                                                padding: 8,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                borderRadius: 6,
-                                            }}
-                                        >
-                                            <Text
-                                                style={{ fontSize: 16, color: '#fff' }}
-                                                numberOfLines={2}
-                                                ellipsizeMode="tail"
-                                            >
-                                                Đã mở
-                                            </Text>
-                                        </View>
-                                    ) : (
-                                        <View
-                                            style={{
-                                                width: 100,
-                                                backgroundColor: '#d12700',
-                                                padding: 8,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                borderRadius: 6,
-                                            }}
-                                        >
-                                            <Text
-                                                style={{ fontSize: 16, color: '#fff' }}
-                                                numberOfLines={2}
-                                                ellipsizeMode="tail"
-                                            >
-                                                Đang khóa
-                                            </Text>
-                                        </View>
-                                    )}
-                                </View>
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    {item.isTrial ? (
-                                        <AntDesign name="play" size={45} color="#005DB4" />
-                                    ) : (
-                                        <View
-                                            style={{
-                                                paddingHorizontal: 14,
-                                                paddingVertical: 8,
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                backgroundColor: '#d12700',
-                                                borderRadius: 9999,
-                                            }}
-                                        >
-                                            <FontAwesome name="lock" size={30} color="#fff" />
-                                        </View>
-                                    )}
-                                    <View style={{ marginLeft: 8, width: '85%' }}>
-                                        <Text
-                                            style={{
-                                                color: '#005DB4',
-                                                fontSize: 20,
-                                                lineHeight: 28,
-                                                fontWeight: 700,
-                                            }}
-                                            numberOfLines={2}
-                                            ellipsizeMode="tail"
-                                        >
-                                            {item.name}
-                                        </Text>
-                                        <Text
-                                            style={{ fontSize: 16, color: '#939393' }}
-                                            numberOfLines={2}
-                                            ellipsizeMode="tail"
-                                        >
-                                            {item.description}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        <View style={{ transform: [{ translateY: -30 }] }} key={index}>
+                            <ListLession
+                                studyRouteAliasUrl={studyRouteAliasUrl}
+                                item={item}
+                                data={data}
+                                scrollViewRef={scrollViewRef}
+                                isScroll={false}
+                            />
+                        </View>
                     ))}
                 </View>
             ) : (
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={styles.title}>No lessons</Text>
+                    <Text style={styles.title}>{t('No lessons')}</Text>
                 </View>
             )}
         </ScrollView>

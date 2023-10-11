@@ -1,10 +1,7 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { ProductStore } from '../../services/product';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, NativeBaseProvider, Icon } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
 
 const ProductRelated = React.memo(({ item, scrollViewRef }) => {
     const navigation = useNavigation();

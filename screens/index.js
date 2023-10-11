@@ -14,6 +14,9 @@ import OrderInfoScreen from './storeScreen/OrderInfoScreen';
 import OrderFinishScreen from './storeScreen/OrderFinishScreen';
 import CourseScreen from './courseScreen/CourseScreen';
 import LessonScreen from './courseScreen/LessonScreen';
+import VideoScreen from './courseScreen/VideoScreen';
+import BuyCourse from './courseScreen/BuyCourse';
+import BuyCourseFinish from './courseScreen/BuyCourseFinish';
 
 export {
     HomeScreen,
@@ -32,4 +35,7 @@ export {
     OrderFinishScreen,
     CourseScreen,
     LessonScreen,
+    VideoScreen,
+    BuyCourse,
+    BuyCourseFinish,
 };

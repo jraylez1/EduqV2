@@ -20,6 +20,9 @@ import {
     OrderFinishScreen,
     CourseScreen,
     LessonScreen,
+    VideoScreen,
+    BuyCourse,
+    BuyCourseFinish,
 } from './screens';
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +47,9 @@ export default function App() {
                 <Stack.Screen name="OrderFinishScreen" component={OrderFinishScreen} />
                 <Stack.Screen name="CourseScreen" component={CourseScreen} />
                 <Stack.Screen name="LessonScreen" component={LessonScreen} />
+                <Stack.Screen name="VideoScreen" component={VideoScreen} />
+                <Stack.Screen name="BuyCourse" component={BuyCourse} />
+                <Stack.Screen name="BuyCourseFinish" component={BuyCourseFinish} />
             </Stack.Navigator>
         </NavigationContainer>
     );
