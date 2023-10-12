@@ -125,7 +125,7 @@ export const CourseStore = {
         const token = await AsyncStorage.getItem('access_token');
         try {
             const response = await axios.get(
-                `${EDUQ}/api/course/questions.json?idLesson=${idLesson}&isMain=${isMain}&studyRouteAliasUrl=${studyRouteAliasUrl}&aliasUrl=${aliasUrl}`,
+                `${EDUQ}/api/course/questions.json?idLesson=${idLesson}&isMain=${isMain}&studyRouteAliasUrl=${studyRouteAliasUrl}&aliasUrl=${aliasUrl}&extendKeys=Course`,
                 {
                     headers: {
                         Authorization: token,
@@ -136,7 +136,37 @@ export const CourseStore = {
                 console.error('Invalid response format:', response.data);
                 return null;
             } else {
-                return response.data.data.questions;
+                return response.data.data;
+            }
+        } catch (error) {
+            return null;
+        }
+    },
+    async doQuestions(aliasUrl, idLesson, idStudyRoute, isMain, questions, studyRouteAliasUrl) {
+        const token = await AsyncStorage.getItem('access_token');
+        try {
+            const response = await axios.post(
+                `${EDUQ}/api/course/do-questions.json`,
+                {
+                    aliasUrl: aliasUrl,
+                    extendKeys: [],
+                    idLesson: idLesson,
+                    idStudyRoute: idStudyRoute,
+                    isMain: isMain,
+                    questions: questions,
+                    studyRouteAliasUrl: studyRouteAliasUrl,
+                },
+                {
+                    headers: {
+                        Authorization: token,
+                    },
+                },
+            );
+            if (response.data.error) {
+                console.error('Invalid response format:', response.data);
+                return null;
+            } else {
+                return response.data.data;
             }
         } catch (error) {
             return null;

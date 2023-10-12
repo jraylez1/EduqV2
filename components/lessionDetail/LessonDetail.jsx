@@ -6,10 +6,13 @@ import { CourseStore } from '../../services/course';
 import { AuthStore } from '../../services/auth';
 import { Video } from 'expo-av';
 import { FontAwesome } from '@expo/vector-icons';
+
+import { useEffect } from 'react';
 const LessonDetail = ({ data, navigation }) => {
     const { t } = useTranslation();
     const video = React.useRef(null);
     const [status, setStatus] = React.useState({});
+    const [questionData, setQuestionData] = React.useState({});
 
     const goToBuyCourse = async () => {
         if (AuthStore.isLoggedIn) {
@@ -20,14 +23,22 @@ const LessonDetail = ({ data, navigation }) => {
         }
     };
 
-    const goToExam = async () => {
+    useEffect(() => {
+        getQuestionData();
+    }, [data]);
+
+    const getQuestionData = async () => {
         const examQuestion = await CourseStore.questions(
             data.id,
-            false,
+            true,
             data.extendData.course.studyRoutes[0].aliasUrl,
             data.extendData.course.aliasUrl,
         );
-        navigation.navigate('QuestionScreen', { data: examQuestion, idLesson: data.id });
+        setQuestionData(examQuestion);
+    };
+
+    const goToExam = async () => {
+        navigation.navigate('QuestionScreen', { data: questionData, idLesson: data.id });
     };
 
     return (
@@ -80,24 +91,91 @@ const LessonDetail = ({ data, navigation }) => {
                                 <Text style={{ fontSize: 18, textAlign: 'justify' }}>{data.description}</Text>
                             </View>
                         </View>
-                        <TouchableOpacity
-                            style={{
-                                flexDirection: 'row',
-                                padding: 12,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                backgroundColor: '#2e72ad',
-                                width: '100%',
-                                marginTop: 16,
-                                borderRadius: 6,
-                            }}
-                            onPress={() => goToExam()}
-                        >
-                            <FontAwesome name="question-circle-o" size={30} color="#fff" />
-                            <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28, marginLeft: 8 }}>
-                                {t('Take a quiz')}
-                            </Text>
-                        </TouchableOpacity>
+                        {questionData.result != null ? (
+                            <View
+                                style={{
+                                    backgroundColor: '#fff',
+                                    borderRadius: 6,
+                                    padding: 8,
+                                    marginTop: 16,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Text style={{ fontSize: 24, lineHeight: 28, fontWeight: '700' }}>Kết quả làm bài</Text>
+                                <Text
+                                    style={{
+                                        fontSize: 20,
+                                        lineHeight: 28,
+                                        fontWeight: '400',
+                                        textAlign: 'center',
+                                        marginBottom: 8,
+                                    }}
+                                >
+                                    Chúc mừng bạn đã hoàn thành bài kiểm tra.
+                                </Text>
+                                <FontAwesome5 name="smile" size={80} color="#0a7568" />
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text
+                                        style={{
+                                            fontSize: 40,
+                                            lineHeight: 42,
+                                            marginTop: 8,
+                                            fontWeight: '700',
+                                            color: '#0a7568',
+                                        }}
+                                    >
+                                        {questionData.result.score}
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            fontSize: 28,
+                                            lineHeight: 42,
+                                            marginTop: 8,
+                                            fontWeight: '500',
+                                            color: '#0a7568',
+                                        }}
+                                    >
+                                        {' '}
+                                        / {questionData.result.maxScore}
+                                    </Text>
+                                </View>
+                                <TouchableOpacity
+                                    style={{
+                                        flexDirection: 'row',
+                                        padding: 12,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        backgroundColor: '#2e72ad',
+                                        width: '100%',
+                                        marginTop: 16,
+                                        borderRadius: 6,
+                                    }}
+                                    onPress={() => goToExam()}
+                                >
+                                    <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28 }}>{t('Redo')}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        ) : (
+                            <TouchableOpacity
+                                style={{
+                                    flexDirection: 'row',
+                                    padding: 12,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: '#2e72ad',
+                                    width: '100%',
+                                    marginTop: 16,
+                                    borderRadius: 6,
+                                }}
+                                onPress={() => goToExam()}
+                            >
+                                <FontAwesome name="question-circle-o" size={30} color="#fff" />
+                                <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28, marginLeft: 8 }}>
+                                    {t('Take a quiz')}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
                 ) : (
                     <View>

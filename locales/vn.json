@@ -124,5 +124,7 @@
     "Payment information": "Thông tin thanh toán",
     "Payment": "Thanh toán",
     "Do you really want to initiate this order?": "Bạn có thực sự muốn thanh toán đơn hàng này không?",
-    "Order payment successful": "Đơn hàng thanh toán thành công"
+    "Order payment successful": "Đơn hàng thanh toán thành công",
+    "You have answered correctly": "Bạn đã trả lời đúng",
+    "You have answered incorrectly": "Bạn đã trả lời sai"
 }
