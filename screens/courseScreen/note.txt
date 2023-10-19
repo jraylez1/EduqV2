@@ -1,0 +1,38 @@
+let updatedSelectData = [...selectData];
+        const existingIndex = updatedSelectData.findIndex((element) => element.id === data.id);
+        if (data.idType === 1) {
+            updatedSelectData = updatedSelectData.filter((element) => element.id !== data.id);
+            updatedSelectData.push({ id: data.id, answers: [item.idAnswer] });
+        } else if (data.idType === 2) {
+            if (existingIndex !== -1) {
+                const existingAnswers = updatedSelectData[existingIndex].answers;
+                if (existingAnswers.includes(item.idAnswer)) {
+                    updatedSelectData[existingIndex].answers = existingAnswers.filter((id) => id !== item.idAnswer);
+                } else {
+                    updatedSelectData[existingIndex].answers.push(item.idAnswer);
+                }
+            } else {
+                updatedSelectData.push({ id: data.id, answers: [item.idAnswer] });
+            }
+        }
+        setSelectData(updatedSelectData);
+        setQuestionData(updatedSelectData);
+        setData((prevData) =>
+            prevData.map((question) =>
+                question.id === data.id
+                    ? {
+                          ...question,
+                          data: question.data.map((answer) => {
+                              const isSelected = updatedSelectData.some(
+                                  (selectItem) =>
+                                      selectItem.id === data.id && selectItem.answers.includes(answer.idAnswer),
+                              );
+                              return {
+                                  ...answer,
+                                  selected: isSelected,
+                              };
+                          }),
+                      }
+                    : question,
+            ),
+        );
