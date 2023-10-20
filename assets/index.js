@@ -9,3 +9,5 @@ export { default as phone } from './images/phone_bg.png';
 export { default as youtube } from './images/youtube_bg.png';
 export { default as zalo } from './images/zalo_bg.png';
 export { default as quiz_pattern } from './images/quiz_pattern.png';
+export { default as uk_flag } from './images/uk-flag.png';
+export { default as us_flag } from './images/us-flag.png';

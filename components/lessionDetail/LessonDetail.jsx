@@ -34,11 +34,22 @@ const LessonDetail = ({ data, navigation }) => {
             data.extendData.course.studyRoutes[0].aliasUrl,
             data.extendData.course.aliasUrl,
         );
-        setQuestionData(examQuestion);
+        setQuestionData(examQuestion.data);
     };
 
     const goToExam = async () => {
-        navigation.navigate('QuestionScreen', { data: questionData, idLesson: data.id });
+        const examQuestion = await CourseStore.questions(
+            data.id,
+            true,
+            data.extendData.course.studyRoutes[0].aliasUrl,
+            data.extendData.course.aliasUrl,
+        );
+        navigation.navigate('QuestionScreen', {
+            data: examQuestion.questions,
+            idLesson: data.id,
+            extendData: examQuestion.extendData,
+            result: examQuestion.result,
+        });
     };
 
     return (
@@ -49,6 +60,9 @@ const LessonDetail = ({ data, navigation }) => {
             <Text style={{ color: '#fff', fontSize: 24, lineHeight: 28, fontWeight: '700', marginTop: 8 }}>
                 {data.name}
             </Text>
+            <TouchableOpacity onPress={() => console.log(questionData.result)}>
+                <Text>clcik me</Text>
+            </TouchableOpacity>
             <View>
                 {data.extendData.course.isOwner ? (
                     <View style={{ marginTop: 16 }}>

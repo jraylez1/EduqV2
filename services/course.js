@@ -136,7 +136,12 @@ export const CourseStore = {
                 console.error('Invalid response format:', response.data);
                 return null;
             } else {
-                return response.data.data;
+                return {
+                    data: response.data.data,
+                    questions: response.data.data.questions,
+                    extendData: response.data.data.extendData,
+                    result: response.data.data.result,
+                };
             }
         } catch (error) {
             return null;
