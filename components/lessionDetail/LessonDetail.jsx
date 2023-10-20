@@ -60,9 +60,7 @@ const LessonDetail = ({ data, navigation }) => {
             <Text style={{ color: '#fff', fontSize: 24, lineHeight: 28, fontWeight: '700', marginTop: 8 }}>
                 {data.name}
             </Text>
-            <TouchableOpacity onPress={() => console.log(questionData.result)}>
-                <Text>clcik me</Text>
-            </TouchableOpacity>
+
             <View>
                 {data.extendData.course.isOwner ? (
                     <View style={{ marginTop: 16 }}>
@@ -99,7 +97,7 @@ const LessonDetail = ({ data, navigation }) => {
                                     marginBottom: 8,
                                 }}
                             >
-                                Nội dung bài học
+                                {t('Lesson Content')}
                             </Text>
                             <View style={{ backgroundColor: '#fffcea', padding: 8, borderRadius: 6 }}>
                                 <Text style={{ fontSize: 18, textAlign: 'justify' }}>{data.description}</Text>
@@ -116,7 +114,9 @@ const LessonDetail = ({ data, navigation }) => {
                                     alignItems: 'center',
                                 }}
                             >
-                                <Text style={{ fontSize: 24, lineHeight: 28, fontWeight: '700' }}>Kết quả làm bài</Text>
+                                <Text style={{ fontSize: 24, lineHeight: 28, fontWeight: '700' }}>
+                                    {t('Test results')}
+                                </Text>
                                 <Text
                                     style={{
                                         fontSize: 20,
@@ -126,7 +126,7 @@ const LessonDetail = ({ data, navigation }) => {
                                         marginBottom: 8,
                                     }}
                                 >
-                                    Chúc mừng bạn đã hoàn thành bài kiểm tra.
+                                    {t('Congratulations, you have completed the test')}
                                 </Text>
                                 <FontAwesome5 name="smile" size={80} color="#0a7568" />
                                 <View style={{ flexDirection: 'row' }}>
@@ -167,7 +167,9 @@ const LessonDetail = ({ data, navigation }) => {
                                     }}
                                     onPress={() => goToExam()}
                                 >
-                                    <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28 }}>{t('Redo')}</Text>
+                                    <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28 }}>
+                                        {t('Redo the lesson')}
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                         ) : (

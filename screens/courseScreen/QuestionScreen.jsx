@@ -20,7 +20,7 @@ const QuestionScreen = ({ route }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerTitle: 'Question',
+            headerTitle: t('Question'),
             headerTitleAlign: 'center',
             headerStyle: {
                 backgroundColor: '#081D49',
@@ -134,7 +134,9 @@ const QuestionScreen = ({ route }) => {
                         }}
                         onPress={() => showModalQuestion()}
                     >
-                        <Text style={{ color: '#fff', fontSize: 16, marginRight: 8 }}>{t('Finish')}</Text>
+                        <Text style={{ color: '#fff', fontSize: 16, marginRight: 8, fontWeight: '500' }}>
+                            {t('Submit')}
+                        </Text>
                     </TouchableOpacity>
                     <View
                         style={{
