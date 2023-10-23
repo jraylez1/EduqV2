@@ -1,25 +1,57 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { uk_flag, us_flag } from '../../assets';
+import * as FileSystem from 'expo-file-system';
+import { Audio } from 'expo-av';
+
 const PronunciationQuestion = ({ data, result }) => {
     const { t } = useTranslation();
-    const [recording, setRecording] = useState(false);
+    const [recording, setRecording] = useState(null);
     const [voice, setVoice] = useState('uk');
-    const startRecording = () => {
-        setRecording(true);
+    const [isRecording, setIsRecording] = useState(false);
+    const [audioPermission, setAudioPermission] = useState(null);
+
+    const startRecording = async () => {
+        try {
+            const { status } = await Audio.requestPermissionsAsync();
+            setAudioPermission(status === 'granted');
+
+            if (status !== 'granted') {
+                return;
+            }
+
+            const recording = new Audio.Recording();
+            await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
+            await recording.startAsync();
+            setRecording(recording);
+            setIsRecording(true);
+        } catch (error) {
+            console.error('Error starting recording:', error);
+        }
     };
-    const stopRecording = () => {
-        setRecording(false);
+    const stopRecording = async () => {
+        try {
+            setIsRecording(false);
+            await recording.stopAndUnloadAsync();
+            const uri = recording.getURI();
+
+            const response = await FileSystem.readAsStringAsync(uri, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
+
+            console.log(response);
+        } catch (error) {
+            console.error('Error stopping recording:', error);
+        }
     };
+
     return (
-        <View
+        <ScrollView
             style={{
                 paddingHorizontal: 16,
                 marginTop: 16,
-                justifyContent: 'center',
-                alignItems: 'center',
                 width: '100%',
             }}
         >
@@ -84,8 +116,8 @@ const PronunciationQuestion = ({ data, result }) => {
                     />
                 </TouchableOpacity>
             </View>
-            <View style={{ paddingVertical: 32 }}>
-                {recording ? (
+            <View style={{ paddingVertical: 32, justifyContent: 'center', alignItems: 'center' }}>
+                {isRecording ? (
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity
                             style={{
@@ -137,7 +169,12 @@ const PronunciationQuestion = ({ data, result }) => {
                     'You need to speak no more than 45 seconds. Click the microphone button above to start recording, pause for a moment and then start speaking. Once you have finished your attempt, click the stop button and your audio will be submitted.',
                 )}
             </Text>
-        </View>
+
+            <View style={{ paddingVertical: 32, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 20, fontWeight: '400', color: '#0dcaf0' }}>Kết quả: </Text>
+                <Text style={{ fontSize: 32, fontWeight: '600', color: '#dc3545' }}>Tổng điểm </Text>
+            </View>
+        </ScrollView>
     );
 };
 

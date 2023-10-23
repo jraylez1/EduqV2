@@ -13,9 +13,14 @@
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "permissions": {
+                "microphone": true,
+                "mediaLibrary": true
+            }
         },
         "android": {
+            "permissions": ["RECORD_AUDIO", "WRITE_EXTERNAL_STORAGE"],
             "adaptiveIcon": {
                 "foregroundImage": "./assets/images/splash-logo-all.png",
                 "backgroundColor": "#ffffff"
