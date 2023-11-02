@@ -5,20 +5,18 @@ import { useTranslation } from 'react-i18next';
 import { uk_flag, us_flag } from '../../assets';
 import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
-
-const PronunciationQuestion = ({ data, result }) => {
+import axios from 'axios';
+const PronunciationQuestion = ({ data }) => {
     const { t } = useTranslation();
     const [recording, setRecording] = useState(null);
     const [voice, setVoice] = useState('uk');
     const [isRecording, setIsRecording] = useState(false);
-    const [audioPermission, setAudioPermission] = useState(null);
 
     const startRecording = async () => {
         try {
             const { status } = await Audio.requestPermissionsAsync();
-            setAudioPermission(status === 'granted');
-
             if (status !== 'granted') {
+                console.error('Permission to access audio was denied');
                 return;
             }
 
@@ -28,22 +26,39 @@ const PronunciationQuestion = ({ data, result }) => {
             setRecording(recording);
             setIsRecording(true);
         } catch (error) {
-            console.error('Error starting recording:', error);
+            console.error('Lỗi khi bắt đầu ghi âm: ', error);
         }
     };
+
     const stopRecording = async () => {
         try {
-            setIsRecording(false);
             await recording.stopAndUnloadAsync();
-            const uri = recording.getURI();
+            setIsRecording(false);
 
-            const response = await FileSystem.readAsStringAsync(uri, {
-                encoding: FileSystem.EncodingType.Base64,
+            const uri = await recording.getURI();
+
+            const formData = new FormData();
+            formData.append('file', {
+                uri,
+                type: 'audio/mpeg',
+                name: 'recording.mp3',
             });
+            formData.append('expectedText', 'Hello');
+            formData.append('extension', 'mp3');
 
-            console.log(response);
+            const response = await axios.post(
+                `http://192.168.10.16/erp-pronounciation/pronunciation/file/uk`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                },
+            );
+
+            console.log('Upload successful', response.data);
         } catch (error) {
-            console.error('Error stopping recording:', error);
+            console.error('Lỗi khi dừng ghi âm hoặc lưu tệp: ', error);
         }
     };
 
