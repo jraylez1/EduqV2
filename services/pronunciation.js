@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { QTEST } from '@env';
+import { Qtest } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // axios.interceptors.request.use((request) => {
@@ -18,7 +18,7 @@ export const PronunciationStore = {
         });
         formData.append('expectedText', expectedText);
         try {
-            const response = await axios.post(`${QTEST}/pronunciation/file/${accent}`, formData, {
+            const response = await axios.post(`${Qtest}/pronunciation/file/${accent}`, formData, {
                 headers: {
                     Authorization: token,
                     'Content-Type': 'multipart/form-data',
@@ -35,7 +35,7 @@ export const PronunciationStore = {
         const token = await AsyncStorage.getItem('access_token');
         try {
             const response = await axios.post(
-                `${QTEST}/pronunciation/base64/` + accent,
+                `${Qtest}/pronunciation/base64/` + accent,
                 {
                     headers: {
                         Authorization: token,

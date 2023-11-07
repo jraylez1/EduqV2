@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useLayoutEffect, useState, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
@@ -6,7 +6,7 @@ import { CourseStore } from '../../services/course';
 import { SvgUri } from 'react-native-svg';
 import ListLession from '../../components/listLession/ListLession';
 import { useTranslation } from 'react-i18next';
-
+import { Entypo } from '@expo/vector-icons';
 const LessonScreen = ({ route }) => {
     const navigation = useNavigation();
     const [data, setData] = useState(route?.params?.data);
@@ -56,28 +56,31 @@ const LessonScreen = ({ route }) => {
                     flexDirection: 'row',
                 }}
             >
-                {data.extendData.filters.lessonTopics.map((item, index) => (
-                    <View style={{ padding: 4 }} key={index}>
-                        <TouchableOpacity
-                            style={{
-                                height: '80%',
-                                marginBottom: 16,
-                                backgroundColor: item.bgColor,
-                                padding: 8,
-                                borderRadius: 12,
-                                borderColor: item.borderColor,
-                                borderWidth: 2,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                            key={index}
-                            onPress={() => changeStudyRoute(item.id)}
-                        >
-                            <SvgUri style={{ height: 80 }} uri={item.iconUrl} />
-                            <Text style={{ color: item.textColor, fontSize: 18, fontWeight: '600' }}>{item.name}</Text>
-                        </TouchableOpacity>
-                    </View>
-                ))}
+                {data?.extendData?.filters?.lessonTopics &&
+                    data?.extendData?.filters?.lessonTopics.map((item, index) => (
+                        <View style={{ padding: 4 }} key={index}>
+                            <TouchableOpacity
+                                style={{
+                                    height: '80%',
+                                    marginBottom: 16,
+                                    backgroundColor: item.bgColor,
+                                    padding: 8,
+                                    borderRadius: 12,
+                                    borderColor: item.borderColor,
+                                    borderWidth: 2,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                                key={index}
+                                onPress={() => changeStudyRoute(item.id)}
+                            >
+                                <SvgUri style={{ height: 80 }} uri={item?.iconUrl} />
+                                <Text style={{ color: item.textColor, fontSize: 18, fontWeight: '600' }}>
+                                    {item?.name}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    ))}
             </ScrollView>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Main lesson')}</Text>
@@ -103,7 +106,8 @@ const LessonScreen = ({ route }) => {
                     ))}
                 </View>
             ) : (
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
+                    <Entypo name="box" size={40} color="white" />
                     <Text style={styles.title}>{t('No lessons')}</Text>
                 </View>
             )}
@@ -111,7 +115,7 @@ const LessonScreen = ({ route }) => {
             <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
                 <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Additional lesson')}</Text>
             </View>
-            {data.extendData.additionLessons.length > 0 ? (
+            {data?.extendData?.additionLessons.length > 0 ? (
                 <View
                     style={{
                         width: '100%',
@@ -119,7 +123,7 @@ const LessonScreen = ({ route }) => {
                         paddingBottom: 16,
                     }}
                 >
-                    {data.extendData.additionLessons.map((item, index) => (
+                    {data?.extendData?.additionLessons.map((item, index) => (
                         <View style={{ transform: [{ translateY: -30 }] }} key={index}>
                             <ListLession
                                 studyRouteAliasUrl={studyRouteAliasUrl}
@@ -132,12 +136,20 @@ const LessonScreen = ({ route }) => {
                     ))}
                 </View>
             ) : (
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
+                    <Entypo name="box" size={40} color="white" />
                     <Text style={styles.title}>{t('No lessons')}</Text>
                 </View>
             )}
         </ScrollView>
     );
 };
-
+const styles = StyleSheet.create({
+    title: {
+        fontWeight: '500',
+        fontSize: 30,
+        color: 'white',
+        marginTop: 8,
+    },
+});
 export default LessonScreen;

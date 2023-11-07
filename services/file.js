@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { STORAGE } from '@env';
+import { Storage } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // axios.interceptors.request.use((request) => {
 //     console.log('Request:', request);
@@ -11,12 +11,12 @@ export const FileStore = {
 
         try {
             const response = await axios.get(
-                `${STORAGE}/api/file/getuploadurl.json?idCategory=0&moduleName=&fileName=${fileName}&contentType=${contentType}&size=${size}&filePrefix=`,
+                `${Storage}/api/file/getuploadurl.json?idCategory=0&moduleName=&fileName=${fileName}&contentType=${contentType}&size=${size}&filePrefix=`,
             );
             const idImg = response.data.data.id;
             if (response.data && response.data.data) {
                 const res = await axios.post(
-                    `${STORAGE}/api/file/add.json`,
+                    `${Storage}/api/file/add.json`,
                     {
                         id: response.data.data.id,
                     },

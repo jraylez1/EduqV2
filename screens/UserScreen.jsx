@@ -64,7 +64,7 @@ const UserScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <NativeBaseProvider>
-                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+                <TouchableOpacity onPress={() => navigation.replace('BottomNavigation', { screen: 'HomeScreen' })}>
                     <AntDesign name="arrowleft" size={24} color="white" />
                 </TouchableOpacity>
                 <View style={{ marginVertical: 32 }}>

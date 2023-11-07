@@ -12,8 +12,8 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
 
     const goToFreeQVideo = async () => {
         const freeQVideoData = await CourseStore.getLesson(
-            data.extendData.course.aliasUrl,
-            item.id,
+            data?.extendData.course.aliasUrl,
+            item?.id,
             studyRouteAliasUrl,
             true,
         );
@@ -32,7 +32,15 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
                     transform: [{ translateY: 45 }],
                 }}
             >
-                <Image source={{ uri: item.coverUrl }} style={{ height: 96, width: 160, borderRadius: 12 }} />
+                <Image
+                    source={{
+                        uri:
+                            item?.coverUrl === ''
+                                ? 'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg'
+                                : item?.coverUrl,
+                    }}
+                    style={{ height: 96, width: 160, borderRadius: 12 }}
+                />
             </View>
             <View
                 style={{
@@ -44,7 +52,7 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
                 }}
             >
                 <View style={{ width: '100%', alignItems: 'flex-end', paddingVertical: 8 }}>
-                    {item.isTrial || item.isOwner ? (
+                    {item?.isTrial || item?.isOwner ? (
                         <View
                             style={{
                                 width: 100,
@@ -78,7 +86,7 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
                 </View>
 
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    {item.isTrial || item.isOwner ? (
+                    {item?.isTrial || item?.isOwner ? (
                         <AntDesign name="play" size={45} color="#005DB4" />
                     ) : (
                         <View
@@ -105,10 +113,10 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
                             numberOfLines={2}
                             ellipsizeMode="tail"
                         >
-                            {item.name}
+                            {item?.name}
                         </Text>
                         <Text style={{ fontSize: 16, color: '#939393' }} numberOfLines={2} ellipsizeMode="tail">
-                            {item.description}
+                            {item?.description}
                         </Text>
                     </View>
                 </View>

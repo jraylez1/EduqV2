@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity } from 'react-native';
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { NativeBaseProvider } from 'native-base';
@@ -8,6 +8,9 @@ import { CourseStore } from '../../services/course';
 const CourseScreen = ({ route }) => {
     const navigation = useNavigation();
     const data = route?.params?.data;
+    const [studyRouteData, setStudyRouteData] = useState([]);
+    const [selectStudyRoute, setSelectStudyRoute] = useState(null);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerTitle: data.name,
@@ -29,13 +32,26 @@ const CourseScreen = ({ route }) => {
         });
     }, []);
 
+    const getStudyRoutes = async () => {
+        if (data.aliasUrl === 'freeq') {
+            const idStudyRoutes = data.studyRoutes.map((item) => item.id);
+            const studyRouteData = await CourseStore.getStudyRoutes(idStudyRoutes);
+            setStudyRouteData(studyRouteData);
+        } else {
+        }
+    };
+
+    useEffect(() => {
+        getStudyRoutes();
+    }, [data]);
+
     const goToLesson = async (idStudyRoute, studyRouteAliasUrl) => {
         const lessonData = await CourseStore.getStudyRoute(data.aliasUrl, idStudyRoute, studyRouteAliasUrl);
         navigation.navigate('LessonScreen', { data: lessonData, studyAliasUrl: studyRouteAliasUrl });
     };
 
     return (
-        <SafeAreaView style={{ backgroundColor: '#081D49', height: '100%' }}>
+        <ScrollView style={{ backgroundColor: '#081D49', height: '100%' }}>
             {data.thumbnailUrl?.length > 0 ? (
                 <Image source={{ uri: data.thumbnailUrl }} style={{ width: '100%', height: 240, objectFit: 'cover' }} />
             ) : (
@@ -46,7 +62,7 @@ const CourseScreen = ({ route }) => {
                     style={{ width: '100%', height: 240, objectFit: 'cover' }}
                 />
             )}
-            <ScrollView className="w-full h-full mb-4" style={{ width: '100%', height: '100%', marginBottom: 16 }}>
+            <View className="w-full h-full mb-4" style={{ width: '100%', height: '100%', marginBottom: 16 }}>
                 <NativeBaseProvider>
                     <Text
                         style={{
@@ -60,29 +76,90 @@ const CourseScreen = ({ route }) => {
                     >
                         {data.summary}
                     </Text>
-                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 16 }}>
-                        {data.studyRoutes.map((item, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                style={{
-                                    borderRadius: 12,
-                                    backgroundColor: '#facc15',
-                                    padding: 8,
-                                    width: '47%',
-                                    margin: 4,
-                                    fontWeight: '500',
-                                }}
-                                onPress={() => goToLesson(item.id, item.aliasUrl)}
-                            >
-                                <Text style={{ color: '#081D49', fontSize: 20, lineHeight: 28, textAlign: 'center' }}>
-                                    {item.name}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
+                    {data.aliasUrl === 'freeq' ? (
+                        <View style={{ paddingHorizontal: 16 }}>
+                            {studyRouteData.map((item, index) => (
+                                <View key={index} style={{ marginVertical: 8 }}>
+                                    <TouchableOpacity
+                                        style={{
+                                            borderRadius: 6,
+                                            backgroundColor: selectStudyRoute === item.id ? '#2e72ad' : '#facc15',
+                                            padding: 16,
+                                            width: '100%',
+                                            fontWeight: '500',
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                        }}
+                                        onPress={() => setSelectStudyRoute(item?.id)}
+                                    >
+                                        <Text
+                                            style={{
+                                                color: selectStudyRoute === item.id ? '#fff' : '#081D49',
+                                                fontSize: 20,
+                                                lineHeight: 28,
+                                                textAlign: 'center',
+                                            }}
+                                        >
+                                            {item.name}
+                                        </Text>
+                                        {selectStudyRoute === item.id ? (
+                                            <AntDesign name="up" size={24} color="white" />
+                                        ) : (
+                                            <AntDesign name="down" size={20} color="black" />
+                                        )}
+                                    </TouchableOpacity>
+                                    {selectStudyRoute === item.id ? (
+                                        <View style={{ borderRadius: 6 }}>
+                                            {item.lessons.map((lesson, index) => (
+                                                <TouchableOpacity
+                                                    key={index}
+                                                    style={{
+                                                        borderRadius: 6,
+                                                        backgroundColor: '#fff',
+                                                        padding: 16,
+                                                        borderBottomColor: '#ddd',
+                                                        borderBottomWidth: 1,
+                                                        marginVertical: 4,
+                                                    }}
+                                                >
+                                                    <Text>{lesson.name}</Text>
+                                                </TouchableOpacity>
+                                            ))}
+                                        </View>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </View>
+                            ))}
+                        </View>
+                    ) : (
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 16 }}>
+                            {data.studyRoutes.map((item, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={{
+                                        borderRadius: 12,
+                                        backgroundColor: '#facc15',
+                                        padding: 8,
+                                        width: '47%',
+                                        margin: 4,
+                                        fontWeight: '500',
+                                    }}
+                                    onPress={() => goToLesson(item.id, item.aliasUrl)}
+                                >
+                                    <Text
+                                        style={{ color: '#081D49', fontSize: 20, lineHeight: 28, textAlign: 'center' }}
+                                    >
+                                        {item.name}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    )}
                 </NativeBaseProvider>
-            </ScrollView>
-        </SafeAreaView>
+            </View>
+        </ScrollView>
     );
 };
 

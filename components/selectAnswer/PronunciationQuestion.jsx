@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, Button } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -6,59 +6,115 @@ import { uk_flag, us_flag } from '../../assets';
 import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
 import axios from 'axios';
+
 const PronunciationQuestion = ({ data }) => {
     const { t } = useTranslation();
     const [recording, setRecording] = useState(null);
+    const [recordingStatus, setRecordingStatus] = useState('idle');
+    const [audioPermission, setAudioPermission] = useState(null);
     const [voice, setVoice] = useState('uk');
     const [isRecording, setIsRecording] = useState(false);
 
+    useEffect(() => {
+        async function getPermission() {
+            await Audio.requestPermissionsAsync()
+                .then((permission) => {
+                    console.log('Permission Granted: ' + permission.granted);
+                    setAudioPermission(permission.granted);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+
+        getPermission();
+        return () => {
+            if (recording) {
+                stopRecording();
+            }
+        };
+    }, []);
+
     const startRecording = async () => {
         try {
-            const { status } = await Audio.requestPermissionsAsync();
-            if (status !== 'granted') {
-                console.error('Permission to access audio was denied');
-                return;
+            if (audioPermission) {
+                await Audio.setAudioModeAsync({
+                    allowsRecordingIOS: true,
+                    playsInSilentModeIOS: true,
+                });
             }
 
-            const recording = new Audio.Recording();
-            await recording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
-            await recording.startAsync();
-            setRecording(recording);
+            const newRecording = new Audio.Recording();
+            console.log('Starting Recording');
+            await newRecording.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
+            await newRecording.startAsync();
+            setRecording(newRecording);
+            setRecordingStatus('recording');
             setIsRecording(true);
         } catch (error) {
-            console.error('Lỗi khi bắt đầu ghi âm: ', error);
+            console.error('Failed to start recording', error);
         }
     };
 
     const stopRecording = async () => {
         try {
-            await recording.stopAndUnloadAsync();
             setIsRecording(false);
+            if (recordingStatus === 'recording') {
+                console.log('Stopping Recording');
+                await recording.stopAndUnloadAsync();
+                const recordingUri = recording.getURI();
 
-            const uri = await recording.getURI();
+                const fileName = `recording-${Date.now()}.mp3`;
 
-            const formData = new FormData();
-            formData.append('file', {
-                uri,
-                type: 'audio/mpeg',
-                name: 'recording.mp3',
-            });
-            formData.append('expectedText', 'Hello');
-            formData.append('extension', 'mp3');
+                await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'recordings/', {
+                    intermediates: true,
+                });
 
-            const response = await axios.post(
-                `http://192.168.10.16/erp-pronounciation/pronunciation/file/uk`,
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                },
-            );
+                const fileMp3Uri = FileSystem.documentDirectory + 'recordings/' + `${fileName}`;
+                await FileSystem.moveAsync({
+                    from: recordingUri,
+                    to: fileMp3Uri,
+                });
 
-            console.log('Upload successful', response.data);
+                const playbackObject = new Audio.Sound();
+                await playbackObject.loadAsync({ uri: fileMp3Uri });
+                await playbackObject.playAsync();
+
+                // const formData = new FormData();
+                // formData.append('file', {
+                //     uri: fileMp3Uri,
+                //     type: 'audio/mpeg',
+                //     name: fileName,
+                // });
+                // formData.append('expectedText', 'Hello');
+                // formData.append('extension', 'mp3');
+
+                // const serverRecordingUri = `http://192.168.10.16/erp-pronounciation/pronunciation/file/uk/${fileName}`;
+
+                // const response = await axios.post(serverRecordingUri, formData, {
+                //     headers: {
+                //         'Content-Type': 'audio/mp3',
+                //     },
+                // });
+
+                // console.log('Upload successful', response.data);
+
+                setRecording(null);
+                setRecordingStatus('stopped');
+            }
         } catch (error) {
-            console.error('Lỗi khi dừng ghi âm hoặc lưu tệp: ', error);
+            console.error('Failed to stop recording', error);
+        }
+    };
+
+    const handleRecordButtonPress = async () => {
+        if (recording) {
+            const audioUri = await stopRecording(recording);
+            if (audioUri) {
+                console.log('Saved audio file to', savedUri);
+            }
+        } else {
+            await startRecording();
         }
     };
 
@@ -144,7 +200,7 @@ const PronunciationQuestion = ({ data }) => {
                                 backgroundColor: '#9fe0df',
                                 borderRadius: 9999,
                             }}
-                            onPress={stopRecording}
+                            onPress={handleRecordButtonPress}
                         >
                             <FontAwesome name="stop" size={60} color="#4da09f" />
                         </TouchableOpacity>
@@ -172,7 +228,7 @@ const PronunciationQuestion = ({ data }) => {
                             backgroundColor: '#9fe0df',
                             borderRadius: 9999,
                         }}
-                        onPress={startRecording}
+                        onPress={handleRecordButtonPress}
                     >
                         <FontAwesome name="microphone" size={80} color="#4da09f" />
                     </TouchableOpacity>
@@ -185,12 +241,31 @@ const PronunciationQuestion = ({ data }) => {
                 )}
             </Text>
 
-            <View style={{ paddingVertical: 32, justifyContent: 'center', alignItems: 'center' }}>
+            {/* <View style={{ paddingVertical: 32, justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ fontSize: 20, fontWeight: '400', color: '#0dcaf0' }}>Kết quả: </Text>
                 <Text style={{ fontSize: 32, fontWeight: '600', color: '#dc3545' }}>Tổng điểm </Text>
-            </View>
+            </View> */}
         </ScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 128,
+        height: 128,
+        borderRadius: 64,
+        backgroundColor: 'red',
+    },
+    recordingStatusText: {
+        marginTop: 16,
+    },
+});
 
 export default PronunciationQuestion;

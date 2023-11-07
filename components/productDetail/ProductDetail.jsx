@@ -42,11 +42,11 @@ const ProductDetail = React.memo(({ item, cartItems, setCartItems }) => {
     };
     return (
         <View style={{ width: '50%', paddingHorizontal: 8, marginBottom: 16, position: 'relative' }}>
-            <TouchableOpacity onPress={() => goToDetailProduct(item.aliasUrl)}>
+            <TouchableOpacity onPress={() => goToDetailProduct(item?.aliasUrl)}>
                 <View>
-                    {item.thumbnailUrl?.length > 0 ? (
+                    {item?.thumbnailUrl?.length > 0 ? (
                         <Image
-                            source={{ uri: item.thumbnailUrl }}
+                            source={{ uri: item?.thumbnailUrl }}
                             style={{ height: 160, width: '100%', objectFit: 'cover', borderRadius: 8, zIndex: 10 }}
                         />
                     ) : (
@@ -62,10 +62,10 @@ const ProductDetail = React.memo(({ item, cartItems, setCartItems }) => {
                         numberOfLines={1}
                         style={{ fontWeight: '700', fontSize: 16, color: '#fff', marginTop: 8, height: 24 }}
                     >
-                        {item.name}
+                        {item?.name}
                     </Text>
                     <View>
-                        {item.priceSetting.sellingPrice != 0 ? (
+                        {item?.priceSetting?.sellingPrice != 0 ? (
                             <View>
                                 <Text
                                     style={{
@@ -76,7 +76,7 @@ const ProductDetail = React.memo(({ item, cartItems, setCartItems }) => {
                                         marginRight: 8,
                                     }}
                                 >
-                                    {item.priceSetting.sellingPrice.toLocaleString('vi-VN', {
+                                    {item?.priceSetting?.sellingPrice.toLocaleString('vi-VN', {
                                         style: 'currency',
                                         currency: 'VND',
                                     })}
@@ -90,7 +90,7 @@ const ProductDetail = React.memo(({ item, cartItems, setCartItems }) => {
                                         textDecorationLine: 'line-through',
                                     }}
                                 >
-                                    {item.priceSetting.price.toLocaleString('vi-VN', {
+                                    {item?.priceSetting?.price.toLocaleString('vi-VN', {
                                         style: 'currency',
                                         currency: 'VND',
                                     })}
@@ -118,7 +118,7 @@ const ProductDetail = React.memo(({ item, cartItems, setCartItems }) => {
                         <Button
                             leftIcon={<Icon as={AntDesign} name="shoppingcart" size={6} />}
                             style={{ fontSize: 20, lineHeight: 28, width: 'auto' }}
-                            onPress={() => addToCart({ id: item.id, quantity: 1 })}
+                            onPress={() => addToCart({ id: item?.id, quantity: 1 })}
                         ></Button>
                     </View>
                 </NativeBaseProvider>

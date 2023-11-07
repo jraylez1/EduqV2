@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH } from '@env';
+import { Auth } from '@env';
 
 // axios.interceptors.request.use((request) => {
 //     console.log('Request:', request);
@@ -9,7 +9,7 @@ import { AUTH } from '@env';
 export const LocationStore = {
     async findProvince() {
         try {
-            const response = await axios.get(`${AUTH}/api/location/findprovince.json`);
+            const response = await axios.get(`${Auth}/api/location/findprovince.json`);
             if (response.data && response.data.data) {
                 return response.data.data.dataSource.provinces;
             } else {
@@ -23,7 +23,7 @@ export const LocationStore = {
 
     async findDistrict(idProvince) {
         try {
-            const response = await axios.get(`${AUTH}/api/location/finddistrict.json?idProvince=${idProvince}`);
+            const response = await axios.get(`${Auth}/api/location/finddistrict.json?idProvince=${idProvince}`);
             if (response.data && response.data.data) {
                 return response.data.data.dataSource.districts;
             } else {
@@ -37,7 +37,7 @@ export const LocationStore = {
 
     async findWard(idDistrict) {
         try {
-            const response = await axios.get(`${AUTH}/api/location/findward.json?idDistrict=${idDistrict}`);
+            const response = await axios.get(`${Auth}/api/location/findward.json?idDistrict=${idDistrict}`);
             if (response.data && response.data.data) {
                 return response.data.data.dataSource.wards;
             } else {

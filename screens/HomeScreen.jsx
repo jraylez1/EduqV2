@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { LogoEduQ, trial_register, toy_pngwing } from '../assets';
 import { CourseStore } from '../services/course';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +15,12 @@ const HomeScreen = () => {
     useEffect(() => {
         updateLoginStatus();
         getBestCourses();
+    }, []);
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: false,
+        });
     }, []);
 
     const updateLoginStatus = async () => {
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#081D49',
         flex: 1,
-        paddingHorizontal: 16,
+        paddingHorizontal: 8,
         paddingVertical: 48,
     },
     header: {
@@ -144,6 +150,8 @@ const styles = StyleSheet.create({
         width: '100%',
         objectFit: 'cover',
         borderRadius: 8,
+        borderColor: '#fff',
+        borderWidth: 1,
     },
     courseName: {
         fontWeight: '700',
@@ -187,7 +195,7 @@ const styles = StyleSheet.create({
     containerQShopChild: {
         borderRadius: 12,
         backgroundColor: '#22c55e',
-        height: 160,
+        height: 130,
         marginTop: 16,
         flex: 1,
         padding: 16,

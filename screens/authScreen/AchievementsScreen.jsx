@@ -20,7 +20,7 @@ const AchievementsScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <MaterialCommunityIcons name="archive-star" size={120} color="white" />
+                <MaterialCommunityIcons name="archive-star" size={80} color="white" />
                 <Text style={styles.title}>{t('No achievement yet')}</Text>
             </View>
         </SafeAreaView>

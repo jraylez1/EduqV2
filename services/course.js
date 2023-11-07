@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { EDUQ } from '@env';
+import { EduQ } from '@env';
 
 // axios.interceptors.request.use((request) => {
 //     console.log('Request:', request);
@@ -10,7 +10,7 @@ import { EDUQ } from '@env';
 export const CourseStore = {
     async getBestCourses() {
         try {
-            const response = await axios.get(`${EDUQ}/api/course/the-bests.json`);
+            const response = await axios.get(`${EduQ}/api/course/the-bests.json`);
             if (response) {
                 return response.data.data;
             } else {
@@ -24,7 +24,7 @@ export const CourseStore = {
     },
     async get(aliasUrl) {
         try {
-            const response = await axios.get(`${EDUQ}/api/course/get.json?aliasUrl=${aliasUrl}`);
+            const response = await axios.get(`${EduQ}/api/course/get.json?aliasUrl=${aliasUrl}`);
             if (response.data && response.data.data) {
                 return response.data.data;
             } else {
@@ -40,7 +40,7 @@ export const CourseStore = {
 
         try {
             const response = await axios.get(
-                `${EDUQ}/api/course/study-route.json?aliasUrl=${aliasUrl}&idStudyRoute=${idStudyRoute}&studyRouteAliasUrl=${studyRouteAliasUrl}&idTopic=${idTopic}&extendKeys=Course&extendKeys=MainLessons&extendKeys=AdditionLessons&extendKeys=SteamQDataFilters`,
+                `${EduQ}/api/course/study-route.json?aliasUrl=${aliasUrl}&idStudyRoute=${idStudyRoute}&studyRouteAliasUrl=${studyRouteAliasUrl}&idTopic=${idTopic}&extendKeys=Course&extendKeys=MainLessons&extendKeys=AdditionLessons&extendKeys=SteamQDataFilters`,
                 {
                     headers: {
                         Authorization: token,
@@ -62,7 +62,7 @@ export const CourseStore = {
         const token = await AsyncStorage.getItem('access_token');
         try {
             const response = await axios.get(
-                `${EDUQ}/api/course/lesson.json?aliasUrl=${aliasUrl}&studyRouteAliasUrl=${studyRouteAliasUrl}&isMain=${isMain}&idLesson=${idLesson}&extendKeys=Course&extendKeys=StudyRoute&extendKeys=LessonTopicFilters&extendKeys=Products&extendKeys=RelatedLessons`,
+                `${EduQ}/api/course/lesson.json?aliasUrl=${aliasUrl}&studyRouteAliasUrl=${studyRouteAliasUrl}&isMain=${isMain}&idLesson=${idLesson}&extendKeys=Course&extendKeys=StudyRoute&extendKeys=LessonTopicFilters&extendKeys=Products&extendKeys=RelatedLessons`,
                 {
                     headers: {
                         Authorization: token,
@@ -83,7 +83,7 @@ export const CourseStore = {
     async getProductPackages(aliasUrl) {
         const token = await AsyncStorage.getItem('access_token');
         try {
-            const response = await axios.get(`${EDUQ}/api/course/product-packages.json?aliasUrl=${aliasUrl}`, {
+            const response = await axios.get(`${EduQ}/api/course/product-packages.json?aliasUrl=${aliasUrl}`, {
                 headers: {
                     Authorization: token,
                 },
@@ -99,11 +99,42 @@ export const CourseStore = {
         }
     },
 
+    async getStudyRoutes(idStudyRoutes) {
+        const token = await AsyncStorage.getItem('access_token');
+        if (!idStudyRoutes || idStudyRoutes.length === 0) {
+            console.error('Invalid idStudyRoutes');
+            return null;
+        }
+
+        try {
+            const params = new URLSearchParams();
+            idStudyRoutes.forEach((id) => {
+                params.append('idStudyRoutes', id);
+            });
+
+            const response = await axios.get(`${EduQ}/api/course/get-study-routes.json?${params.toString()}`, {
+                headers: {
+                    Authorization: token,
+                },
+            });
+
+            if (response.data && response.data.data) {
+                return response.data.data.studyRoutes;
+            } else {
+                console.error('Invalid response format:', response.data);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    },
+
     async buy(aliasUrl, idPackage) {
         const token = await AsyncStorage.getItem('access_token');
         try {
             const response = await axios.post(
-                `${EDUQ}/api/course/buy.json`,
+                `${EduQ}/api/course/buy.json`,
                 { aliasUrl: aliasUrl, idPackage: idPackage },
                 {
                     headers: {
@@ -125,7 +156,7 @@ export const CourseStore = {
         const token = await AsyncStorage.getItem('access_token');
         try {
             const response = await axios.get(
-                `${EDUQ}/api/course/questions.json?idLesson=${idLesson}&isMain=${isMain}&studyRouteAliasUrl=${studyRouteAliasUrl}&aliasUrl=${aliasUrl}&extendKeys=Course`,
+                `${EduQ}/api/course/questions.json?idLesson=${idLesson}&isMain=${isMain}&studyRouteAliasUrl=${studyRouteAliasUrl}&aliasUrl=${aliasUrl}&extendKeys=Course`,
                 {
                     headers: {
                         Authorization: token,
@@ -151,7 +182,7 @@ export const CourseStore = {
         const token = await AsyncStorage.getItem('access_token');
         try {
             const response = await axios.post(
-                `${EDUQ}/api/course/do-questions.json`,
+                `${EduQ}/api/course/do-questions.json`,
                 {
                     aliasUrl: aliasUrl,
                     extendKeys: [],

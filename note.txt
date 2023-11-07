@@ -2,3 +2,5 @@
 2. sau khi đăng xuất, vào phần mainLesson bị lỗi
 3. sửa khóa học FreeQ
 4. trong phần userInfo, chưa đổi được avatar
+
+

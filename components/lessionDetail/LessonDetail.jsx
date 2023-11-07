@@ -17,7 +17,11 @@ const LessonDetail = ({ data, navigation }) => {
     const goToBuyCourse = async () => {
         if (AuthStore.isLoggedIn) {
             const buyInfo = await CourseStore.getProductPackages(data.extendData.course.aliasUrl);
-            navigation.navigate('BuyCourse', { data: buyInfo });
+            if (buyInfo) {
+                navigation.navigate('BuyCourse', { data: buyInfo });
+            } else {
+                navigation.navigate('UserScreen');
+            }
         } else {
             navigation.navigate('UserScreen');
         }
@@ -28,13 +32,17 @@ const LessonDetail = ({ data, navigation }) => {
     }, [data]);
 
     const getQuestionData = async () => {
-        const examQuestion = await CourseStore.questions(
-            data.id,
-            true,
-            data.extendData.course.studyRoutes[0].aliasUrl,
-            data.extendData.course.aliasUrl,
-        );
-        setQuestionData(examQuestion.data);
+        if (data.hasQuestions) {
+            const examQuestion = await CourseStore.questions(
+                data.id,
+                true,
+                data.extendData.course.studyRoutes[0].aliasUrl,
+                data.extendData.course.aliasUrl,
+            );
+            setQuestionData(examQuestion.data);
+        } else {
+            console.log('no data');
+        }
     };
 
     const goToExam = async () => {
@@ -55,20 +63,20 @@ const LessonDetail = ({ data, navigation }) => {
     return (
         <View>
             <Text style={{ color: '#fff', fontSize: 18, lineHeight: 28 }}>
-                {data.extendData.course.name} - {data.extendData.studyRoute.name}
+                {data?.extendData?.course?.name} - {data?.extendData?.studyRoute?.name}
             </Text>
             <Text style={{ color: '#fff', fontSize: 24, lineHeight: 28, fontWeight: '700', marginTop: 8 }}>
-                {data.name}
+                {data?.name}
             </Text>
 
             <View>
-                {data.extendData.course.isOwner ? (
+                {data?.extendData?.course?.isOwner ? (
                     <View style={{ marginTop: 16 }}>
                         <View style={{ backgroundColor: 'black', borderTopLeftRadius: 6, borderTopRightRadius: 6 }}>
                             <Video
                                 ref={video}
                                 style={{ width: '100%', height: 203, borderTopLeftRadius: 6, borderTopRightRadius: 6 }}
-                                source={{ uri: data.videoSource.url }}
+                                source={{ uri: data?.videoSource?.url }}
                                 useNativeControls
                                 resizeMode="contain"
                                 isLooping
@@ -84,7 +92,9 @@ const LessonDetail = ({ data, navigation }) => {
                             }}
                         >
                             <Text style={{ fontSize: 24, lineHeight: 28, fontWeight: '700' }}>{t('Description')}</Text>
-                            <Text style={{ fontSize: 18, textAlign: 'justify', marginTop: 4 }}>{data.description}</Text>
+                            <Text style={{ fontSize: 18, textAlign: 'justify', marginTop: 4 }}>
+                                {data?.description}
+                            </Text>
                         </View>
                         <View style={{ marginTop: 16 }}>
                             <Text
@@ -100,7 +110,7 @@ const LessonDetail = ({ data, navigation }) => {
                                 {t('Lesson Content')}
                             </Text>
                             <View style={{ backgroundColor: '#fffcea', padding: 8, borderRadius: 6 }}>
-                                <Text style={{ fontSize: 18, textAlign: 'justify' }}>{data.description}</Text>
+                                <Text style={{ fontSize: 18, textAlign: 'justify' }}>{data?.description}</Text>
                             </View>
                         </View>
                         {questionData.result != null ? (
@@ -139,7 +149,7 @@ const LessonDetail = ({ data, navigation }) => {
                                             color: '#0a7568',
                                         }}
                                     >
-                                        {questionData.result.score}
+                                        {questionData?.result?.score}
                                     </Text>
                                     <Text
                                         style={{
@@ -151,7 +161,7 @@ const LessonDetail = ({ data, navigation }) => {
                                         }}
                                     >
                                         {' '}
-                                        / {questionData.result.maxScore}
+                                        / {questionData?.result?.maxScore}
                                     </Text>
                                 </View>
                                 <TouchableOpacity
@@ -196,7 +206,7 @@ const LessonDetail = ({ data, navigation }) => {
                 ) : (
                     <View>
                         <Image
-                            source={{ uri: data.coverUrl }}
+                            source={{ uri: data?.coverUrl }}
                             style={{
                                 height: 200,
                                 width: '100%',
@@ -214,7 +224,9 @@ const LessonDetail = ({ data, navigation }) => {
                             }}
                         >
                             <Text style={{ fontSize: 24, lineHeight: 28, fontWeight: '700' }}>{t('Description')}</Text>
-                            <Text style={{ fontSize: 18, textAlign: 'justify', marginTop: 4 }}>{data.description}</Text>
+                            <Text style={{ fontSize: 18, textAlign: 'justify', marginTop: 4 }}>
+                                {data?.description}
+                            </Text>
                         </View>
                         <TouchableOpacity
                             style={{
