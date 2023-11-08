@@ -13,6 +13,7 @@ export const FileStore = {
             const response = await axios.get(
                 `${Storage}/api/file/getuploadurl.json?idCategory=0&moduleName=&fileName=${fileName}&contentType=${contentType}&size=${size}&filePrefix=`,
             );
+            return response.data;
             const idImg = response.data.data.id;
             if (response.data && response.data.data) {
                 const res = await axios.post(

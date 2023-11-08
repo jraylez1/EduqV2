@@ -11,7 +11,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import mime from 'mime';
-
+import * as ImageManipulator from 'expo-image-manipulator';
 import { AuthStore } from '../../services/auth';
 import { FileStore } from '../../services/file';
 import { LocationStore } from '../../services/location';
@@ -165,12 +165,19 @@ const ProfileScreen = ({ route }) => {
             const result = await ImagePicker.launchImageLibraryAsync();
 
             if (!result.canceled) {
-                const fileName = result.assets[0].uri.split('/').pop();
+                const newUri = result.uri.replace('.jpeg', '.png');
+                await FileSystem.moveAsync({
+                    from: result.uri,
+                    to: newUri,
+                });
+                const fileName = newUri.split('/').pop();
                 const contentType = mime.getType(fileName);
-                const fileInfo = await FileSystem.getInfoAsync(result.assets[0].uri);
+                const fileInfo = await FileSystem.getInfoAsync(newUri);
                 const size = fileInfo.size;
                 const uploadedImage = await FileStore.addImage(fileName, contentType, size);
-                formik.setFieldValue('avatarUrl', uploadedImage.url);
+                console.log(uploadedImage);
+
+                formik.setFieldValue('avatarUrl', newUri);
             }
         } catch (error) {
             console.error('Error:', error);

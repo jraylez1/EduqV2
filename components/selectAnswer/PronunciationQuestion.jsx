@@ -89,11 +89,11 @@ const PronunciationQuestion = ({ data }) => {
                 // formData.append('expectedText', 'Hello');
                 // formData.append('extension', 'mp3');
 
-                // const serverRecordingUri = `http://192.168.10.16/erp-pronounciation/pronunciation/file/uk/${fileName}`;
+                // const serverRecordingUri = `https://eduq-qtest.hoctructuyentrans.com/pronunciation/file/uk/${fileName}`;
 
                 // const response = await axios.post(serverRecordingUri, formData, {
                 //     headers: {
-                //         'Content-Type': 'audio/mp3',
+                //         'Content-Type': 'multipart/form-data',
                 //     },
                 // });
 

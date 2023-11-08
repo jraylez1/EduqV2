@@ -73,15 +73,35 @@ const LessonDetail = ({ data, navigation }) => {
                 {data?.extendData?.course?.isOwner ? (
                     <View style={{ marginTop: 16 }}>
                         <View style={{ backgroundColor: 'black', borderTopLeftRadius: 6, borderTopRightRadius: 6 }}>
-                            <Video
-                                ref={video}
-                                style={{ width: '100%', height: 203, borderTopLeftRadius: 6, borderTopRightRadius: 6 }}
-                                source={{ uri: data?.videoSource?.url }}
-                                useNativeControls
-                                resizeMode="contain"
-                                isLooping
-                                onPlaybackStatusUpdate={setStatus}
-                            />
+                            {data?.videoSource ? (
+                                <Video
+                                    ref={video}
+                                    style={{
+                                        width: '100%',
+                                        height: 203,
+                                        borderTopLeftRadius: 6,
+                                        borderTopRightRadius: 6,
+                                    }}
+                                    source={{ uri: data?.videoSource?.url }}
+                                    useNativeControls
+                                    resizeMode="contain"
+                                    isLooping
+                                    onPlaybackStatusUpdate={setStatus}
+                                />
+                            ) : (
+                                <Image
+                                    source={{
+                                        uri: 'https://images.wondershare.com/recoverit/article/2019/11/common-video-errors-01.jpg',
+                                    }}
+                                    style={{
+                                        width: '100%',
+                                        height: 203,
+                                        objectFit: 'cover',
+                                        borderTopLeftRadius: 6,
+                                        borderTopRightRadius: 6,
+                                    }}
+                                />
+                            )}
                         </View>
                         <View
                             style={{
@@ -183,24 +203,30 @@ const LessonDetail = ({ data, navigation }) => {
                                 </TouchableOpacity>
                             </View>
                         ) : (
-                            <TouchableOpacity
-                                style={{
-                                    flexDirection: 'row',
-                                    padding: 12,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    backgroundColor: '#2e72ad',
-                                    width: '100%',
-                                    marginTop: 16,
-                                    borderRadius: 6,
-                                }}
-                                onPress={() => goToExam()}
-                            >
-                                <FontAwesome name="question-circle-o" size={30} color="#fff" />
-                                <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28, marginLeft: 8 }}>
-                                    {t('Take a quiz')}
-                                </Text>
-                            </TouchableOpacity>
+                            <View>
+                                {data.hasQuestions ? (
+                                    <TouchableOpacity
+                                        style={{
+                                            flexDirection: 'row',
+                                            padding: 12,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            backgroundColor: '#2e72ad',
+                                            width: '100%',
+                                            marginTop: 16,
+                                            borderRadius: 6,
+                                        }}
+                                        onPress={() => goToExam()}
+                                    >
+                                        <FontAwesome name="question-circle-o" size={30} color="#fff" />
+                                        <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28, marginLeft: 8 }}>
+                                            {t('Take a quiz')}
+                                        </Text>
+                                    </TouchableOpacity>
+                                ) : (
+                                    <></>
+                                )}
+                            </View>
                         )}
                     </View>
                 ) : (

@@ -85,7 +85,7 @@ const LessonScreen = ({ route }) => {
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Main lesson')}</Text>
             </View>
-            {data.extendData.mainLessons.length > 0 ? (
+            {data?.extendData?.mainLessons?.length > 0 ? (
                 <View
                     style={{
                         width: '100%',
@@ -94,7 +94,7 @@ const LessonScreen = ({ route }) => {
                         transform: [{ translateY: -30 }],
                     }}
                 >
-                    {data.extendData.mainLessons.map((item, index) => (
+                    {data?.extendData?.mainLessons?.map((item, index) => (
                         <ListLession
                             studyRouteAliasUrl={studyRouteAliasUrl}
                             item={item}
