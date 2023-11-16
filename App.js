@@ -24,6 +24,11 @@ import {
     BuyCourse,
     BuyCourseFinish,
     QuestionScreen,
+    QTestScreen,
+    ChooseAccentScreen,
+    LevelScreen,
+    QTestQuestionScreen,
+    QTestAverageScreen,
 } from './screens';
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +57,11 @@ export default function App() {
                 <Stack.Screen name="BuyCourse" component={BuyCourse} />
                 <Stack.Screen name="BuyCourseFinish" component={BuyCourseFinish} />
                 <Stack.Screen name="QuestionScreen" component={QuestionScreen} />
+                <Stack.Screen name="QTestScreen" component={QTestScreen} />
+                <Stack.Screen name="ChooseAccentScreen" component={ChooseAccentScreen} />
+                <Stack.Screen name="LevelScreen" component={LevelScreen} />
+                <Stack.Screen name="QTestQuestionScreen" component={QTestQuestionScreen} />
+                <Stack.Screen name="QTestAverageScreen" component={QTestAverageScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

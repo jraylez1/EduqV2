@@ -1,24 +1,24 @@
 import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { uk_flag, us_flag } from '../../assets';
 import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
 import { PronunciationStore } from '../../services/pronunciation';
 import CircularProgress from '../progressBar/CircularProgress';
 import LineProgress from '../progressBar/LineProgress';
 import { AntDesign } from '@expo/vector-icons';
-const PronunciationQuestion = ({ data, onSelectAnswer }) => {
+
+const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer }) => {
     const { t } = useTranslation();
     const [recording, setRecording] = useState(null);
     const [recordingStatus, setRecordingStatus] = useState('idle');
     const [audioPermission, setAudioPermission] = useState(null);
-    const [voice, setVoice] = useState('uk');
     const [isRecording, setIsRecording] = useState(false);
     const [recordingResult, setRecordingResult] = useState(null);
     const [cefrProgress, setCefrProgress] = useState(0);
     const [isOpenPronunciation, setIsOpenPronunciation] = useState(false);
+
     const selectQuestion = (item) => {
         onSelectAnswer(item);
     };
@@ -83,15 +83,11 @@ const PronunciationQuestion = ({ data, onSelectAnswer }) => {
                     to: fileMp3Uri,
                 });
 
-                // const asset = await MediaLibrary.createAssetAsync(fileMp3Uri);
-                // const album = 'Recording';
-                // await MediaLibrary.createAlbumAsync(album, asset, false);
-
                 const response = await PronunciationStore.pronunciationQuest(
                     fileMp3Uri,
                     fileName,
                     data.data.text,
-                    voice,
+                    accent,
                 );
 
                 setRecordingResult(response);
@@ -100,6 +96,7 @@ const PronunciationQuestion = ({ data, onSelectAnswer }) => {
                 selectQuestion(jsonString);
                 setRecording(null);
                 setRecordingStatus('stopped');
+                setIsFinishAnswer(true);
             }
         } catch (error) {
             console.error('Failed to stop recording', error);
@@ -172,44 +169,7 @@ const PronunciationQuestion = ({ data, onSelectAnswer }) => {
             >
                 {data.data.ipa}
             </Text>
-            <View
-                style={{ justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop: 16 }}
-            >
-                <TouchableOpacity
-                    style={{ width: '50%', justifyContent: 'center', alignItems: 'center', borderRadius: 6 }}
-                    onPress={() => setVoice('uk')}
-                >
-                    <Image
-                        source={uk_flag}
-                        style={{
-                            width: 120,
-                            height: 64,
-                            objectFit: 'cover',
-                            borderRadius: 6,
-                            borderWidth: voice === 'uk' ? 2 : 0,
-                            borderColor: '#4da09f',
-                            opacity: voice === 'uk' ? 1 : 0.4,
-                        }}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{ width: '50%', justifyContent: 'center', alignItems: 'center', borderRadius: 6 }}
-                    onPress={() => setVoice('us')}
-                >
-                    <Image
-                        source={us_flag}
-                        style={{
-                            width: 120,
-                            height: 64,
-                            objectFit: 'cover',
-                            borderRadius: 6,
-                            borderWidth: voice === 'us' ? 2 : 0,
-                            borderColor: '#4da09f',
-                            opacity: voice === 'us' ? 1 : 0.4,
-                        }}
-                    />
-                </TouchableOpacity>
-            </View>
+
             <View style={{ paddingVertical: 32, justifyContent: 'center', alignItems: 'center' }}>
                 {isRecording ? (
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -453,4 +413,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PronunciationQuestion;
+export default PronunciationQtest;

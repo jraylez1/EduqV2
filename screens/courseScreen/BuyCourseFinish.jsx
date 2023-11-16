@@ -74,7 +74,7 @@ const BuyCourseFinish = ({ route }) => {
 
                         <Button
                             alignSelf="center"
-                            leftIcon={<Icon as={AntDesign} name="left" size="md" />}
+                            leftIcon={<Icon as={AntDesign} name="home" size="md" />}
                             style={{ height: 48, marginTop: 16, width: '50%' }}
                             onPress={() => navigation.replace('BottomNavigation', { screen: 'HomeScreen' })}
                         >

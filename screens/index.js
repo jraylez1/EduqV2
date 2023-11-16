@@ -18,6 +18,11 @@ import VideoScreen from './courseScreen/VideoScreen';
 import BuyCourse from './courseScreen/BuyCourse';
 import BuyCourseFinish from './courseScreen/BuyCourseFinish';
 import QuestionScreen from './courseScreen/QuestionScreen';
+import QTestScreen from './qTestScreen/QTestScreen';
+import ChooseAccentScreen from './qTestScreen/ChooseAccentScreen';
+import LevelScreen from './qTestScreen/LevelScreen';
+import QTestQuestionScreen from './qTestScreen/QTestQuestionScreen';
+import QTestAverageScreen from './qTestScreen/QTestAverageScreen';
 
 export {
     HomeScreen,
@@ -40,4 +45,9 @@ export {
     BuyCourse,
     BuyCourseFinish,
     QuestionScreen,
+    QTestScreen,
+    ChooseAccentScreen,
+    LevelScreen,
+    QTestQuestionScreen,
+    QTestAverageScreen,
 };

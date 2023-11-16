@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Auth } from '@env';
+import { AUTH } from '@env';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -20,7 +20,7 @@ export const AuthStore = {
     },
     async register(formData, reCaptchaToken, navigation) {
         try {
-            const response = await axios.post(`${Auth}/api/auth/register.json`, formData, {
+            const response = await axios.post(`${AUTH}/api/auth/register.json`, formData, {
                 headers: {
                     recaptchaV3: reCaptchaToken,
                 },
@@ -44,7 +44,7 @@ export const AuthStore = {
         try {
             const idDevice = uuid.v4();
             const response = await axios.post(
-                `${Auth}/api/auth/login.json`,
+                `${AUTH}/api/auth/login.json`,
                 { ...formData, idDevice: idDevice, deviceType: 'mobile' },
                 {
                     headers: {
@@ -70,7 +70,7 @@ export const AuthStore = {
     async getProfile(navigation) {
         const token = await AsyncStorage.getItem('access_token');
         try {
-            const response = await axios.get(`${Auth}/api/profile/get.json`, {
+            const response = await axios.get(`${AUTH}/api/profile/get.json`, {
                 headers: {
                     Authorization: token,
                 },
@@ -88,7 +88,7 @@ export const AuthStore = {
     async editProfile(formData) {
         const token = await AsyncStorage.getItem('access_token');
         try {
-            const response = await axios.post(`${Auth}/api/profile/edit.json`, formData, {
+            const response = await axios.post(`${AUTH}/api/profile/edit.json`, formData, {
                 headers: {
                     Authorization: token,
                 },
@@ -107,7 +107,7 @@ export const AuthStore = {
 
     async recoveryPassword(formData, reCaptchaToken, navigation) {
         try {
-            const response = await axios.post(`${Auth}/api/auth/recovery-password.json`, formData, {
+            const response = await axios.post(`${AUTH}/api/auth/recovery-password.json`, formData, {
                 headers: {
                     recaptchaV3: reCaptchaToken,
                 },

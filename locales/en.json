@@ -49,7 +49,7 @@
     "US Accent": "US Accent",
     "Mode": "Mode",
     "Learn now": "Learn now",
-    "Level": "Level",
+    "LEVEL": "LEVEL",
     "Question": "Question",
     "You need to speak no more than 45 seconds. Click the microphone button above to start recording, pause for a moment and then start speaking. Once you have finished your attempt, click the stop button and your audio will be submitted.": "You need to speak no more than 45 seconds. Click the microphone button above to start recording, pause for a moment and then start speaking. Once you have finished your attempt, click the stop button and your audio will be submitted.",
     "Contact": "Contact",
@@ -130,5 +130,15 @@
     "Submit": "Submit",
     "Lesson Content": "Lesson Content",
     "Congratulations, you have completed the test": "Congratulations, you have completed the test",
-    "Test results": "Test results"
+    "Test results": "Test results",
+    "Pronunciation results": "Pronunciation results",
+    "Overall score": "Overall score",
+    "English proficiency scrores": "English proficiency scrores",
+    "Pronunciation": "Pronunciation",
+    "Fluency feedback": "Fluency feedback",
+    "ACCENT": "ACCENT",
+    "View report": "View report",
+    "Report": "Report",
+    "Average Score": "Average Score",
+    "Pronunciation point": "Pronunciation point"
 }

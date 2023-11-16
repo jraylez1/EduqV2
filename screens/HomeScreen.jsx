@@ -35,7 +35,11 @@ const HomeScreen = () => {
 
     const goToCourse = async (aliasUrl) => {
         const courseData = await CourseStore.get(aliasUrl);
-        navigation.navigate('CourseScreen', { data: courseData });
+        if (aliasUrl === 'qtest') {
+            navigation.navigate('QTestScreen', { data: courseData });
+        } else {
+            navigation.navigate('CourseScreen', { data: courseData });
+        }
     };
 
     return (

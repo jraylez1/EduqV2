@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Qtest } from '@env';
+import { QTEST } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // axios.interceptors.request.use((request) => {
@@ -7,18 +7,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //     return request;
 // });
 export const PronunciationStore = {
-    async pronunciationQuest(fileUri, expectedText, accent) {
+    async pronunciationQuest(fileUri, filename, expectedText, accent) {
         const token = await AsyncStorage.getItem('access_token');
 
         const formData = new FormData();
         formData.append('file', {
             uri: fileUri,
-            name: 'pronunciation.mp3',
+            name: filename,
             type: 'audio/mp3',
         });
         formData.append('expectedText', expectedText);
+        formData.append('extension', 'mp3');
         try {
-            const response = await axios.post(`${Qtest}/pronunciation/file/${accent}`, formData, {
+            const response = await axios.post(`${QTEST}/pronunciation/file/${accent}`, formData, {
                 headers: {
                     Authorization: token,
                     'Content-Type': 'multipart/form-data',
@@ -35,7 +36,7 @@ export const PronunciationStore = {
         const token = await AsyncStorage.getItem('access_token');
         try {
             const response = await axios.post(
-                `${Qtest}/pronunciation/base64/` + accent,
+                `${QTEST}/pronunciation/base64/` + accent,
                 {
                     headers: {
                         Authorization: token,
@@ -44,7 +45,7 @@ export const PronunciationStore = {
                 {
                     data: data,
                     expectedText: expectedText,
-                    extension: 'webm',
+                    extension: 'mp3',
                     idCourse: idCourse,
                 },
             );

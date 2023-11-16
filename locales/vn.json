@@ -49,7 +49,7 @@
     "US Accent": "Giọng Anh - Mỹ",
     "Mode": "Chế độ",
     "Learn now": "Học ngay",
-    "Level": "Mức độ",
+    "LEVEL": "MỨC ĐỘ",
     "Question": "Câu hỏi",
     "You need to speak no more than 45 seconds. Click the microphone button above to start recording, pause for a moment and then start speaking. Once you have finished your attempt, click the stop button and your audio will be submitted.": "Bạn chỉ được nói trong tối đa 45 giây. Nhấn vào biểu tương Micro ở trên để bắt đầu ghi âm, chờ một chút rồi bắt đầu nói. Khi nói xong bấm nút dừng và đoạn thu âm của bạn sẽ được ứng dụng gửi đi chấm điểm.",
     "Contact": "Hỗ trợ",
@@ -130,5 +130,15 @@
     "Submit": "Nộp bài",
     "Lesson Content": "Nội dung bài học",
     "Congratulations, you have completed the test": "Chúc mừng bạn đã hoàn thành bài kiểm tra",
-    "Test results": "Kết quả làm bài"
+    "Test results": "Kết quả làm bài",
+    "Pronunciation results": "Kết quả phát âm",
+    "Overall score": "Tổng điểm",
+    "English proficiency scrores": "Điểm kiểm tra trình độ tiếng anh",
+    "Pronunciation": "Phát âm",
+    "Fluency feedback": "Phản hồi phát âm",
+    "ACCENT": "NGỮ ĐIỆU",
+    "View report": "Xem tổng kết",
+    "Report": "Tổng kết",
+    "Average Score": "Điểm trung bình",
+    "Pronunciation point": "Điểm phát âm"
 }

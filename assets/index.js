@@ -11,3 +11,4 @@ export { default as zalo } from './images/zalo_bg.png';
 export { default as quiz_pattern } from './images/quiz_pattern.png';
 export { default as uk_flag } from './images/uk-flag.png';
 export { default as us_flag } from './images/us-flag.png';
+export { default as pronunciation } from './images/pronunciation.png';

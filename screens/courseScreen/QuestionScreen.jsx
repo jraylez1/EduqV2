@@ -43,7 +43,7 @@ const QuestionScreen = ({ route }) => {
     const handleSelectAnswer = (idAnswer) => {
         const updatedQuestionData = [...data];
         const currentQuestion = updatedQuestionData[currentQuestionIndex];
-        if (currentQuestion.idType === 1) {
+        if (currentQuestion.idType === 1 || currentQuestion.idType === 3) {
             currentQuestion.answer = [idAnswer];
         } else if (currentQuestion.idType === 2) {
             const answerIndex = currentQuestion.answer.indexOf(idAnswer);
@@ -80,6 +80,7 @@ const QuestionScreen = ({ route }) => {
             extendData.course.studyRoutes[0].aliasUrl,
             true,
         );
+        console.log(doQuestion);
         setShowModal(false);
         navigation.navigate('VideoScreen', { data: freeQVideoData });
     };
@@ -95,32 +96,35 @@ const QuestionScreen = ({ route }) => {
             }}
         >
             <View style={{ width: '100%', position: 'relative', flex: 1, paddingHorizontal: 8 }}>
-                <View style={{ width: '100%', marginTop: 8 }}>
-                    <Text style={{ color: '#081D49', fontSize: 24, lineHeight: 28, fontWeight: '600' }}>
-                        {data[currentQuestionIndex].question}
-                    </Text>
-                </View>
+                <View style={{ flex: 1 }}>
+                    <View style={{ width: '100%', marginTop: 8 }}>
+                        <Text style={{ color: '#081D49', fontSize: 24, lineHeight: 28, fontWeight: '600' }}>
+                            {data[currentQuestionIndex].question}
+                        </Text>
+                    </View>
 
-                {data[currentQuestionIndex].idType === 1 || data[currentQuestionIndex].idType === 2 ? (
-                    <SingleSelect
-                        data={data[currentQuestionIndex]}
-                        onSelectAnswer={handleSelectAnswer}
-                        result={result}
-                    />
-                ) : (
-                    <PronunciationQuestion data={data[currentQuestionIndex]} result={result} />
-                )}
+                    {data[currentQuestionIndex].idType === 1 || data[currentQuestionIndex].idType === 2 ? (
+                        <SingleSelect
+                            data={data[currentQuestionIndex]}
+                            onSelectAnswer={handleSelectAnswer}
+                            result={result}
+                        />
+                    ) : (
+                        <PronunciationQuestion
+                            data={data[currentQuestionIndex]}
+                            result={result}
+                            onSelectAnswer={handleSelectAnswer}
+                        />
+                    )}
+                </View>
 
                 <View
                     style={{
                         width: '100%',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        position: 'absolute',
-                        bottom: 16,
-                        left: 8,
-                        right: 16,
                         flexDirection: 'row',
+                        paddingTop: 8,
                     }}
                 >
                     <TouchableOpacity
