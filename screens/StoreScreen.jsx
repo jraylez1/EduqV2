@@ -90,7 +90,7 @@ const StoreScreen = () => {
             style={{
                 backgroundColor: '#081D49',
                 height: '100%',
-                paddingTop: 48,
+                // paddingTop: 48,
                 paddingHorizontal: 16,
                 paddingBottom: 60,
                 position: 'relative',

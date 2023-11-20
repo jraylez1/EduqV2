@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Ionicons } from '@expo/vector-icons';
-import i18next, { languageResources } from '../services/i18next';
 import ReCaptchaV3 from '../components/reCaptcha/ReCaptchaV3';
 import { AuthStore } from '../services/auth';
 const UserScreen = () => {
@@ -15,12 +14,6 @@ const UserScreen = () => {
     const navigation = useNavigation();
     const { t } = useTranslation();
     const recaptchaLogin = useRef();
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerShown: false,
-        });
-    }, []);
 
     const validationSchema = Yup.object().shape({
         userName: Yup.string().required('Please enter your information'),
@@ -139,7 +132,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#081D49',
         height: '100%',
         paddingHorizontal: 16,
-        paddingVertical: 48,
+        // paddingVertical: 48,
+        paddingBottom: 48,
     },
     title: {
         color: '#fff',

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { NativeBaseProvider, Button, Center, Modal } from 'native-base';
 import i18next from '../../services/i18next';
-import { vietnamflag, englandFlag } from '../../assets';
+import { vietnamflag, uk_flag } from '../../assets';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -20,7 +20,7 @@ const UserInforScreen = () => {
         navigation.setOptions({
             headerShown: false,
         });
-    }, []);
+    }, [navigation]);
 
     useEffect(() => {
         getUserInfo();
@@ -132,7 +132,7 @@ const UserInforScreen = () => {
                                     {isChange ? (
                                         <Image source={vietnamflag} style={styles.langImg} />
                                     ) : (
-                                        <Image source={englandFlag} style={styles.langImg} />
+                                        <Image source={uk_flag} style={styles.langImg} />
                                     )}
                                 </TouchableOpacity>
                             </View>
@@ -174,7 +174,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#081D49',
         height: '100%',
         paddingHorizontal: 16,
-        paddingVertical: 48,
+        // paddingVertical: 48,
+        paddingBottom: 48,
     },
     personInfoContainer: {
         justifyContent: 'space-between',

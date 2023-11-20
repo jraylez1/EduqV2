@@ -47,7 +47,7 @@ const ContactScreen = () => {
     ]);
     return (
         <View style={{ backgroundColor: '#081D49', height: '100%' }}>
-            <View style={{ width: '100%', paddingVertical: 48, paddingHorizontal: 16 }}>
+            <View style={{ width: '100%', paddingBottom: 48, paddingHorizontal: 16 }}>
                 {
                     <>
                         {contact.map((data, index) => (

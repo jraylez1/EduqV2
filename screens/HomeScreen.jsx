@@ -17,12 +17,6 @@ const HomeScreen = () => {
         getBestCourses();
     }, []);
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerShown: false,
-        });
-    }, []);
-
     const updateLoginStatus = async () => {
         const loggedIn = await AuthStore.isLoggedIn();
         setIsLoggedIn(loggedIn);
@@ -124,7 +118,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#081D49',
         flex: 1,
         paddingHorizontal: 8,
-        paddingVertical: 48,
+        // paddingVertical: 48,
+        paddingBottom: 48,
     },
     header: {
         flexDirection: 'row',

@@ -2,11 +2,10 @@ import { View, Text, ScrollView, Image, TouchableOpacity, ActivityIndicator, Sty
 import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Button, NativeBaseProvider, Input } from 'native-base';
+import { Button, NativeBaseProvider, Input, Select, CheckIcon } from 'native-base';
 import { useTranslation } from 'react-i18next';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import RNPickerSelect from 'react-native-picker-select';
 import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
@@ -29,11 +28,13 @@ const ProfileScreen = ({ route }) => {
     useEffect(() => {
         setTimeout(() => {
             loadProvince();
-            if (AuthStore.isLoggedIn && data) {
-                setInformation();
+            if (data.province !== '' && data.district !== '') {
+                loadDistrictData(data.province);
+                loadWardData(data.district);
             }
+            setInformation();
             setIsLoading(false);
-        }, 2000);
+        }, 1000);
     }, []);
 
     useLayoutEffect(() => {
@@ -133,6 +134,9 @@ const ProfileScreen = ({ route }) => {
 
     const loadDistrictData = async (value) => {
         formik.setFieldValue('province', value);
+        formik.setFieldValue('district', '');
+        formik.setFieldValue('ward', '');
+
         setDistricts([]);
         try {
             const districtsData = await LocationStore.findDistrict(value);
@@ -144,6 +148,7 @@ const ProfileScreen = ({ route }) => {
 
     const loadWardData = async (value) => {
         formik.setFieldValue('district', value);
+        formik.setFieldValue('ward', '');
         setWards([]);
         try {
             const wardsData = await LocationStore.findWard(value);
@@ -316,17 +321,32 @@ const ProfileScreen = ({ route }) => {
                                 <View style={{ marginBottom: 16 }}>
                                     <Text style={styles.inputTitle}>{t('Province')}</Text>
 
-                                    <View style={{ backgroundColor: '#fff', borderRadius: 4 }}>
-                                        <RNPickerSelect
-                                            onValueChange={(value) => loadDistrictData(value)}
-                                            placeholder={{
-                                                label: t('Choose province'),
-                                                value: null,
-                                                color: '#9EA0A4',
+                                    <View>
+                                        <Select
+                                            selectedValue={formik.values.province}
+                                            minWidth="200"
+                                            accessibilityLabel="Choose province"
+                                            placeholder={t('Choose province')}
+                                            _selectedItem={{
+                                                bg: 'teal.600',
+                                                endIcon: <CheckIcon size="5" />,
                                             }}
-                                            items={provinces}
-                                            value={formik.values.province}
-                                        />
+                                            _light={{
+                                                bg: '#fff',
+                                                _hover: {
+                                                    bg: '#fff',
+                                                },
+                                                _focus: {
+                                                    bg: '#fff',
+                                                },
+                                            }}
+                                            mt={1}
+                                            onValueChange={(itemValue) => loadDistrictData(itemValue)}
+                                        >
+                                            {provinces.map((item, index) => (
+                                                <Select.Item label={item.label} value={item.value} key={index} />
+                                            ))}
+                                        </Select>
                                     </View>
                                     {formik.touched.province && formik.errors.province ? (
                                         <Text style={{ marginTop: 4, color: '#f22c27' }}>
@@ -337,17 +357,32 @@ const ProfileScreen = ({ route }) => {
                                 <View style={{ marginBottom: 16 }}>
                                     <Text style={styles.inputTitle}>{t('District')}</Text>
 
-                                    <View style={{ backgroundColor: '#fff', borderRadius: 4 }}>
-                                        <RNPickerSelect
-                                            onValueChange={(value) => loadWardData(value)}
-                                            placeholder={{
-                                                label: t('Choose district'),
-                                                value: null,
-                                                color: '#9EA0A4',
+                                    <View>
+                                        <Select
+                                            selectedValue={formik.values.district}
+                                            minWidth="200"
+                                            accessibilityLabel="Choose district"
+                                            placeholder={t('Choose district')}
+                                            _selectedItem={{
+                                                bg: 'teal.600',
+                                                endIcon: <CheckIcon size="5" />,
                                             }}
-                                            items={districts}
-                                            value={formik.values.district}
-                                        />
+                                            _light={{
+                                                bg: '#fff',
+                                                _hover: {
+                                                    bg: '#fff',
+                                                },
+                                                _focus: {
+                                                    bg: '#fff',
+                                                },
+                                            }}
+                                            mt={1}
+                                            onValueChange={(itemValue) => loadWardData(itemValue)}
+                                        >
+                                            {districts.map((item, index) => (
+                                                <Select.Item label={item.label} value={item.value} key={index} />
+                                            ))}
+                                        </Select>
                                     </View>
 
                                     {formik.touched.district && formik.errors.district ? (
@@ -359,17 +394,32 @@ const ProfileScreen = ({ route }) => {
                                 <View style={{ marginBottom: 16 }}>
                                     <Text style={styles.inputTitle}>{t('Ward')}</Text>
 
-                                    <View style={{ backgroundColor: '#fff', borderRadius: 4 }}>
-                                        <RNPickerSelect
-                                            onValueChange={(value) => formik.setFieldValue('ward', value)}
-                                            placeholder={{
-                                                label: t('Choose ward'),
-                                                value: null,
-                                                color: '#9EA0A4',
+                                    <View>
+                                        <Select
+                                            selectedValue={formik.values.ward}
+                                            minWidth="200"
+                                            accessibilityLabel="Choose ward"
+                                            placeholder={t('Choose ward')}
+                                            _selectedItem={{
+                                                bg: 'teal.600',
+                                                endIcon: <CheckIcon size="5" />,
                                             }}
-                                            items={wards}
-                                            value={formik.values.ward}
-                                        />
+                                            _light={{
+                                                bg: '#fff',
+                                                _hover: {
+                                                    bg: '#fff',
+                                                },
+                                                _focus: {
+                                                    bg: '#fff',
+                                                },
+                                            }}
+                                            mt={1}
+                                            onValueChange={(itemValue) => formik.setFieldValue('ward', itemValue)}
+                                        >
+                                            {wards.map((item, index) => (
+                                                <Select.Item label={item.label} value={item.value} key={index} />
+                                            ))}
+                                        </Select>
                                     </View>
                                     {formik.touched.ward && formik.errors.ward ? (
                                         <Text style={{ marginTop: 4, color: '#f22c27' }}>{t(formik.errors.ward)}</Text>

@@ -21,7 +21,7 @@ const ProductDetailScreen = ({ route }) => {
         navigation.setOptions({
             headerShown: false,
         });
-    }, []);
+    }, [navigation]);
 
     useEffect(() => {
         if (isFocused) {
@@ -82,7 +82,7 @@ const ProductDetailScreen = ({ route }) => {
                 backgroundColor: '#081D49',
                 height: '100%',
                 paddingHorizontal: 16,
-                paddingTop: 48,
+                // paddingTop: 48,
                 position: 'relative',
             }}
         >

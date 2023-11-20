@@ -13,9 +13,9 @@ const OrderFinishScreen = ({ route }) => {
         navigation.setOptions({
             headerShown: false,
         });
-    }, []);
+    }, [navigation]);
     return (
-        <View style={{ paddingHorizontal: 16, flex: 1, backgroundColor: '#081D49', paddingVertical: 48 }}>
+        <View style={{ paddingHorizontal: 16, flex: 1, backgroundColor: '#081D49', paddingBottom: 48 }}>
             <NativeBaseProvider>
                 <View
                     style={{
