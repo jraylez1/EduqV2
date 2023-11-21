@@ -39,7 +39,7 @@ export default function App() {
                 <Stack.Screen name="BottomNavigation" component={BottomNavigation} options={{ headerShown: false }} />
                 <Stack.Screen name="HomeScreen" component={HomeScreen} />
                 <Stack.Screen name="StoreScreen" component={StoreScreen} />
-                <Stack.Screen name="UserScreen" component={UserScreen} />
+                <Stack.Screen name="UserScreen" component={UserScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
                 <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
                 <Stack.Screen name="UserInforScreen" component={UserInforScreen} />

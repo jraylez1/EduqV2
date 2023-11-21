@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import React, { useLayoutEffect, useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useLayoutEffect } from 'react';
 import { pronunciation } from '../../assets';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';

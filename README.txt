@@ -5,4 +5,3 @@ build app:
 4. eas build -p android --profile preview (eas build --platform android)
 
 
-HomeScreen, UserScreen, UserInforScreen

@@ -30,6 +30,7 @@ const CartScreen = () => {
     }, [isFocused]);
 
     const loadCartData = async () => {
+        setCartItems([]);
         const data = await AsyncStorage.getItem('cart-store');
         if (JSON.parse(data).length > 0) {
             const cartDataItems = await CartStore.getCartProducts(JSON.parse(data));
@@ -261,7 +262,7 @@ const CartScreen = () => {
                                     >
                                         {t('here')}
                                     </Text>{' '}
-                                    {t(' to purchase products')}
+                                    {t('to purchase products')}
                                 </Text>
                             </View>
                         </>
@@ -292,15 +293,18 @@ const CartScreen = () => {
                         </View>
 
                         <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%', marginTop: 32 }}>
-                            <Button
-                                alignSelf="center"
+                            <TouchableOpacity
+                                style={{
+                                    width: '100%',
+                                    paddingVertical: 16,
+                                    backgroundColor: '#4EE3AF',
+                                    alignItems: 'center',
+                                    borderRadius: 6,
+                                }}
                                 onPress={() => gotoOderScreen()}
-                                style={{ width: '100%', paddingVertical: 12 }}
-                                bgColor="#4EE3AF"
-                                size="lg"
                             >
-                                {t('Payment')}
-                            </Button>
+                                <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}> {t('Payment')}</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 ) : null}

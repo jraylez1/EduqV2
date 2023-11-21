@@ -10,7 +10,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import mime from 'mime';
-import * as ImageManipulator from 'expo-image-manipulator';
 import { AuthStore } from '../../services/auth';
 import { FileStore } from '../../services/file';
 import { LocationStore } from '../../services/location';
@@ -28,10 +27,6 @@ const ProfileScreen = ({ route }) => {
     useEffect(() => {
         setTimeout(() => {
             loadProvince();
-            if (data.province !== '' && data.district !== '') {
-                loadDistrictData(data.province);
-                loadWardData(data.district);
-            }
             setInformation();
             setIsLoading(false);
         }, 1000);
@@ -130,6 +125,12 @@ const ProfileScreen = ({ route }) => {
     const loadProvince = async () => {
         const provincesData = await LocationStore.findProvince();
         setProvinces(provincesData);
+        if (data && data.province !== '' && data.district !== '') {
+            const districtsData = await LocationStore.findDistrict(data.province);
+            setDistricts(districtsData);
+            const wardsData = await LocationStore.findWard(data.district);
+            setWards(wardsData);
+        }
     };
 
     const loadDistrictData = async (value) => {
@@ -170,19 +171,20 @@ const ProfileScreen = ({ route }) => {
             const result = await ImagePicker.launchImageLibraryAsync();
 
             if (!result.canceled) {
-                const newUri = result.uri.replace('.jpeg', '.png');
-                await FileSystem.moveAsync({
-                    from: result.uri,
-                    to: newUri,
-                });
-                const fileName = newUri.split('/').pop();
-                const contentType = mime.getType(fileName);
-                const fileInfo = await FileSystem.getInfoAsync(newUri);
-                const size = fileInfo.size;
-                const uploadedImage = await FileStore.addImage(fileName, contentType, size);
-                console.log(uploadedImage);
+                const fileUri = result.assets[0].uri;
+                const fileType = mime.getType(fileUri);
+                if (fileType === 'image/png' || fileType === 'image/jpeg') {
+                    const fileName = fileUri.split('/').pop();
+                    const fileInfo = await FileSystem.getInfoAsync(fileUri);
+                    const size = fileInfo.size;
 
-                formik.setFieldValue('avatarUrl', newUri);
+                    const uploadedImage = await FileStore.addImage(fileName, fileType, size);
+                    console.log(uploadedImage);
+
+                    formik.setFieldValue('avatarUrl', fileUri);
+                } else {
+                    alert('Chỉ nhận ảnh PNG hoặc JPG.');
+                }
             }
         } catch (error) {
             console.error('Error:', error);

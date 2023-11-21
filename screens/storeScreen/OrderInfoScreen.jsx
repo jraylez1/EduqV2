@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import React, { useLayoutEffect, useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -51,10 +51,6 @@ const OrderInfoScreen = ({ route }) => {
     useEffect(() => {
         if (isFocused) {
             loadProvince();
-            if (data.province !== '' && data.district !== '') {
-                loadDistrictData(data.province);
-                loadWardData(data.district);
-            }
             loadCartData();
             setInformation();
         }
@@ -72,6 +68,12 @@ const OrderInfoScreen = ({ route }) => {
     const loadProvince = async () => {
         const provincesData = await LocationStore.findProvince();
         setProvinces(provincesData);
+        if (data && data.province !== '' && data.district !== '') {
+            const districtsData = await LocationStore.findDistrict(data.province);
+            setDistricts(districtsData);
+            const wardsData = await LocationStore.findWard(data.district);
+            setWards(wardsData);
+        }
     };
 
     const validationSchema = Yup.object().shape({
@@ -363,15 +365,18 @@ const OrderInfoScreen = ({ route }) => {
                         ) : null}
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%', marginBottom: 16 }}>
-                        <Button
-                            alignSelf="center"
-                            style={{ width: '100%', paddingVertical: 12 }}
-                            bgColor="#4EE3AF"
-                            size="lg"
+                        <TouchableOpacity
+                            style={{
+                                width: '100%',
+                                paddingVertical: 16,
+                                backgroundColor: '#4EE3AF',
+                                alignItems: 'center',
+                                borderRadius: 6,
+                            }}
                             onPress={formik.handleSubmit}
                         >
-                            {t('Order')}
-                        </Button>
+                            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}> {t('Order')}</Text>
+                        </TouchableOpacity>
                     </View>
                     <ReCaptchaV3 recaptchaRef={recaptchaOrder} onVerify={onVerify} />
                     <Modal isOpen={modalVisible} onClose={setModalVisible} size={'xl'}>
