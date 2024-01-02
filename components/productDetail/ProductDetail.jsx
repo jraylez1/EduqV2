@@ -5,9 +5,13 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, NativeBaseProvider, Icon } from 'native-base';
+import { Domain } from '@env';
+import { useTranslation } from 'react-i18next';
 
 const ProductDetail = React.memo(({ item, cartItems, setCartItems }) => {
     const navigation = useNavigation();
+    const { t } = useTranslation();
+
     const addToCart = React.useCallback(
         async (product) => {
             try {
@@ -46,7 +50,7 @@ const ProductDetail = React.memo(({ item, cartItems, setCartItems }) => {
                 <View>
                     {item?.thumbnailUrl?.length > 0 ? (
                         <Image
-                            source={{ uri: item?.thumbnailUrl }}
+                            source={{ uri: Domain + item?.thumbnailUrl }}
                             style={{ height: 160, width: '100%', objectFit: 'cover', borderRadius: 8, zIndex: 10 }}
                         />
                     ) : (

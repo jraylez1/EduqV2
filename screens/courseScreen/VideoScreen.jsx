@@ -59,12 +59,12 @@ const VideoScreen = ({ route }) => {
     return (
         <ScrollView style={{ backgroundColor: '#081D49', height: '100%', width: '100%' }} ref={scrollViewRef}>
             <View style={{ paddingHorizontal: 16 }}>
-                <LessonDetail data={data} navigation={navigation} />
-                {data?.extendData?.products ? (
+                <LessonDetail data={data} navigation={navigation} studyRouteAliasUrl={studyRouteAliasUrl} />
+                {/* {data?.extendData?.products ? (
                     <SupportKit data={data} cartItems={cartItems} setCartItems={setCartItems} navigation={navigation} />
                 ) : (
                     <></>
-                )}
+                )} */}
                 <View>
                     <Text
                         style={{
@@ -99,7 +99,7 @@ const VideoScreen = ({ route }) => {
                             </View>
                         </View>
                     ) : (
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 16 }}>
                             <Entypo name="box" size={40} color="white" />
                             <Text style={{ fontWeight: '500', fontSize: 30, color: 'white' }}>{t('No lessons')}</Text>
                         </View>

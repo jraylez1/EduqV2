@@ -7,6 +7,7 @@ import { Button, NativeBaseProvider, Icon } from 'native-base';
 import NumericInput from 'react-native-numeric-input';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProductRelated from '../../components/productDetail/ProductRelated';
+import { Domain } from '@env';
 
 const ProductDetailScreen = ({ route }) => {
     const data = route?.params?.data;
@@ -17,6 +18,7 @@ const ProductDetailScreen = ({ route }) => {
     const isFocused = useIsFocused();
     const [totalQuantity, setTotalQuantity] = useState(0);
     const scrollViewRef = useRef(null);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
@@ -133,7 +135,7 @@ const ProductDetailScreen = ({ route }) => {
                 <View>
                     {data.thumbnailUrl?.length > 0 ? (
                         <Image
-                            source={{ uri: data.thumbnailUrl }}
+                            source={{ uri: Domain + data.thumbnailUrl }}
                             style={{ height: 240, width: '100%', objectFit: 'cover', borderRadius: 8 }}
                         />
                     ) : (

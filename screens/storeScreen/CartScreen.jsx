@@ -10,6 +10,7 @@ import { Button, NativeBaseProvider } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons';
 import { ProductStore } from '../../services/product';
 import { AuthStore } from '../../services/auth';
+import { Domain } from '@env';
 
 const CartScreen = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -83,7 +84,7 @@ const CartScreen = () => {
                     >
                         {item.thumbnailUrl?.length > 0 ? (
                             <Image
-                                source={{ uri: item.thumbnailUrl }}
+                                source={{ uri: Domain + item.thumbnailUrl }}
                                 style={{ height: 80, width: 80, objectFit: 'cover', borderRadius: 6 }}
                             />
                         ) : (

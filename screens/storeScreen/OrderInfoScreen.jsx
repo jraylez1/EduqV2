@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CartStore } from '../../services/cart';
 import ReCaptchaV3 from '../../components/reCaptcha/ReCaptchaV3';
 import { AuthStore } from '../../services/auth';
+import { Domain } from '@env';
 
 const OrderInfoScreen = ({ route }) => {
     const { t } = useTranslation();
@@ -411,7 +412,7 @@ const OrderInfoScreen = ({ route }) => {
                                                 >
                                                     {item.thumbnailUrl?.length > 0 ? (
                                                         <Image
-                                                            source={{ uri: item.thumbnailUrl }}
+                                                            source={{ uri: Domain + item.thumbnailUrl }}
                                                             style={{
                                                                 height: 80,
                                                                 width: 80,

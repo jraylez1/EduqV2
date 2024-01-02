@@ -2,9 +2,13 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import { ProductStore } from '../../services/product';
 import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import { Domain } from '@env';
 
 const ProductRelated = React.memo(({ item, scrollViewRef }) => {
     const navigation = useNavigation();
+    const { t } = useTranslation();
+
     const goToDetailProduct = async (aliasUrl) => {
         const product = await ProductStore.getProduct(aliasUrl);
         navigation.navigate('ProductDetailScreen', { data: product });
@@ -16,7 +20,7 @@ const ProductRelated = React.memo(({ item, scrollViewRef }) => {
                 <View>
                     {item.thumbnailUrl?.length > 0 ? (
                         <Image
-                            source={{ uri: item.thumbnailUrl }}
+                            source={{ uri: Domain + item.thumbnailUrl }}
                             style={{ height: 160, width: '100%', objectFit: 'cover', borderRadius: 8, zIndex: 10 }}
                         />
                     ) : (

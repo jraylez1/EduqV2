@@ -17,7 +17,7 @@ const QuestionScreen = ({ route }) => {
     const [extendData, setExtendData] = useState(route?.params?.extendData);
     const [result, setResult] = useState(route?.params?.result);
     const [singleSelect, setSingleSelect] = useState([]);
-
+    const studyRouteAliasUrl = route?.params.studyRouteAliasUrl;
     useLayoutEffect(() => {
         navigation.setOptions({
             headerTitle: t('Question'),
@@ -69,20 +69,19 @@ const QuestionScreen = ({ route }) => {
         const doQuestion = await CourseStore.doQuestions(
             extendData.course.aliasUrl,
             idLesson,
-            extendData.course.studyRoutes[0].id,
+            0,
             true,
             singleSelect,
-            extendData.course.studyRoutes[0].aliasUrl,
+            studyRouteAliasUrl,
         );
         const freeQVideoData = await CourseStore.getLesson(
             extendData.course.aliasUrl,
             idLesson,
-            extendData.course.studyRoutes[0].aliasUrl,
+            studyRouteAliasUrl,
             true,
         );
-        console.log(doQuestion);
         setShowModal(false);
-        navigation.navigate('VideoScreen', { data: freeQVideoData });
+        navigation.navigate('VideoScreen', { data: freeQVideoData, studyRouteAliasUrl: studyRouteAliasUrl });
     };
 
     return (
@@ -98,7 +97,14 @@ const QuestionScreen = ({ route }) => {
             <View style={{ width: '100%', position: 'relative', flex: 1, paddingHorizontal: 8 }}>
                 <View style={{ flex: 1 }}>
                     <View style={{ width: '100%', marginTop: 8 }}>
-                        <Text style={{ color: '#081D49', fontSize: 24, lineHeight: 28, fontWeight: '600' }}>
+                        <Text
+                            style={{
+                                color: '#081D49',
+                                fontSize: 24,
+                                lineHeight: 28,
+                                fontWeight: '600',
+                            }}
+                        >
                             {data[currentQuestionIndex].question}
                         </Text>
                     </View>

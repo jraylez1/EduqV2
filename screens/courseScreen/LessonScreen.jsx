@@ -7,6 +7,8 @@ import { SvgUri } from 'react-native-svg';
 import ListLession from '../../components/listLession/ListLession';
 import { useTranslation } from 'react-i18next';
 import { Entypo } from '@expo/vector-icons';
+import { noImage } from '../../assets';
+
 const LessonScreen = ({ route }) => {
     const navigation = useNavigation();
     const [data, setData] = useState(route?.params?.data);
@@ -63,19 +65,36 @@ const LessonScreen = ({ route }) => {
                                 style={{
                                     height: '80%',
                                     marginBottom: 16,
-                                    backgroundColor: item.bgColor,
-                                    padding: 8,
+                                    backgroundColor: item.bgColor !== '' ? item.bgColor : '#ddd',
+                                    paddingHorizontal: 8,
+                                    paddingVertical: 16,
                                     borderRadius: 12,
-                                    borderColor: item.borderColor,
+                                    borderColor: item.borderColor !== '' ? item.borderColor : '#3785F2',
                                     borderWidth: 2,
                                     justifyContent: 'center',
                                     alignItems: 'center',
+                                    width: 120,
                                 }}
                                 key={index}
                                 onPress={() => changeStudyRoute(item.id)}
                             >
-                                <SvgUri style={{ height: 80 }} uri={item?.iconUrl} />
-                                <Text style={{ color: item.textColor, fontSize: 18, fontWeight: '600' }}>
+                                {item.iconUrl !== '' ? (
+                                    <SvgUri style={{ height: 80 }} uri={item?.iconUrl} />
+                                ) : (
+                                    <Image
+                                        source={noImage}
+                                        style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 12 }}
+                                    />
+                                )}
+                                <Text
+                                    numberOfLines={1}
+                                    style={{
+                                        color: item.textColor !== '' ? item.textColor : '#3785F2',
+                                        fontSize: 18,
+                                        fontWeight: '600',
+                                        marginTop: 8,
+                                    }}
+                                >
                                     {item?.name}
                                 </Text>
                             </TouchableOpacity>
@@ -112,34 +131,40 @@ const LessonScreen = ({ route }) => {
                 </View>
             )}
 
-            <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
-                <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Additional lesson')}</Text>
-            </View>
-            {data?.extendData?.additionLessons.length > 0 ? (
-                <View
-                    style={{
-                        width: '100%',
-                        paddingHorizontal: 16,
-                        paddingBottom: 16,
-                    }}
-                >
-                    {data?.extendData?.additionLessons.map((item, index) => (
-                        <View style={{ transform: [{ translateY: -30 }] }} key={index}>
-                            <ListLession
-                                studyRouteAliasUrl={studyRouteAliasUrl}
-                                item={item}
-                                data={data}
-                                scrollViewRef={scrollViewRef}
-                                isScroll={false}
-                            />
+            {data?.extendData?.mainLessons?.length > 0 ? (
+                <View>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
+                        <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Additional lesson')}</Text>
+                    </View>
+                    {data?.extendData?.additionLessons.length > 0 ? (
+                        <View
+                            style={{
+                                width: '100%',
+                                paddingHorizontal: 16,
+                                paddingBottom: 16,
+                            }}
+                        >
+                            {data?.extendData?.additionLessons.map((item, index) => (
+                                <View style={{ transform: [{ translateY: -30 }] }} key={index}>
+                                    <ListLession
+                                        studyRouteAliasUrl={studyRouteAliasUrl}
+                                        item={item}
+                                        data={data}
+                                        scrollViewRef={scrollViewRef}
+                                        isScroll={false}
+                                    />
+                                </View>
+                            ))}
                         </View>
-                    ))}
+                    ) : (
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
+                            <Entypo name="box" size={40} color="white" />
+                            <Text style={styles.title}>{t('No lessons')}</Text>
+                        </View>
+                    )}
                 </View>
             ) : (
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
-                    <Entypo name="box" size={40} color="white" />
-                    <Text style={styles.title}>{t('No lessons')}</Text>
-                </View>
+                <View></View>
             )}
         </ScrollView>
     );

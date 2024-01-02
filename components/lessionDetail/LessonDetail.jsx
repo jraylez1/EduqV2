@@ -6,11 +6,12 @@ import { CourseStore } from '../../services/course';
 import { AuthStore } from '../../services/auth';
 import { Video } from 'expo-av';
 import { FontAwesome } from '@expo/vector-icons';
+import { Domain } from '@env';
 
 import { useEffect } from 'react';
-const LessonDetail = ({ data, navigation }) => {
+const LessonDetail = ({ data, navigation, studyRouteAliasUrl }) => {
     const { t } = useTranslation();
-    const video = React.useRef(null);
+    const videoRef = React.useRef(null);
     const [status, setStatus] = React.useState({});
     const [questionData, setQuestionData] = React.useState({});
 
@@ -28,15 +29,21 @@ const LessonDetail = ({ data, navigation }) => {
     };
 
     useEffect(() => {
+        autoPlayvideo();
         getQuestionData();
     }, [data]);
 
+    const autoPlayvideo = () => {
+        if (videoRef.current) {
+            videoRef.current.playAsync();
+        }
+    };
     const getQuestionData = async () => {
         if (data.hasQuestions) {
             const examQuestion = await CourseStore.questions(
                 data.id,
                 true,
-                data.extendData.course.studyRoutes[0].aliasUrl,
+                studyRouteAliasUrl,
                 data.extendData.course.aliasUrl,
             );
             setQuestionData(examQuestion.data);
@@ -49,7 +56,7 @@ const LessonDetail = ({ data, navigation }) => {
         const examQuestion = await CourseStore.questions(
             data.id,
             true,
-            data.extendData.course.studyRoutes[0].aliasUrl,
+            studyRouteAliasUrl,
             data.extendData.course.aliasUrl,
         );
         navigation.navigate('QuestionScreen', {
@@ -57,6 +64,7 @@ const LessonDetail = ({ data, navigation }) => {
             idLesson: data.id,
             extendData: examQuestion.extendData,
             result: examQuestion.result,
+            studyRouteAliasUrl: studyRouteAliasUrl,
         });
     };
 
@@ -75,14 +83,14 @@ const LessonDetail = ({ data, navigation }) => {
                         <View style={{ backgroundColor: 'black', borderTopLeftRadius: 6, borderTopRightRadius: 6 }}>
                             {data?.videoSource ? (
                                 <Video
-                                    ref={video}
+                                    ref={videoRef}
                                     style={{
                                         width: '100%',
                                         height: 203,
                                         borderTopLeftRadius: 6,
                                         borderTopRightRadius: 6,
                                     }}
-                                    source={{ uri: data?.videoSource?.url }}
+                                    source={{ uri: Domain + data?.videoSource?.url }}
                                     useNativeControls
                                     resizeMode="contain"
                                     isLooping

@@ -11,3 +11,4 @@ export { default as quiz_pattern } from './images/quiz_pattern.png';
 export { default as uk_flag } from './images/uk-flag.png';
 export { default as us_flag } from './images/us-flag.png';
 export { default as pronunciation } from './images/pronunciation.jpg';
+export { default as noImage } from './images/noImage.jpg';

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { EDUQ } from '@env';
+import { EduQ } from '@env';
 // axios.interceptors.request.use((request) => {
 //     console.log('Request:', request);
 //     return request;
@@ -17,7 +17,7 @@ export const CartStore = {
 
     async getCartProducts(products) {
         try {
-            const response = await axios.post(`${EDUQ}/api/cart/get.json`, { items: products });
+            const response = await axios.post(`${EduQ}/api/cart/get.json`, { items: products });
             if (response.data && response.data.data) {
                 return response.data.data;
             } else {
@@ -32,7 +32,7 @@ export const CartStore = {
     async buyProducts(formData, products, reCaptchaToken) {
         try {
             const response = await axios.post(
-                `${EDUQ}/api/cart/buy.json`,
+                `${EduQ}/api/cart/buy.json`,
                 { ...formData, items: products },
                 {
                     headers: {
