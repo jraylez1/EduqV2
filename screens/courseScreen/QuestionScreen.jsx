@@ -16,6 +16,8 @@ const QuestionScreen = ({ route }) => {
     const [data, setData] = useState(route?.params?.data);
     const [extendData, setExtendData] = useState(route?.params?.extendData);
     const [result, setResult] = useState(route?.params?.result);
+    const [scrollViewRef, setScrollViewRef] = useState(route?.params?.scrollViewRef);
+    const [isScroll, setIsScroll] = useState(route?.params?.isScroll);
     const [singleSelect, setSingleSelect] = useState([]);
     const studyRouteAliasUrl = route?.params.studyRouteAliasUrl;
     useLayoutEffect(() => {
@@ -74,14 +76,34 @@ const QuestionScreen = ({ route }) => {
             singleSelect,
             studyRouteAliasUrl,
         );
-        const freeQVideoData = await CourseStore.getLesson(
-            extendData.course.aliasUrl,
-            idLesson,
-            studyRouteAliasUrl,
-            true,
-        );
         setShowModal(false);
-        navigation.navigate('VideoScreen', { data: freeQVideoData, studyRouteAliasUrl: studyRouteAliasUrl });
+
+        if (doQuestion.data.url === '') {
+            const freeQVideoData = await CourseStore.getLesson(
+                extendData.course.aliasUrl,
+                idLesson,
+                studyRouteAliasUrl,
+                true,
+            );
+            navigation.navigate('VideoScreen', { data: freeQVideoData, studyRouteAliasUrl: studyRouteAliasUrl });
+            alert(doQuestion.message);
+        } else {
+            await alert(doQuestion.message);
+            const match = doQuestion?.data?.url.match(/\/m-(\d+)\.html/);
+            if (match) {
+                const idLessonMatch = match[1];
+                const freeQVideoData = await CourseStore.getLesson(
+                    extendData.course.aliasUrl,
+                    idLessonMatch,
+                    studyRouteAliasUrl,
+                    true,
+                );
+                navigation.navigate('VideoScreen', { data: freeQVideoData, studyRouteAliasUrl: studyRouteAliasUrl });
+                if (isScroll) {
+                    scrollViewRef.current.scrollTo({ y: 0, animated: true });
+                }
+            }
+        }
     };
 
     return (

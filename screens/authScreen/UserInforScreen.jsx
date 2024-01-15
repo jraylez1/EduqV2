@@ -14,7 +14,7 @@ const UserInforScreen = () => {
     const navigation = useNavigation();
     const [showModalLogout, setShowModalLogout] = useState(false);
     const [userData, setUserData] = useState(null);
-    const [isChange, setIsChange] = useState(false);
+    const [isChange, setIsChange] = useState(true);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -130,9 +130,9 @@ const UserInforScreen = () => {
 
                                 <TouchableOpacity onPress={() => changeLng()} style={{ marginBottom: 32 }}>
                                     {isChange ? (
-                                        <Image source={vietnamflag} style={styles.langImg} />
-                                    ) : (
                                         <Image source={uk_flag} style={styles.langImg} />
+                                    ) : (
+                                        <Image source={vietnamflag} style={styles.langImg} />
                                     )}
                                 </TouchableOpacity>
                             </View>

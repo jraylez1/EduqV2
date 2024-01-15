@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { Domain } from '@env';
 
 const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }) => {
     const navigation = useNavigation();
@@ -30,6 +31,7 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
                     paddingHorizontal: 16,
                     zIndex: 99,
                     transform: [{ translateY: 45 }],
+                    position: 'relative',
                 }}
             >
                 <Image
@@ -37,10 +39,28 @@ const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }
                         uri:
                             item?.coverUrl === ''
                                 ? 'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg'
-                                : item?.coverUrl,
+                                : Domain + item?.coverUrl,
                     }}
                     style={{ height: 96, width: 160, borderRadius: 12 }}
                 />
+                <View
+                    style={{
+                        position: 'absolute',
+                        left: 16,
+                        bottom: 0,
+                        backgroundColor: item?.isCompleted ? '#00de3799' : '#d1270099',
+                        paddingVertical: 6,
+                        paddingLeft: 6,
+                        paddingRight: 12,
+                        borderBottomStartRadius: 12,
+                        borderBottomRightRadius: 8,
+                        borderTopRightRadius: 24,
+                    }}
+                >
+                    <Text style={{ color: '#fff', fontSize: 15, fontWeight: '400' }}>
+                        {item?.isCompleted ? t('Completed') : t('Uncompleted')}
+                    </Text>
+                </View>
             </View>
             <View
                 style={{

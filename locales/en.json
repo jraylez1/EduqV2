@@ -88,7 +88,6 @@
     "Address": "Address",
     "Payment orders": "Payment orders",
     "Are you sure you want to purchase the items in your cart?": "Are you sure you want to purchase the items in your cart?",
-    "Agree": "Agree",
     "Order placement failed": "Order placement failed",
     "Order encountered an error during the payment process. Please retry the payment or contact our support hotline": "Order encountered an error during the payment process. Please retry the payment or contact our support hotline",
     "Back to homepage": "Back to homepage",
@@ -122,7 +121,6 @@
     "Course information": "Course information",
     "Course name": "Course name",
     "Payment information": "Payment information",
-    "Payment": "Payment",
     "Do you really want to initiate this order?": "Do you really want to initiate this order?",
     "Order payment successful": "Order payment successful",
     "You have answered correctly": "You have answered correctly",
@@ -134,12 +132,14 @@
     "Pronunciation results": "Pronunciation results",
     "Overall score": "Overall score",
     "English proficiency scrores": "English proficiency scrores",
-    "Pronunciation": "Pronunciation",
     "Fluency feedback": "Fluency feedback",
     "ACCENT": "ACCENT",
     "View report": "View report",
     "Report": "Report",
     "Average Score": "Average Score",
     "Pronunciation point": "Pronunciation point",
-    "Re-do Questions": "Re-do Questions"
+    "Re-do Questions": "Re-do Questions",
+    "Completed": "Completed",
+    "Uncompleted": "Uncompleted",
+    "Loading lesson...": "Loading lesson..."
 }

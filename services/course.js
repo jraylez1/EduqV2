@@ -179,6 +179,35 @@ export const CourseStore = {
         }
     },
 
+    async viewVideoCompleted(aliasUrl, idLesson, idStudyRoute, isMain, studyRouteAliasUrl) {
+        const token = await AsyncStorage.getItem('access_token');
+        try {
+            const response = await axios.post(
+                `${EduQ}/api/course/view-video-completed.json`,
+                {
+                    aliasUrl: aliasUrl,
+                    idLesson: idLesson,
+                    isMain: isMain,
+                    idStudyRoute: idStudyRoute,
+                    studyRouteAliasUrl: studyRouteAliasUrl,
+                },
+                {
+                    headers: {
+                        Authorization: token,
+                    },
+                },
+            );
+            if (response.data.error) {
+                console.error(response.data);
+                return null;
+            } else {
+                return response.data;
+            }
+        } catch (error) {
+            return null;
+        }
+    },
+
     async qTestQuestions(idLesson, isMain, idStudyRoute, aliasUrl) {
         const token = await AsyncStorage.getItem('access_token');
         try {
@@ -224,7 +253,7 @@ export const CourseStore = {
                 console.error('Invalid response format:', response.data);
                 return null;
             } else {
-                return response.data.data;
+                return response.data;
             }
         } catch (error) {
             return null;

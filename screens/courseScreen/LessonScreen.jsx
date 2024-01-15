@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import React, { useLayoutEffect, useState, useRef } from 'react';
+import React, { useLayoutEffect, useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { CourseStore } from '../../services/course';
@@ -11,14 +11,26 @@ import { noImage } from '../../assets';
 
 const LessonScreen = ({ route }) => {
     const navigation = useNavigation();
-    const [data, setData] = useState(route?.params?.data);
-    const studyRouteAliasUrl = route?.params?.studyAliasUrl;
+    const [data, setData] = useState(null);
     const scrollViewRef = useRef(null);
     const { t } = useTranslation();
+    const [aliasUrl, setAliasUrl] = useState(route?.params?.aliasUrl);
+    const [idStudyRoute, setIdStudyRoute] = useState(route?.params?.idStudyRoute);
+    const [studyRouteAliasUrl, setStudyRouteAliasUrl] = useState(route?.params?.studyRouteAliasUrl);
+    const [name, setName] = useState(route?.params?.name);
+
+    useEffect(() => {
+        loadLessonData();
+    }, [data]);
+
+    const loadLessonData = async () => {
+        const lessonData = await CourseStore.getStudyRoute(aliasUrl, idStudyRoute, studyRouteAliasUrl);
+        setData(lessonData);
+    };
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            headerTitle: data.name,
+            headerTitle: name,
             headerTitleAlign: 'center',
             headerStyle: {
                 backgroundColor: '#081D49',
@@ -127,11 +139,11 @@ const LessonScreen = ({ route }) => {
             ) : (
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
                     <Entypo name="box" size={40} color="white" />
-                    <Text style={styles.title}>{t('No lessons')}</Text>
+                    <Text style={styles.title}>{t('Loading lesson...')}</Text>
                 </View>
             )}
 
-            {data?.extendData?.mainLessons?.length > 0 ? (
+            {data?.extendData?.additionLessons?.length > 0 ? (
                 <View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
                         <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Additional lesson')}</Text>

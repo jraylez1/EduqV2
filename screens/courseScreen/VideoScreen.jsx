@@ -59,12 +59,18 @@ const VideoScreen = ({ route }) => {
     return (
         <ScrollView style={{ backgroundColor: '#081D49', height: '100%', width: '100%' }} ref={scrollViewRef}>
             <View style={{ paddingHorizontal: 16 }}>
-                <LessonDetail data={data} navigation={navigation} studyRouteAliasUrl={studyRouteAliasUrl} />
-                {/* {data?.extendData?.products ? (
+                <LessonDetail
+                    data={data}
+                    navigation={navigation}
+                    studyRouteAliasUrl={studyRouteAliasUrl}
+                    scrollViewRef={scrollViewRef}
+                    isScroll={true}
+                />
+                {data?.extendData?.products ? (
                     <SupportKit data={data} cartItems={cartItems} setCartItems={setCartItems} navigation={navigation} />
                 ) : (
                     <></>
-                )} */}
+                )}
                 <View>
                     <Text
                         style={{

@@ -67,7 +67,7 @@ const QTestQuestionScreen = ({ route }) => {
             singleSelect,
         );
         navigation.navigate('QTestAverageScreen', {
-            data: doQuestion,
+            data: doQuestion.data,
             aliasUrl: extendData.course.aliasUrl,
             idStudyRoute: extendData.studyRoute.id,
             accent: accent,

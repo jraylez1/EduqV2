@@ -5,6 +5,7 @@ import { CartStore } from '../../services/cart';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Domain } from '@env';
 
 const SupportKit = ({ data, cartItems, setCartItems, navigation }) => {
     const { t } = useTranslation();
@@ -60,7 +61,7 @@ const SupportKit = ({ data, cartItems, setCartItems, navigation }) => {
                     {data.extendData.products[0].thumbnailUrl?.length > 0 ? (
                         <TouchableOpacity onPress={() => goToDetailProduct(data.extendData.products[0].aliasUrl)}>
                             <Image
-                                source={{ uri: data.extendData.products[0].thumbnailUrl }}
+                                source={{ uri: Domain + data.extendData.products[0].thumbnailUrl }}
                                 style={{
                                     height: 300,
                                     width: '100%',

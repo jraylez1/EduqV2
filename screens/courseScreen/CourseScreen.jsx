@@ -45,9 +45,13 @@ const CourseScreen = ({ route }) => {
         getStudyRoutes();
     }, [data]);
 
-    const goToLesson = async (idStudyRoute, studyRouteAliasUrl) => {
-        const lessonData = await CourseStore.getStudyRoute(data.aliasUrl, idStudyRoute, studyRouteAliasUrl);
-        navigation.navigate('LessonScreen', { data: lessonData, studyAliasUrl: studyRouteAliasUrl });
+    const goToLesson = async (name, idStudyRoute, studyRouteAliasUrl) => {
+        navigation.navigate('LessonScreen', {
+            name: name,
+            aliasUrl: data.aliasUrl,
+            studyRouteAliasUrl: studyRouteAliasUrl,
+            idStudyRoute: idStudyRoute,
+        });
     };
 
     return (
@@ -146,7 +150,7 @@ const CourseScreen = ({ route }) => {
                                         margin: 4,
                                         fontWeight: '500',
                                     }}
-                                    onPress={() => goToLesson(item.id, item.aliasUrl)}
+                                    onPress={() => goToLesson(item.name, item.id, item.aliasUrl)}
                                 >
                                     <Text
                                         style={{ color: '#081D49', fontSize: 20, lineHeight: 28, textAlign: 'center' }}
