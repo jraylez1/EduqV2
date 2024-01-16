@@ -43,9 +43,7 @@ const QTestQuestionScreen = ({ route }) => {
     const handleSelectAnswer = (idAnswer) => {
         const updatedQuestionData = [...data];
         const currentQuestion = updatedQuestionData[currentQuestionIndex];
-        if (currentQuestion.idType === 3) {
-            currentQuestion.answer = [idAnswer];
-        }
+        currentQuestion.answer = [idAnswer];
         setData(updatedQuestionData);
     };
 

@@ -32,9 +32,8 @@ const LevelScreen = ({ route }) => {
         });
     }, []);
 
-    const goToQtestQuestion = async () => {
-        const examQuestion = await CourseStore.qTestQuestions(0, true, data.studyRoutes[0].id, data.aliasUrl);
-
+    const goToQtestQuestion = async (idStudyRoute) => {
+        const examQuestion = await CourseStore.qTestQuestions(0, true, idStudyRoute, data.aliasUrl);
         if (examQuestion.result) {
             navigation.navigate('QTestAverageScreen', {
                 data: examQuestion,
@@ -56,7 +55,7 @@ const LevelScreen = ({ route }) => {
             {data?.studyRoutes.map((studyRoute, index) => (
                 <TouchableOpacity
                     style={{ width: '100%', height: 'auto', alignItems: 'center' }}
-                    onPress={() => goToQtestQuestion()}
+                    onPress={() => goToQtestQuestion(studyRoute.id)}
                     key={index}
                 >
                     <View

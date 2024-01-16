@@ -132,7 +132,6 @@
     "Pronunciation results": "Kết quả phát âm",
     "Overall score": "Tổng điểm",
     "English proficiency scrores": "Điểm kiểm tra trình độ tiếng anh",
-    "Fluency feedback": "Phản hồi phát âm",
     "ACCENT": "NGỮ ĐIỆU",
     "View report": "Xem tổng kết",
     "Report": "Tổng kết",
@@ -141,5 +140,14 @@
     "Re-do Questions": "Làm lại bài",
     "Completed": "Đã hoàn thành",
     "Uncompleted": "Chưa hoàn thành",
-    "Loading lesson...": "Đang tải bài học..."
+    "Loading lesson...": "Đang tải bài học...",
+    "Speaking skills": "Kĩ năng phát âm",
+    "Reading Fluency": "Đọc lưu loát",
+    "Content feedback": "Nội dung phản hồi",
+    "Fluency feedback": "Phản hồi lưu loát",
+    "Feedback": "Phản hồi",
+    "Vocabulary": "Từ vựng",
+    "Grammar": "Ngữ pháp",
+    "Grammar feedback": "Phản hồi ngữ pháp",
+    "Vocabulary feedback": "Phản hồi từ vựng"
 }

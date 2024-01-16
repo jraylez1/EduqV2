@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
-const CircularProgress = ({ progress, radius, strokeWidth }) => {
+const CircularProgress = ({ progress, radius, strokeWidth, score }) => {
     const diameter = radius * 2;
     const circumference = Math.PI * diameter;
     const progressValue = (progress / 100) * circumference;
@@ -14,7 +14,7 @@ const CircularProgress = ({ progress, radius, strokeWidth }) => {
                     cy={radius}
                     r={radius - strokeWidth / 2}
                     fill="transparent"
-                    stroke="#CCCCCC"
+                    stroke="#e9ecef"
                     strokeWidth={strokeWidth}
                 />
                 <Circle
@@ -36,7 +36,7 @@ const CircularProgress = ({ progress, radius, strokeWidth }) => {
                     justifyContent: 'center',
                 }}
             >
-                <Text style={{ textAlign: 'center', fontSize: 24, fontWeight: 'bold' }}>{progress}</Text>
+                <Text style={{ textAlign: 'center', fontSize: 24, fontWeight: 'bold' }}>{score}</Text>
             </View>
         </View>
     );
