@@ -97,6 +97,7 @@ const LessonDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isS
             studyRouteAliasUrl: studyRouteAliasUrl,
             scrollViewRef: scrollViewRef,
             isScroll: isScroll,
+            idCourse: data.extendData.course.id,
         });
     };
 

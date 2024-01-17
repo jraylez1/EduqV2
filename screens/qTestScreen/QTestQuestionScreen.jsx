@@ -17,7 +17,7 @@ const QTestQuestionScreen = ({ route }) => {
     const [showModal, setShowModal] = useState(false);
     const [isFinishAnswer, setIsFinishAnswer] = useState(false);
     const [singleSelect, setSingleSelect] = useState([]);
-
+    const [idCourse, setIdCourse] = useState(route?.params?.idCourse);
     useLayoutEffect(() => {
         navigation.setOptions({
             headerTitle: t('Question'),
@@ -50,13 +50,14 @@ const QTestQuestionScreen = ({ route }) => {
     const showModalQuestion = () => {
         const updatedSingleSelect = data.map((question) => ({
             id: question.id,
-            answers: question.answer,
+            answers: question.answer || [],
         }));
         setSingleSelect(updatedSingleSelect);
         setShowModal(true);
     };
 
     const finishQuestion = async () => {
+        setShowModal(false);
         const doQuestion = await CourseStore.doQuestions(
             extendData.course.aliasUrl,
             0,
@@ -70,7 +71,6 @@ const QTestQuestionScreen = ({ route }) => {
             idStudyRoute: extendData.studyRoute.id,
             accent: accent,
         });
-        setShowModal(false);
     };
     return (
         <View
@@ -92,6 +92,7 @@ const QTestQuestionScreen = ({ route }) => {
 
                     <PronunciationQtest
                         data={data[currentQuestionIndex]}
+                        idCourse={idCourse}
                         onSelectAnswer={handleSelectAnswer}
                         accent={accent}
                         setIsFinishAnswer={setIsFinishAnswer}

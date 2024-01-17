@@ -2,12 +2,12 @@ import axios from 'axios';
 import { Qtest } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-axios.interceptors.request.use((request) => {
-    console.log('Request:', request);
-    return request;
-});
+// axios.interceptors.request.use((request) => {
+//     console.log('Request:', request);
+//     return request;
+// });
 export const PronunciationStore = {
-    async pronunciationQuest(fileUri, filename, expectedText, accent) {
+    async pronunciationQuest(fileUri, filename, expectedText, idCourse, accent) {
         const token = await AsyncStorage.getItem('access_token');
 
         const formData = new FormData();
@@ -18,6 +18,8 @@ export const PronunciationStore = {
         });
         formData.append('expectedText', expectedText);
         formData.append('extension', 'mp3');
+        formData.append('idCourse', idCourse);
+
         try {
             const response = await axios.post(`${Qtest}/pronunciation/file/${accent}`, formData, {
                 headers: {
@@ -32,7 +34,7 @@ export const PronunciationStore = {
             throw error;
         }
     },
-    async scriptedQuest(fileUri, filename, expectedText, accent) {
+    async scriptedQuest(fileUri, filename, expectedText, idCourse, accent) {
         const token = await AsyncStorage.getItem('access_token');
 
         const formData = new FormData();
@@ -43,6 +45,8 @@ export const PronunciationStore = {
         });
         formData.append('expectedText', expectedText);
         formData.append('extension', 'mp3');
+        formData.append('idCourse', idCourse);
+
         try {
             const response = await axios.post(`${Qtest}/scripted/file/${accent}`, formData, {
                 headers: {
@@ -57,7 +61,7 @@ export const PronunciationStore = {
             throw error;
         }
     },
-    async unscriptedQuest(fileUri, filename, questionContent, accent, explain, question) {
+    async unscriptedQuest(fileUri, filename, questionContent, accent, explain, question, idCourse) {
         const token = await AsyncStorage.getItem('access_token');
 
         const formData = new FormData();
@@ -70,6 +74,7 @@ export const PronunciationStore = {
         formData.append('explain', explain);
         formData.append('question', question);
         formData.append('extension', 'mp3');
+        formData.append('idCourse', idCourse);
         try {
             const response = await axios.post(`${Qtest}/unscripted/file/${accent}`, formData, {
                 headers: {

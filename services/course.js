@@ -231,32 +231,28 @@ export const CourseStore = {
     },
     async doQuestions(aliasUrl, idLesson, idStudyRoute, isMain, questions, studyRouteAliasUrl) {
         const token = await AsyncStorage.getItem('access_token');
-        try {
-            const response = await axios.post(
-                `${EduQ}/api/course/do-questions.json`,
-                {
-                    aliasUrl: aliasUrl,
-                    extendKeys: [],
-                    idLesson: idLesson,
-                    idStudyRoute: idStudyRoute,
-                    isMain: isMain,
-                    questions: questions,
-                    studyRouteAliasUrl: studyRouteAliasUrl,
+        const response = await axios.post(
+            `${EduQ}/api/course/do-questions.json`,
+            {
+                aliasUrl: aliasUrl,
+                extendKeys: [],
+                idLesson: idLesson,
+                idStudyRoute: idStudyRoute,
+                isMain: isMain,
+                questions: questions,
+                studyRouteAliasUrl: studyRouteAliasUrl,
+            },
+            {
+                headers: {
+                    Authorization: token,
                 },
-                {
-                    headers: {
-                        Authorization: token,
-                    },
-                },
-            );
-            if (response.data.error) {
-                console.error('Invalid response format:', response.data);
-                return null;
-            } else {
-                return response.data;
-            }
-        } catch (error) {
+            },
+        );
+        if (response.data.error) {
+            alert(response.message);
             return null;
+        } else {
+            return response.data;
         }
     },
 };

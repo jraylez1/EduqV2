@@ -11,7 +11,7 @@ import PronunciationAccordion from '../selectAnswer/PronunciationAccordion';
 import PronunciationWords from '../selectAnswer/PronunciationWords';
 import LineProgress from '../progressBar/LineProgress';
 
-const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer }) => {
+const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer, idCourse }) => {
     const { t } = useTranslation();
     const [recording, setRecording] = useState(null);
     const [recordingStatus, setRecordingStatus] = useState('idle');
@@ -105,6 +105,7 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
                         fileMp3Uri,
                         fileName,
                         data.data.text,
+                        idCourse,
                         accent,
                     );
                     setRecordingResult(response);
@@ -115,6 +116,7 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
                         fileMp3Uri,
                         fileName,
                         data.questionContent,
+                        idCourse,
                         accent,
                     );
                     setRecordingResult(response);
@@ -128,13 +130,12 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
                         accent,
                         data.explain,
                         data.question,
+                        idCourse,
                     );
                     setRecordingResult(response);
                     const jsonString = JSON.stringify({ words: response.pronunciation.words });
                     selectQuestion(jsonString);
                 }
-
-                // await updateCefrProgress(response.english_proficiency_scores.mock_cefr.prediction);
 
                 setRecording(null);
                 setRecordingStatus('stopped');
@@ -169,6 +170,25 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
             }
         }
         return 0;
+    };
+
+    const getOverallPredictionDefault = (data) => {
+        switch (data) {
+            case 'A1':
+                return 15;
+            case 'A2':
+                return 30;
+            case 'B1':
+                return 45;
+            case 'B2':
+                return 60;
+            case 'C1':
+                return 75;
+            case 'C2':
+                return 90;
+            default:
+                return 0;
+        }
     };
 
     const getOverallScore = (data) => {
@@ -299,8 +319,131 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
             {recordingResult ? (
                 <>
                     {data.idType === 3 ? (
-                        <View>
-                            <Text>ok</Text>
+                        <View
+                            style={{
+                                marginVertical: 20,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: '100%',
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    fontWeight: '400',
+                                    color: '#0dcaf0',
+                                    backgroundColor: '#d5edeb',
+                                    paddingVertical: 16,
+                                    paddingHorizontal: 40,
+                                    borderRadius: 800,
+                                }}
+                            >
+                                {t('Pronunciation results')}
+                            </Text>
+                            <View>
+                                <View style={{ marginVertical: 16 }}>
+                                    <Text
+                                        style={{
+                                            textAlign: 'center',
+                                            marginBottom: 16,
+                                            fontSize: 24,
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        {t('Overall score')}
+                                    </Text>
+                                    <CircularProgress
+                                        progress={recordingResult?.overall_score * 10}
+                                        radius={70}
+                                        strokeWidth={15}
+                                        score={recordingResult?.overall_score}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ borderBottomWidth: 2, borderBottomColor: '#3ca09e', borderStyle: 'dotted' }}>
+                                <Text
+                                    style={{ textAlign: 'center', marginBottom: 16, fontSize: 24, fontWeight: 'bold' }}
+                                >
+                                    {t('Speaking skills')}
+                                </Text>
+                                <View>
+                                    <View>
+                                        <Text
+                                            style={{
+                                                textAlign: 'left',
+                                                marginBottom: 4,
+                                                fontSize: 16,
+                                                fontWeight: '500',
+                                            }}
+                                        >
+                                            {t('Mock IELTS')}
+                                        </Text>
+                                        <LineProgress
+                                            progress={
+                                                recordingResult?.english_proficiency_scores?.mock_ielts?.prediction * 10
+                                            }
+                                            width={300}
+                                            height={10}
+                                            strokeWidth={50}
+                                            maxScoreText={9}
+                                            minScoreText={0}
+                                            score={recordingResult?.english_proficiency_scores?.mock_ielts?.prediction}
+                                        />
+                                    </View>
+                                    <View>
+                                        <Text
+                                            style={{
+                                                textAlign: 'left',
+                                                marginBottom: 4,
+                                                fontSize: 16,
+                                                fontWeight: '500',
+                                            }}
+                                        >
+                                            {t('Mock PTE')}
+                                        </Text>
+                                        <LineProgress
+                                            progress={recordingResult?.english_proficiency_scores?.mock_pte.prediction}
+                                            width={300}
+                                            height={10}
+                                            strokeWidth={50}
+                                            maxScoreText={90}
+                                            minScoreText={0}
+                                            score={recordingResult?.english_proficiency_scores?.mock_pte.prediction}
+                                        />
+                                    </View>
+                                    <View>
+                                        <Text
+                                            style={{
+                                                textAlign: 'left',
+                                                marginBottom: 4,
+                                                fontSize: 16,
+                                                fontWeight: '500',
+                                            }}
+                                        >
+                                            {t('Mock CEFR')}
+                                        </Text>
+                                        <LineProgress
+                                            progress={getOverallPredictionDefault(
+                                                recordingResult?.english_proficiency_scores?.mock_cefr?.prediction,
+                                            )}
+                                            width={300}
+                                            height={10}
+                                            strokeWidth={50}
+                                            maxScoreText={'C2'}
+                                            minScoreText={'A1'}
+                                            score={recordingResult?.english_proficiency_scores?.mock_cefr?.prediction}
+                                        />
+                                    </View>
+                                </View>
+                            </View>
+                            <View>
+                                <PronunciationAccordion
+                                    checkData={pronunciation}
+                                    setData={setPronunciation}
+                                    text={'Pronunciation'}
+                                />
+                                {pronunciation ? <PronunciationWords words={recordingResult?.words} /> : <></>}
+                            </View>
                         </View>
                     ) : (
                         <View
@@ -407,11 +550,11 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
                                     </Text>
                                     <CircularProgress
                                         progress={getOverallPrediction(
-                                            recordingResult.overall?.english_proficiency_scores,
+                                            recordingResult?.overall?.english_proficiency_scores,
                                         )}
                                         radius={70}
                                         strokeWidth={15}
-                                        score={getOverallScore(recordingResult.overall?.english_proficiency_scores)}
+                                        score={getOverallScore(recordingResult?.overall?.english_proficiency_scores)}
                                     />
                                 </View>
                             </View>
@@ -435,14 +578,16 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
                                         </Text>
                                         <LineProgress
                                             progress={getOverallPrediction(
-                                                recordingResult.fluency.english_proficiency_scores,
+                                                recordingResult?.fluency?.english_proficiency_scores,
                                             )}
                                             width={300}
                                             height={10}
                                             strokeWidth={50}
                                             maxScoreText={getMaxScoreText()}
                                             minScoreText={getMinScoreText()}
-                                            score={getOverallScore(recordingResult.fluency.english_proficiency_scores)}
+                                            score={getOverallScore(
+                                                recordingResult?.fluency?.english_proficiency_scores,
+                                            )}
                                         />
                                     </View>
                                     {data.idType === 5 ? (
@@ -514,7 +659,7 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
                                         </Text>
                                         <LineProgress
                                             progress={getOverallPrediction(
-                                                recordingResult.pronunciation.english_proficiency_scores,
+                                                recordingResult?.pronunciation?.english_proficiency_scores,
                                             )}
                                             width={300}
                                             height={10}
@@ -522,7 +667,7 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer })
                                             maxScoreText={getMaxScoreText()}
                                             minScoreText={getMinScoreText()}
                                             score={getOverallScore(
-                                                recordingResult.pronunciation.english_proficiency_scores,
+                                                recordingResult?.pronunciation?.english_proficiency_scores,
                                             )}
                                         />
                                     </View>

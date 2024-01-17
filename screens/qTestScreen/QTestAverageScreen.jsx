@@ -57,31 +57,58 @@ const QTestAverageScreen = ({ route }) => {
                             marginVertical: 16,
                             alignItems: 'center',
                             justifyContent: 'center',
+                            display: 'flex',
+                            flexDirection: 'row',
                         }}
                     >
-                        <Text style={{ fontSize: 24, fontWeight: 'bold' }}>
-                            {data.result.score}.{data.result.maxScore}
+                        <Text style={{ fontSize: 32, fontWeight: 'bold', color: '#3e9c9b' }}>{data.result.score}</Text>
+                        <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#3e9c9b', marginTop: 20 }}>
+                            /{data.result.maxScore}
                         </Text>
                     </View>
                 </View>
                 <View style={{ width: '100%', paddingHorizontal: 16 }}>
                     {data.questions.map((item, index) => (
-                        <View key={index}>
+                        <View
+                            key={index}
+                            style={{
+                                borderBottomColor: '#cccccc',
+                                borderBottomWidth: 2,
+                                borderStyle: 'solid',
+                                paddingVertical: 8,
+                            }}
+                        >
                             <Text style={{ fontSize: 18, fontWeight: '500' }}>
                                 {t('Question')} {index + 1}
                             </Text>
-                            <Text style={{ fontSize: 24, fontWeight: 'bold', marginVertical: 8 }}>
-                                {item.data.text}
+                            <Text style={{ fontSize: 20, fontWeight: '500', marginVertical: 4, textAlign: 'justify' }}>
+                                Question content:{' '}
+                                <Text style={{ color: 'black', fontWeight: '400', fontSize: 16 }}>
+                                    {item.questionContent}
+                                </Text>
                             </Text>
-                            <Text style={{ fontSize: 20, fontWeight: '500', marginVertical: 8 }}>
-                                IPA: <Text style={{ color: '#dc3545' }}>{item.data.ipa}</Text>
+                            <Text style={{ fontSize: 20, fontWeight: '500', marginVertical: 4, textAlign: 'justify' }}>
+                                Explain:{' '}
+                                <Text style={{ color: 'black', fontWeight: '400', fontSize: 16 }}>{item.explain}</Text>
                             </Text>
+                            {item.data.ipa ? (
+                                <Text
+                                    style={{ fontSize: 20, fontWeight: '500', marginVertical: 4, textAlign: 'justify' }}
+                                >
+                                    IPA:{' '}
+                                    <Text style={{ color: '#dc3545', fontWeight: '400', fontSize: 16 }}>
+                                        {item.data.ipa}
+                                    </Text>
+                                </Text>
+                            ) : (
+                                <></>
+                            )}
                             <View style={{ width: '100%' }}>
-                                <Text style={{ fontSize: 16, fontWeight: '400', textAlign: 'right' }}>
+                                <Text style={{ fontSize: 20, fontWeight: '600', textAlign: 'right' }}>
                                     {t('Pronunciation point')}
                                 </Text>
-                                <Text style={{ fontSize: 16, fontWeight: '400', textAlign: 'right' }}>
-                                    {item.result.score}.{item.result.maxScore}
+                                <Text style={{ fontSize: 20, fontWeight: '600', textAlign: 'right', color: '#3e9c9b' }}>
+                                    {item.result.score}/{item.result.maxScore}
                                 </Text>
                             </View>
                         </View>

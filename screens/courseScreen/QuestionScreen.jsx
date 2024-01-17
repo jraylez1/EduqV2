@@ -19,6 +19,7 @@ const QuestionScreen = ({ route }) => {
     const [scrollViewRef, setScrollViewRef] = useState(route?.params?.scrollViewRef);
     const [isScroll, setIsScroll] = useState(route?.params?.isScroll);
     const [singleSelect, setSingleSelect] = useState([]);
+    const [idCourse, setIdCourse] = useState(route?.params?.idCourse);
     const studyRouteAliasUrl = route?.params.studyRouteAliasUrl;
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -142,6 +143,7 @@ const QuestionScreen = ({ route }) => {
                             data={data[currentQuestionIndex]}
                             result={result}
                             onSelectAnswer={handleSelectAnswer}
+                            idCourse={idCourse}
                         />
                     )}
                 </View>

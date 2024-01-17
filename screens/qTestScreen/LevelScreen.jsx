@@ -45,6 +45,7 @@ const LevelScreen = ({ route }) => {
             navigation.navigate('QTestQuestionScreen', {
                 data: examQuestion,
                 accent: accent,
+                idCourse: data.id,
             });
         }
     };
