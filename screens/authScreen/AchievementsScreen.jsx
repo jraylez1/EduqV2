@@ -12,7 +12,7 @@ const AchievementsScreen = () => {
             headerTitle: t('Achievement'),
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
         });
@@ -28,7 +28,7 @@ const AchievementsScreen = () => {
 };
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#081D49',
+        backgroundColor: '#023468',
         height: '100%',
         padding: 16,
     },

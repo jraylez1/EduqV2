@@ -13,7 +13,7 @@ const ContactScreen = () => {
             headerTitle: t('Contact'),
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
         });
@@ -46,7 +46,7 @@ const ContactScreen = () => {
         },
     ]);
     return (
-        <View style={{ backgroundColor: '#081D49', height: '100%' }}>
+        <View style={{ backgroundColor: '#023468', height: '100%' }}>
             <View style={{ width: '100%', paddingBottom: 48, paddingHorizontal: 16 }}>
                 {
                     <>
@@ -70,7 +70,7 @@ const ContactScreen = () => {
                                     >
                                         <Text
                                             style={{
-                                                color: '#081D49',
+                                                color: '#023468',
                                                 fontWeight: '500',
                                                 fontSize: 20,
                                                 lineHeight: 28,

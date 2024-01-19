@@ -29,7 +29,7 @@ const SingleSelect = ({ data, onSelectAnswer, result }) => {
                             borderWidth: 2,
                             borderColor: '#ddd',
                             backgroundColor: data.answer.includes(item.idAnswer) ? '#2dd4bf' : '#fff',
-                            borderColor: data.answer.includes(item.idAnswer) ? '#2dd4bf' : '#081D49',
+                            borderColor: data.answer.includes(item.idAnswer) ? '#2dd4bf' : '#023468',
                         }}
                         onPress={() => selectQuestion(item)}
                     >
@@ -38,7 +38,7 @@ const SingleSelect = ({ data, onSelectAnswer, result }) => {
                                 fontSize: 18,
                                 lineHeight: 28,
                                 fontWeight: '500',
-                                color: data.answer.includes(item.idAnswer) ? '#fff' : '#081D49',
+                                color: data.answer.includes(item.idAnswer) ? '#fff' : '#023468',
                             }}
                         >
                             {String.fromCharCode(65 + index)}. {item.answer}

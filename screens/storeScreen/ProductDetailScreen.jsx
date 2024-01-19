@@ -81,7 +81,7 @@ const ProductDetailScreen = ({ route }) => {
     return (
         <View
             style={{
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
                 height: '100%',
                 paddingHorizontal: 16,
                 // paddingTop: 48,
@@ -238,8 +238,8 @@ const ProductDetailScreen = ({ route }) => {
                             minValue={1}
                             rounded
                             valueType="real"
-                            textColor="#081D49"
-                            iconStyle={{ color: '#081D49' }}
+                            textColor="#023468"
+                            iconStyle={{ color: '#023468' }}
                             containerStyle={{ backgroundColor: '#fff' }}
                             rightButtonBackgroundColor="#f8f8f8"
                             leftButtonBackgroundColor="#f8f8f8"

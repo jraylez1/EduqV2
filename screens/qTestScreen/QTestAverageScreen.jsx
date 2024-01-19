@@ -18,7 +18,7 @@ const QTestAverageScreen = ({ route }) => {
             headerTitle: t('Report'),
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
         });

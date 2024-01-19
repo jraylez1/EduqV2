@@ -37,7 +37,7 @@ const ProfileScreen = ({ route }) => {
             headerTitle: t('Profile'),
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
             headerRight: () => {
@@ -507,7 +507,7 @@ const ProfileScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
     loadingContainer: {
-        backgroundColor: '#081D49',
+        backgroundColor: '#023468',
         height: '100%',
         padding: 16,
         alignItems: 'center',
@@ -522,7 +522,7 @@ const styles = StyleSheet.create({
         marginVertical: 8,
     },
     container: {
-        backgroundColor: '#081D49',
+        backgroundColor: '#023468',
         height: '100%',
         paddingHorizontal: 4,
     },

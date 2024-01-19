@@ -33,7 +33,7 @@ const OrderInfoScreen = ({ route }) => {
             headerTitle: 'Order',
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
             headerRight: () => {
@@ -188,7 +188,7 @@ const OrderInfoScreen = ({ route }) => {
     const totalAmount = calculateTotalAmount(cartItems);
 
     return (
-        <View style={{ backgroundColor: '#081D49', height: '100%', paddingHorizontal: 16 }}>
+        <View style={{ backgroundColor: '#023468', height: '100%', paddingHorizontal: 16 }}>
             <Text style={{ color: '#fff', fontWeight: '500', fontSize: 24, lineHeight: 32, marginBottom: 8 }}>
                 {t('Order Information')}
             </Text>
@@ -437,7 +437,7 @@ const OrderInfoScreen = ({ route }) => {
                                                 <View style={{ width: '65%' }}>
                                                     <Text
                                                         numberOfLines={1}
-                                                        style={{ fontWeight: '700', fontSize: 16, color: '#081D49' }}
+                                                        style={{ fontWeight: '700', fontSize: 16, color: '#023468' }}
                                                     >
                                                         {item.name}
                                                     </Text>
@@ -446,7 +446,7 @@ const OrderInfoScreen = ({ route }) => {
                                                             style={{
                                                                 fontWeight: '700',
                                                                 fontSize: 16,
-                                                                color: '#081d49',
+                                                                color: '#023468',
                                                                 marginRight: 8,
                                                             }}
                                                         >
@@ -456,7 +456,7 @@ const OrderInfoScreen = ({ route }) => {
                                                             style={{
                                                                 fontWeight: '700',
                                                                 fontSize: 16,
-                                                                color: '#081d49',
+                                                                color: '#023468',
                                                             }}
                                                         >
                                                             {item.quantity}
@@ -467,7 +467,7 @@ const OrderInfoScreen = ({ route }) => {
                                                             style={{
                                                                 fontWeight: '700',
                                                                 fontSize: 16,
-                                                                color: '#081d49',
+                                                                color: '#023468',
                                                                 marginRight: 8,
                                                             }}
                                                         >
@@ -477,7 +477,7 @@ const OrderInfoScreen = ({ route }) => {
                                                             style={{
                                                                 fontWeight: '700',
                                                                 fontSize: 16,
-                                                                color: '#081d49',
+                                                                color: '#023468',
                                                             }}
                                                         >
                                                             {item.priceSetting.sellingPrice != 0

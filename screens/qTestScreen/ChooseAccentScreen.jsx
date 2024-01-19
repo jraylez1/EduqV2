@@ -15,7 +15,7 @@ const ChooseAccentScreen = ({ route }) => {
             headerTitle: data.name,
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
             headerRight: () => {
@@ -31,7 +31,7 @@ const ChooseAccentScreen = ({ route }) => {
         });
     }, []);
     return (
-        <View style={{ backgroundColor: '#081D49', flex: 1, paddingTop: 20, alignItems: 'center' }}>
+        <View style={{ backgroundColor: '#023468', flex: 1, paddingTop: 20, alignItems: 'center' }}>
             <Text style={{ color: '#fff', marginBottom: 16, fontSize: 24, fontWeight: 'bold' }}>{t('ACCENT')}</Text>
             <TouchableOpacity
                 style={{ width: '100%', height: 'auto', alignItems: 'center' }}

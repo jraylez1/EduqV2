@@ -1,60 +1,55 @@
 {
-  "expo": {
-    "name": "EduqV2",
-    "slug": "EduqV2",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/app-icon-all.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/images/splash-logo-all.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#081D49"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "permissions": {
-        "microphone": true,
-        "mediaLibrary": true
-      }
-    },
-    "android": {
-      "permissions": [
-        "android.permission.RECORD_AUDIO",
-        "android.permission.WRITE_EXTERNAL_STORAGE"
-      ],
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/splash-logo-all.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.fullbaster1999.EduqV2"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "usesCleartextTraffic": true
-          }
+    "expo": {
+        "name": "EduqV2",
+        "slug": "EduqV2",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/images/app-icon-all.png",
+        "userInterfaceStyle": "light",
+        "splash": {
+            "image": "./assets/images/splash-logo-all.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#023468"
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true,
+            "permissions": {
+                "microphone": true,
+                "mediaLibrary": true
+            }
+        },
+        "android": {
+            "permissions": ["android.permission.RECORD_AUDIO", "android.permission.WRITE_EXTERNAL_STORAGE"],
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/splash-logo-all.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.fullbaster1999.EduqV2"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": [
+            [
+                "expo-build-properties",
+                {
+                    "android": {
+                        "usesCleartextTraffic": true
+                    }
+                }
+            ],
+            [
+                "expo-image-picker",
+                {
+                    "photosPermission": "custom photos permission"
+                }
+            ]
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "99f25fff-89d0-45c2-a902-2d18dc95f22e"
+            }
         }
-      ],
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "custom photos permission"
-        }
-      ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "99f25fff-89d0-45c2-a902-2d18dc95f22e"
-      }
     }
-  }
 }

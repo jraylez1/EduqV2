@@ -18,7 +18,7 @@ const BuyCourse = ({ route }) => {
             headerTitle: t('Course information'),
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
             headerRight: () => {
@@ -41,7 +41,7 @@ const BuyCourse = ({ route }) => {
     };
     return (
         <NativeBaseProvider>
-            <View style={{ backgroundColor: '#081D49', height: '100%', padding: 16 }}>
+            <View style={{ backgroundColor: '#023468', height: '100%', padding: 16 }}>
                 <View>
                     <Text style={styles.title}>{t('Course name')}</Text>
                     <Text style={styles.text}>{data.name}</Text>
@@ -115,7 +115,7 @@ const BuyCourse = ({ route }) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#081D49',
+        backgroundColor: '#023468',
         flex: 1,
         paddingHorizontal: 16,
         // paddingVertical: 48,

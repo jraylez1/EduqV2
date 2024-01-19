@@ -29,6 +29,7 @@ import {
     LevelScreen,
     QTestQuestionScreen,
     QTestAverageScreen,
+    TopicScreen,
 } from './screens';
 const Stack = createNativeStackNavigator();
 
@@ -62,6 +63,7 @@ export default function App() {
                 <Stack.Screen name="LevelScreen" component={LevelScreen} />
                 <Stack.Screen name="QTestQuestionScreen" component={QTestQuestionScreen} />
                 <Stack.Screen name="QTestAverageScreen" component={QTestAverageScreen} />
+                <Stack.Screen name="TopicScreen" component={TopicScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

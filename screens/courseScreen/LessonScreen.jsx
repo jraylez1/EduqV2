@@ -17,6 +17,7 @@ const LessonScreen = ({ route }) => {
     const [aliasUrl, setAliasUrl] = useState(route?.params?.aliasUrl);
     const [idStudyRoute, setIdStudyRoute] = useState(route?.params?.idStudyRoute);
     const [studyRouteAliasUrl, setStudyRouteAliasUrl] = useState(route?.params?.studyRouteAliasUrl);
+    const [idTopicSelect, setIdTopicSelect] = useState(route?.params?.idTopic);
     const [name, setName] = useState(route?.params?.name);
 
     useEffect(() => {
@@ -24,7 +25,7 @@ const LessonScreen = ({ route }) => {
     }, [data]);
 
     const loadLessonData = async () => {
-        const lessonData = await CourseStore.getStudyRoute(aliasUrl, idStudyRoute, studyRouteAliasUrl);
+        const lessonData = await CourseStore.getStudyRoute(aliasUrl, idStudyRoute, studyRouteAliasUrl, idTopicSelect);
         setData(lessonData);
     };
 
@@ -33,7 +34,7 @@ const LessonScreen = ({ route }) => {
             headerTitle: name,
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
             headerRight: () => {
@@ -50,16 +51,17 @@ const LessonScreen = ({ route }) => {
     }, []);
 
     const changeStudyRoute = async (idTopic) => {
+        setIdTopicSelect(idTopic);
         const lessonData = await CourseStore.getStudyRoute(
             data.extendData.course.aliasUrl,
             data.id,
             studyRouteAliasUrl,
-            idTopic,
+            idTopicSelect,
         );
         setData(lessonData);
     };
     return (
-        <ScrollView style={{ backgroundColor: '#081D49', height: '100%', width: '100%' }} ref={scrollViewRef}>
+        <ScrollView style={{ backgroundColor: '#023468', height: '100%', width: '100%' }} ref={scrollViewRef}>
             <ScrollView
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}

@@ -26,7 +26,7 @@ const QuestionScreen = ({ route }) => {
             headerTitle: t('Question'),
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
         });
@@ -122,7 +122,7 @@ const QuestionScreen = ({ route }) => {
                     <View style={{ width: '100%', marginTop: 8 }}>
                         <Text
                             style={{
-                                color: '#081D49',
+                                color: '#023468',
                                 fontSize: 24,
                                 lineHeight: 28,
                                 fontWeight: '600',
@@ -186,7 +186,7 @@ const QuestionScreen = ({ route }) => {
                                 width: '48%',
                                 padding: 16,
                                 borderRadius: 8,
-                                backgroundColor: '#081D49',
+                                backgroundColor: '#023468',
                                 flexDirection: 'row',
                                 justifyContent: 'center',
                                 alignItems: 'center',
@@ -203,7 +203,7 @@ const QuestionScreen = ({ route }) => {
                                 width: '48%',
                                 padding: 16,
                                 borderRadius: 8,
-                                backgroundColor: '#081D49',
+                                backgroundColor: '#023468',
                                 flexDirection: 'row',
                                 justifyContent: 'center',
                                 alignItems: 'center',

@@ -97,11 +97,11 @@ const CartScreen = () => {
                         )}
                     </TouchableOpacity>
                     <View style={{ width: '72%' }}>
-                        <Text numberOfLines={1} style={{ fontWeight: '700', fontSize: 16, color: '#081D49' }}>
+                        <Text numberOfLines={1} style={{ fontWeight: '700', fontSize: 16, color: '#023468' }}>
                             {item.name}
                         </Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontWeight: '700', fontSize: 16, color: '#081D49', marginTop: 28 }}>
+                            <Text style={{ fontWeight: '700', fontSize: 16, color: '#023468', marginTop: 28 }}>
                                 {item.priceSetting.sellingPrice != 0
                                     ? item.priceSetting.sellingPrice.toLocaleString('vi-VN', {
                                           style: 'currency',
@@ -126,8 +126,8 @@ const CartScreen = () => {
                                     minValue={1}
                                     rounded
                                     valueType="real"
-                                    textColor="#081D49"
-                                    iconStyle={{ color: '#081D49' }}
+                                    textColor="#023468"
+                                    iconStyle={{ color: '#023468' }}
                                     containerStyle={{ backgroundColor: '#fff' }}
                                     rightButtonBackgroundColor="#f8f8f8"
                                     leftButtonBackgroundColor="#f8f8f8"
@@ -150,7 +150,7 @@ const CartScreen = () => {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text
                             style={{
-                                color: '#081D49',
+                                color: '#023468',
                                 fontWeight: '700',
                                 fontSize: 18,
                                 lineHeight: 28,
@@ -159,7 +159,7 @@ const CartScreen = () => {
                         >
                             {t('Amount') + ':'}
                         </Text>
-                        <Text style={{ color: '#081D49', fontWeight: '700', fontSize: 18, lineHeight: 28 }}>
+                        <Text style={{ color: '#023468', fontWeight: '700', fontSize: 18, lineHeight: 28 }}>
                             {item.amount != 0
                                 ? item.amount.toLocaleString('vi-VN', {
                                       style: 'currency',
@@ -199,7 +199,7 @@ const CartScreen = () => {
     };
 
     return (
-        <View style={{ paddingHorizontal: 16, flex: 1, backgroundColor: '#081D49', paddingBottom: 48 }}>
+        <View style={{ paddingHorizontal: 16, flex: 1, backgroundColor: '#023468', paddingBottom: 48 }}>
             <NativeBaseProvider>
                 <View
                     style={{

@@ -15,7 +15,7 @@ const QTestScreen = ({ route }) => {
             headerTitle: data.name,
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
             headerRight: () => {
@@ -31,7 +31,7 @@ const QTestScreen = ({ route }) => {
         });
     }, []);
     return (
-        <View style={{ backgroundColor: '#081D49', flex: 1, paddingTop: 40, alignItems: 'center' }}>
+        <View style={{ backgroundColor: '#023468', flex: 1, paddingTop: 40, alignItems: 'center' }}>
             <Text style={{ color: '#fff', marginBottom: 16, fontSize: 24, fontWeight: 'bold' }}>
                 {t('EXPLORER FEATURE')}
             </Text>

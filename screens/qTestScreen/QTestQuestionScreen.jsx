@@ -23,7 +23,7 @@ const QTestQuestionScreen = ({ route }) => {
             headerTitle: t('Question'),
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
         });
@@ -85,7 +85,7 @@ const QTestQuestionScreen = ({ route }) => {
             <View style={{ width: '100%', position: 'relative', flex: 1, paddingHorizontal: 8 }}>
                 <View style={{ flex: 1 }}>
                     <View style={{ width: '100%', marginTop: 8 }}>
-                        <Text style={{ color: '#081D49', fontSize: 24, lineHeight: 28, fontWeight: '600' }}>
+                        <Text style={{ color: '#023468', fontSize: 24, lineHeight: 28, fontWeight: '600' }}>
                             {data[currentQuestionIndex].question}
                         </Text>
                     </View>
@@ -138,7 +138,7 @@ const QTestQuestionScreen = ({ route }) => {
                                     width: '48%',
                                     padding: 16,
                                     borderRadius: 8,
-                                    backgroundColor: '#081D49',
+                                    backgroundColor: '#023468',
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                     alignItems: 'center',
@@ -155,7 +155,7 @@ const QTestQuestionScreen = ({ route }) => {
                                     width: '48%',
                                     padding: 16,
                                     borderRadius: 8,
-                                    backgroundColor: '#081D49',
+                                    backgroundColor: '#023468',
                                     flexDirection: 'row',
                                     justifyContent: 'center',
                                     alignItems: 'center',

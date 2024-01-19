@@ -23,6 +23,7 @@ import ChooseAccentScreen from './qTestScreen/ChooseAccentScreen';
 import LevelScreen from './qTestScreen/LevelScreen';
 import QTestQuestionScreen from './qTestScreen/QTestQuestionScreen';
 import QTestAverageScreen from './qTestScreen/QTestAverageScreen';
+import TopicScreen from './courseScreen/TopicScreen';
 
 export {
     HomeScreen,
@@ -50,4 +51,5 @@ export {
     LevelScreen,
     QTestQuestionScreen,
     QTestAverageScreen,
+    TopicScreen,
 };

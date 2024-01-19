@@ -88,7 +88,7 @@ const StoreScreen = () => {
     return (
         <SafeAreaView
             style={{
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
                 height: '100%',
                 // paddingTop: 48,
                 paddingHorizontal: 16,

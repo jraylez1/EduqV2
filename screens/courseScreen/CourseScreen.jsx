@@ -16,7 +16,7 @@ const CourseScreen = ({ route }) => {
             headerTitle: data.name,
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
             headerRight: () => {
@@ -45,17 +45,26 @@ const CourseScreen = ({ route }) => {
         getStudyRoutes();
     }, [data]);
 
-    const goToLesson = async (name, idStudyRoute, studyRouteAliasUrl) => {
-        navigation.navigate('LessonScreen', {
+    // const goToLesson = async (name, idStudyRoute, studyRouteAliasUrl) => {
+    //     navigation.navigate('LessonScreen', {
+    //         name: name,
+    //         aliasUrl: data.aliasUrl,
+    //         studyRouteAliasUrl: studyRouteAliasUrl,
+    //         idStudyRoute: idStudyRoute,
+    //     });
+    // };
+
+    const goToTopicScreen = async (name, idStudyRoute, studyRouteAliasUrl) => {
+        navigation.navigate('TopicScreen', {
             name: name,
             aliasUrl: data.aliasUrl,
-            studyRouteAliasUrl: studyRouteAliasUrl,
             idStudyRoute: idStudyRoute,
+            studyRouteAliasUrl: studyRouteAliasUrl,
         });
     };
 
     return (
-        <ScrollView style={{ backgroundColor: '#081D49', height: '100%' }}>
+        <ScrollView style={{ backgroundColor: '#023468', height: '100%' }}>
             {data.thumbnailUrl?.length > 0 ? (
                 <Image source={{ uri: data.thumbnailUrl }} style={{ width: '100%', height: 240, objectFit: 'cover' }} />
             ) : (
@@ -99,7 +108,7 @@ const CourseScreen = ({ route }) => {
                                     >
                                         <Text
                                             style={{
-                                                color: selectStudyRoute === item.id ? '#fff' : '#081D49',
+                                                color: selectStudyRoute === item.id ? '#fff' : '#023468',
                                                 fontSize: 20,
                                                 lineHeight: 28,
                                                 textAlign: 'center',
@@ -150,10 +159,10 @@ const CourseScreen = ({ route }) => {
                                         margin: 4,
                                         fontWeight: '500',
                                     }}
-                                    onPress={() => goToLesson(item.name, item.id, item.aliasUrl)}
+                                    onPress={() => goToTopicScreen(item.name, item.id, item.aliasUrl)}
                                 >
                                     <Text
-                                        style={{ color: '#081D49', fontSize: 20, lineHeight: 28, textAlign: 'center' }}
+                                        style={{ color: '#023468', fontSize: 20, lineHeight: 28, textAlign: 'center' }}
                                     >
                                         {item.name}
                                     </Text>

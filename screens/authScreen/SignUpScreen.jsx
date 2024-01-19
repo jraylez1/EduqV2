@@ -19,7 +19,7 @@ const SignUpScreen = () => {
             headerTitle: '',
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
         });
@@ -171,7 +171,7 @@ const SignUpScreen = () => {
 };
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#081D49',
+        backgroundColor: '#023468',
         height: '100%',
         paddingHorizontal: 16,
     },

@@ -40,7 +40,7 @@ const VideoScreen = ({ route }) => {
             headerTitle: '',
             headerTitleAlign: 'center',
             headerStyle: {
-                backgroundColor: '#081D49',
+                backgroundColor: '#023468',
             },
             headerTintColor: '#fff',
             headerRight: () => {
@@ -57,7 +57,7 @@ const VideoScreen = ({ route }) => {
     }, []);
 
     return (
-        <ScrollView style={{ backgroundColor: '#081D49', height: '100%', width: '100%' }} ref={scrollViewRef}>
+        <ScrollView style={{ backgroundColor: '#023468', height: '100%', width: '100%' }} ref={scrollViewRef}>
             <View style={{ paddingHorizontal: 16 }}>
                 <LessonDetail
                     data={data}

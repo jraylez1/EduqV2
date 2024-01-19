@@ -122,7 +122,7 @@ const LessonDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isS
                                     borderTopLeftRadius: 6,
                                     borderTopRightRadius: 6,
                                 }}
-                                source={{ uri: Domain + data?.videoSource?.url }}
+                                source={{ uri: data?.videoSource?.url }}
                                 useNativeControls
                                 resizeMode="contain"
                                 onPlaybackStatusUpdate={(playbackStatus) => {
