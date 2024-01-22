@@ -24,6 +24,9 @@ import LevelScreen from './qTestScreen/LevelScreen';
 import QTestQuestionScreen from './qTestScreen/QTestQuestionScreen';
 import QTestAverageScreen from './qTestScreen/QTestAverageScreen';
 import TopicScreen from './courseScreen/TopicScreen';
+import JoyQScreen from './joyQScreen/JoyQScreen';
+import LearningPathScreen from './joyQScreen/LearningPathScreen';
+import ClassroomScreen from './joyQScreen/ClassroomScreen';
 
 export {
     HomeScreen,
@@ -52,4 +55,7 @@ export {
     QTestQuestionScreen,
     QTestAverageScreen,
     TopicScreen,
+    JoyQScreen,
+    LearningPathScreen,
+    ClassroomScreen,
 };

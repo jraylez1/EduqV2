@@ -18,6 +18,7 @@ const ContactScreen = () => {
             headerTintColor: '#fff',
         });
     }, []);
+
     const [contact, setContact] = useState([
         {
             imageSource: phone,

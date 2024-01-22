@@ -6,7 +6,9 @@ import { CourseStore } from '../../services/course';
 import { useTranslation } from 'react-i18next';
 import { Entypo } from '@expo/vector-icons';
 import { noImage } from '../../assets';
-
+import HexagonSteamQ from '../../assets/svg/HexagonSteamQ';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthStore } from '../../services/auth';
 const TopicScreen = ({ route }) => {
     const navigation = useNavigation();
     const [data, setData] = useState(null);
@@ -21,24 +23,52 @@ const TopicScreen = ({ route }) => {
     }, [data]);
 
     useLayoutEffect(() => {
-        navigation.setOptions({
-            headerTitle: '',
-            headerTitleAlign: 'center',
-            headerStyle: {
-                backgroundColor: '#023468',
-            },
-            headerTintColor: '#fff',
-            headerRight: () => {
-                return (
-                    <AntDesign
-                        name="customerservice"
-                        size={24}
-                        color="white"
-                        onPress={() => navigation.navigate('ContactScreen')}
-                    />
-                );
-            },
-        });
+        const setHeaderOptions = async () => {
+            const avatarUrl = await AsyncStorage.getItem('avatarUrl');
+            const isLoggedIn = await AuthStore.isLoggedIn();
+            navigation.setOptions({
+                headerTitle: '',
+                headerTitleAlign: 'center',
+                headerStyle: {
+                    backgroundColor: '#023468',
+                },
+                headerTintColor: '#fff',
+                headerRight: () => {
+                    return (
+                        <>
+                            {isLoggedIn ? (
+                                <TouchableOpacity onPress={() => navigation.navigate('UserInforScreen')}>
+                                    <Image
+                                        source={{
+                                            uri:
+                                                avatarUrl && avatarUrl !== ''
+                                                    ? avatarUrl
+                                                    : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png',
+                                        }}
+                                        style={{
+                                            objectFit: 'cover',
+                                            width: 40,
+                                            height: 40,
+                                            borderRadius: 800,
+                                            backgroundColor: 'white',
+                                        }}
+                                    />
+                                </TouchableOpacity>
+                            ) : (
+                                <AntDesign
+                                    name="customerservice"
+                                    size={24}
+                                    color="white"
+                                    onPress={() => navigation.navigate('ContactScreen')}
+                                />
+                            )}
+                        </>
+                    );
+                },
+            });
+        };
+
+        setHeaderOptions();
     }, []);
 
     const loadTopicData = async () => {
@@ -183,7 +213,221 @@ const TopicScreen = ({ route }) => {
                                     ))}
                                 </ScrollView>
                             ) : (
-                                <View></View>
+                                <>
+                                    {data?.extendData?.filters?.lessonTopics.map((item, index) => (
+                                        <View key={index}>
+                                            {index % 2 === 0 ? (
+                                                <TouchableOpacity
+                                                    style={{
+                                                        flexDirection: 'row',
+                                                        justifyContent: 'space-between',
+                                                        alignItems: 'center',
+                                                        marginVertical: 20,
+                                                    }}
+                                                    onPress={() => goToLessonScreen(item.id)}
+                                                >
+                                                    <View style={{ width: '38%', flexDirection: 'row' }}>
+                                                        <View style={{ position: 'relative' }}>
+                                                            <HexagonSteamQ
+                                                                fillColor={
+                                                                    item.bgColor !== '' ? item.bgColor : '#ffa500'
+                                                                }
+                                                                svgWidth={70}
+                                                                svgHeight={70}
+                                                                number={index + 1}
+                                                            />
+                                                        </View>
+                                                        <View
+                                                            style={{
+                                                                textAlign: 'center',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                                borderTopColor:
+                                                                    item.borderColor !== ''
+                                                                        ? item.borderColor
+                                                                        : '#ffa500',
+                                                                borderTopWidth: 2,
+                                                                borderStyle: 'solid',
+                                                                paddingHorizontal: 4,
+                                                                paddingVertical: 8,
+                                                                width: 130,
+                                                            }}
+                                                        >
+                                                            <Text
+                                                                style={{
+                                                                    color: 'white',
+                                                                    fontWeight: 'bold',
+                                                                    textTransform: 'uppercase',
+                                                                    flexWrap: 'wrap',
+                                                                    fontSize: 14,
+                                                                    textAlign: 'center',
+                                                                }}
+                                                                numberOfLines={2}
+                                                            >
+                                                                {item.name}
+                                                            </Text>
+                                                            <View
+                                                                style={{
+                                                                    marginTop: 10,
+                                                                    paddingTop: 3,
+                                                                    paddingBottom: 4,
+                                                                    paddingHorizontal: 12,
+                                                                    borderRadius: 800,
+                                                                    borderColor: 'white',
+                                                                    borderWidth: 1,
+                                                                    borderStyle: 'solid',
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
+                                                                }}
+                                                            >
+                                                                <Text
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        color: 'white',
+                                                                        fontSize: 12,
+                                                                    }}
+                                                                >
+                                                                    200+ bai hoc
+                                                                </Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ width: '40%' }}>
+                                                        {item?.coverUrl === '' ? (
+                                                            <Image
+                                                                source={{
+                                                                    uri: 'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg',
+                                                                }}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    height: 80,
+                                                                    objectFit: 'cover',
+                                                                    borderRadius: 8,
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <Image
+                                                                source={{
+                                                                    uri: item.coverUrl,
+                                                                }}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    height: 80,
+                                                                    objectFit: 'cover',
+                                                                    borderRadius: 8,
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </View>
+                                                </TouchableOpacity>
+                                            ) : (
+                                                <TouchableOpacity
+                                                    style={{
+                                                        flexDirection: 'row',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'space-between',
+                                                        marginVertical: 20,
+                                                    }}
+                                                    onPress={() => goToLessonScreen(item.id)}
+                                                >
+                                                    <View style={{ width: '40%' }}>
+                                                        {item?.coverUrl === '' ? (
+                                                            <Image
+                                                                source={{
+                                                                    uri: 'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg',
+                                                                }}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    height: 80,
+                                                                    objectFit: 'cover',
+                                                                    borderRadius: 8,
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <Image
+                                                                source={{
+                                                                    uri: item.coverUrl,
+                                                                }}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    height: 80,
+                                                                    objectFit: 'cover',
+                                                                    borderRadius: 8,
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </View>
+                                                    <View style={{ width: '55%', flexDirection: 'row' }}>
+                                                        <View
+                                                            style={{
+                                                                textAlign: 'center',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                                borderTopColor:
+                                                                    item.borderColor !== ''
+                                                                        ? item.borderColor
+                                                                        : '#ffa500',
+                                                                borderTopWidth: 2,
+                                                                borderStyle: 'solid',
+                                                                paddingHorizontal: 4,
+                                                                paddingVertical: 8,
+                                                                width: 130,
+                                                            }}
+                                                        >
+                                                            <Text
+                                                                style={{
+                                                                    color: 'white',
+                                                                    fontWeight: 'bold',
+                                                                    textTransform: 'uppercase',
+                                                                    flexWrap: 'wrap',
+                                                                    fontSize: 14,
+                                                                    textAlign: 'center',
+                                                                }}
+                                                                numberOfLines={2}
+                                                            >
+                                                                {item.name}
+                                                            </Text>
+                                                            <View
+                                                                style={{
+                                                                    marginTop: 10,
+                                                                    paddingTop: 3,
+                                                                    paddingBottom: 4,
+                                                                    paddingHorizontal: 12,
+                                                                    borderRadius: 800,
+                                                                    borderColor: 'white',
+                                                                    borderWidth: 1,
+                                                                    borderStyle: 'solid',
+                                                                    justifyContent: 'center',
+                                                                    alignItems: 'center',
+                                                                }}
+                                                            >
+                                                                <Text
+                                                                    style={{
+                                                                        textAlign: 'center',
+                                                                        color: 'white',
+                                                                        fontSize: 12,
+                                                                    }}
+                                                                >
+                                                                    200+ bai hoc
+                                                                </Text>
+                                                            </View>
+                                                        </View>
+                                                        <View>
+                                                            <HexagonSteamQ
+                                                                fillColor={
+                                                                    item.bgColor !== '' ? item.bgColor : '#ffa500'
+                                                                }
+                                                                svgWidth={70}
+                                                                svgHeight={70}
+                                                                number={index + 1}
+                                                            />
+                                                        </View>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            )}
+                                        </View>
+                                    ))}
+                                </>
                             )}
                         </>
                     ) : (

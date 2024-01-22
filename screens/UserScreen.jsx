@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { NativeBaseProvider, Input, Icon, Button } from 'native-base';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
@@ -9,11 +9,14 @@ import { useFormik } from 'formik';
 import { Ionicons } from '@expo/vector-icons';
 import ReCaptchaV3 from '../components/reCaptcha/ReCaptchaV3';
 import { AuthStore } from '../services/auth';
-const UserScreen = () => {
+const UserScreen = ({ route }) => {
     const [show, setShow] = React.useState(false);
     const navigation = useNavigation();
     const { t } = useTranslation();
     const recaptchaLogin = useRef();
+    const [backScreen, setBackScreen] = useState(route?.params?.backScreen);
+    const [data, setData] = useState(route?.params?.data);
+    const [studyRouteAliasUrl, setStudyRouteAliasUrl] = useState(route?.params?.studyRouteAliasUrl);
 
     const validationSchema = Yup.object().shape({
         userName: Yup.string().required('Please enter your information'),
@@ -41,6 +44,9 @@ const UserScreen = () => {
                 },
                 token,
                 navigation,
+                backScreen,
+                data,
+                studyRouteAliasUrl,
             );
         } catch (error) {
             console.error('Login error:', error);

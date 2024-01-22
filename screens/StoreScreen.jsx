@@ -59,7 +59,6 @@ const StoreScreen = () => {
             console.error('Error loading cart items:', error);
         }
     };
-
     const renderLoader = () => {
         return isLoading ? (
             <View style={{ marginBottom: 32 }}>

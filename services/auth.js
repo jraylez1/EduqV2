@@ -40,7 +40,7 @@ export const AuthStore = {
         }
     },
 
-    async login(formData, reCaptchaToken, navigation) {
+    async login(formData, reCaptchaToken, navigation, backScreen, data, studyRouteAliasUrl) {
         try {
             const idDevice = uuid.v4();
             const response = await axios.post(
@@ -57,7 +57,16 @@ export const AuthStore = {
                     alert(response.data.message);
                 } else {
                     await AsyncStorage.setItem('access_token', response.data.data.accessToken);
-                    navigation.replace('BottomNavigation', { screen: 'HomeScreen' });
+                    await AsyncStorage.setItem('avatarUrl', response.data.data.user.avatarUrl);
+                    if (backScreen) {
+                        if (data && studyRouteAliasUrl) {
+                            navigation.navigate(backScreen, { data: data, studyRouteAliasUrl: studyRouteAliasUrl });
+                        } else {
+                            navigation.navigate(backScreen);
+                        }
+                    } else {
+                        navigation.replace('BottomNavigation', { screen: 'HomeScreen' });
+                    }
                 }
             } else {
                 console.error('Invalid response format:', response.data);
@@ -69,6 +78,7 @@ export const AuthStore = {
 
     async getProfile(navigation) {
         const token = await AsyncStorage.getItem('access_token');
+
         try {
             const response = await axios.get(`${Auth}/api/profile/get.json`, {
                 headers: {
@@ -145,6 +155,7 @@ export const AuthStore = {
     async logout(navigation) {
         try {
             await AsyncStorage.removeItem('access_token');
+            await AsyncStorage.removeItem('avatarUrl');
             navigation.replace('BottomNavigation', { screen: 'UserScreen' });
             this.isLoggedIn();
         } catch (error) {

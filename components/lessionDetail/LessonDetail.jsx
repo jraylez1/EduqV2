@@ -24,7 +24,11 @@ const LessonDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isS
                 navigation.navigate('UserScreen');
             }
         } else {
-            navigation.navigate('UserScreen');
+            navigation.navigate('UserScreen', {
+                backScreen: 'VideoScreen',
+                data: data,
+                studyRouteAliasUrl: studyRouteAliasUrl,
+            });
         }
     };
 

@@ -31,6 +31,8 @@ const HomeScreen = () => {
         const courseData = await CourseStore.get(aliasUrl);
         if (aliasUrl === 'qtest') {
             navigation.navigate('QTestScreen', { data: courseData });
+        } else if (aliasUrl === 'joyq') {
+            navigation.navigate('JoyQScreen', { data: courseData });
         } else {
             navigation.navigate('CourseScreen', { data: courseData });
         }
@@ -118,7 +120,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#023468',
         flex: 1,
         paddingHorizontal: 8,
-        // paddingVertical: 48,
         paddingBottom: 48,
     },
     header: {
