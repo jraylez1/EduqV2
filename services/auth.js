@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Auth } from '@env';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CourseStore } from './course';
 
 // axios.interceptors.request.use((request) => {
 //     console.log('Request:', request);
@@ -40,7 +41,7 @@ export const AuthStore = {
         }
     },
 
-    async login(formData, reCaptchaToken, navigation, backScreen, data, studyRouteAliasUrl) {
+    async login(formData, reCaptchaToken, navigation, backScreen, aliasUrl) {
         try {
             const idDevice = uuid.v4();
             const response = await axios.post(
@@ -59,8 +60,11 @@ export const AuthStore = {
                     await AsyncStorage.setItem('access_token', response.data.data.accessToken);
                     await AsyncStorage.setItem('avatarUrl', response.data.data.user.avatarUrl);
                     if (backScreen) {
-                        if (data && studyRouteAliasUrl) {
-                            navigation.navigate(backScreen, { data: data, studyRouteAliasUrl: studyRouteAliasUrl });
+                        if (aliasUrl) {
+                            const courseData = await CourseStore.get(aliasUrl);
+                            navigation.navigate(backScreen, {
+                                data: courseData,
+                            });
                         } else {
                             navigation.navigate(backScreen);
                         }

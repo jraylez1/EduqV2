@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import React, { useLayoutEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -37,18 +37,18 @@ const BuyCourse = ({ route }) => {
     const buyCourseFinish = async () => {
         setShowModal(false);
         const dataCourseFinish = await CourseStore.buy(data.aliasUrl, data.id);
-        navigation.navigate('BuyCourseFinish', { data: dataCourseFinish });
+        navigation.navigate('BuyCourseFinish', { data: dataCourseFinish, aliasUrl: data.aliasUrl });
     };
     return (
         <NativeBaseProvider>
-            <View style={{ backgroundColor: '#023468', height: '100%', padding: 16 }}>
+            <ScrollView style={{ backgroundColor: '#023468', height: '100%', padding: 16 }}>
                 <View>
                     <Text style={styles.title}>{t('Course name')}</Text>
                     <Text style={styles.text}>{data.name}</Text>
                 </View>
                 <View>
                     <Text style={styles.title}>{t('Description')}</Text>
-                    <Text style={styles.text}>{data.htmlContent}</Text>
+                    <Text style={styles.text}>{data.summary}</Text>
                 </View>
                 <View>
                     <Text style={styles.title}>{t('Payment information')}</Text>
@@ -81,7 +81,7 @@ const BuyCourse = ({ route }) => {
                 >
                     <Text style={{ color: '#fff', fontSize: 18, lineHeight: 28, marginLeft: 8 }}>{t('Payment')}</Text>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
             <Center>
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
                     <Modal.Content maxWidth="400px">

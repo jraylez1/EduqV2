@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { NativeBaseProvider, Input, Icon, Button } from 'native-base';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
@@ -15,13 +15,13 @@ const UserScreen = ({ route }) => {
     const { t } = useTranslation();
     const recaptchaLogin = useRef();
     const [backScreen, setBackScreen] = useState(route?.params?.backScreen);
-    const [data, setData] = useState(route?.params?.data);
-    const [studyRouteAliasUrl, setStudyRouteAliasUrl] = useState(route?.params?.studyRouteAliasUrl);
+    const [aliasUrl, setAliasUrl] = useState(route?.params?.aliasUrl);
 
     const validationSchema = Yup.object().shape({
         userName: Yup.string().required('Please enter your information'),
         password: Yup.string().required('Please enter your information'),
     });
+
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -45,8 +45,7 @@ const UserScreen = ({ route }) => {
                 token,
                 navigation,
                 backScreen,
-                data,
-                studyRouteAliasUrl,
+                aliasUrl,
             );
         } catch (error) {
             console.error('Login error:', error);

@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthStore } from '../../services/auth';
+import { CourseStore } from '../../services/course';
+import { NativeBaseProvider, Modal, Center, Button } from 'native-base';
 import {
     learningPathBg,
     rabbit,
@@ -19,6 +21,7 @@ import {
 } from '../../assets';
 const JoyQScreen = ({ route }) => {
     const data = route?.params?.data;
+    const [buyCourseData, setBuyCourseData] = useState(null);
     const navigation = useNavigation();
     const { t } = useTranslation();
     useLayoutEffect(() => {
@@ -76,12 +79,14 @@ const JoyQScreen = ({ route }) => {
             bgImage: learningPathBg,
             subImage: rabbit,
             routeLink: 'LearningPathScreen',
+            type: 1,
         },
         {
             title: 'Class Room',
             color: '#8c55fc',
             bgImage: classroomBg,
             routeLink: 'ClassroomScreen',
+            type: 2,
         },
         {
             title: 'Zoo',
@@ -89,46 +94,72 @@ const JoyQScreen = ({ route }) => {
             bgImage: zooBg,
             subImage: huuCaoCo,
             routeLink: 'JoyQScreen',
+            type: 1,
         },
         {
             title: 'Map',
             color: '#fec4e7',
             bgImage: mapBg,
             routeLink: 'JoyQScreen',
+            type: 1,
         },
         {
             title: 'Farm',
             color: '#8c9bc5',
             bgImage: farmBg,
             routeLink: 'JoyQScreen',
+            type: 1,
         },
         {
             title: 'My hamster',
             color: '#f8c4bb',
             bgImage: myHamterBg,
             routeLink: 'JoyQScreen',
+            type: 1,
         },
         {
             title: 'My Pet Park',
             color: '#8c55fc',
             bgImage: myPetParkBg,
             routeLink: 'JoyQScreen',
+            type: 1,
         },
         {
             title: 'Things To Do',
             color: '#89b449',
             bgImage: thingsToDoBg,
             routeLink: 'JoyQScreen',
+            type: 1,
         },
     ]);
+    const [showModal, setShowModal] = useState(false);
 
-    const goToLessonScreen = async (routeLink) => {
+    const goToBuyCourseScreen = () => {
+        navigation.navigate('BuyCourse', { data: buyCourseData });
+    };
+
+    const goToLessonScreen = async (routeLink, type) => {
         const isLoggedIn = await AuthStore.isLoggedIn();
         if (isLoggedIn) {
-            navigation.navigate(routeLink);
+            const buyInfo = await CourseStore.getProductPackages(data.aliasUrl);
+            if (buyInfo.isOwner) {
+                if (type === 2) {
+                    const classroomData = await CourseStore.getStudyingRoute(data.aliasUrl);
+                    navigation.navigate(routeLink, {
+                        name: classroomData.name,
+                        aliasUrl: data.aliasUrl,
+                        idStudyRoute: classroomData.id,
+                        studyRouteAliasUrl: classroomData.aliasUrl,
+                    });
+                }
+            } else {
+                setBuyCourseData(buyInfo);
+                setShowModal(true);
+            }
         } else {
             navigation.navigate('UserScreen', {
                 backScreen: 'JoyQScreen',
+                aliasUrl: data.aliasUrl,
             });
         }
     };
@@ -147,7 +178,7 @@ const JoyQScreen = ({ route }) => {
                             width: '100%',
                             position: 'relative',
                         }}
-                        onPress={() => goToLessonScreen(route.routeLink)}
+                        onPress={() => goToLessonScreen(route.routeLink, route.type)}
                     >
                         <Image
                             source={route.bgImage}
@@ -181,6 +212,35 @@ const JoyQScreen = ({ route }) => {
                     </TouchableOpacity>
                 ))}
             </View>
+            <NativeBaseProvider>
+                <Center>
+                    <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                        <Modal.Content maxWidth="400px">
+                            <Modal.CloseButton />
+                            <Modal.Header>{t('EduQ Notification')}</Modal.Header>
+                            <Modal.Body>
+                                <Text style={{ textAlign: 'justify' }}>
+                                    {t('You do not own this course, own it now?')}
+                                </Text>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button.Group space={2}>
+                                    <Button
+                                        variant="ghost"
+                                        colorScheme="blueGray"
+                                        onPress={() => {
+                                            setShowModal(false);
+                                        }}
+                                    >
+                                        {t('Cancel')}
+                                    </Button>
+                                    <Button onPress={() => goToBuyCourseScreen()}>{t('Agree')}</Button>
+                                </Button.Group>
+                            </Modal.Footer>
+                        </Modal.Content>
+                    </Modal>
+                </Center>
+            </NativeBaseProvider>
         </ScrollView>
     );
 };

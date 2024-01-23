@@ -22,14 +22,12 @@ const screenOptions = {
 };
 const BottomNavigation = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const updateLoginStatus = async () => {
+        const loggedIn = await AuthStore.isLoggedIn();
+        setIsLoggedIn(loggedIn);
+    };
+    updateLoginStatus();
 
-    useEffect(() => {
-        const updateLoginStatus = async () => {
-            const loggedIn = await AuthStore.isLoggedIn();
-            setIsLoggedIn(loggedIn);
-        };
-        updateLoginStatus();
-    }, []);
     return (
         <Tab.Navigator screenOptions={screenOptions}>
             <Tab.Screen

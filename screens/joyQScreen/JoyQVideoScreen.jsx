@@ -3,38 +3,17 @@ import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ListLession from '../../components/listLession/ListLession';
 import { useTranslation } from 'react-i18next';
-import SupportKit from '../../components/lessionDetail/SupportKit';
-import LessonDetail from '../../components/lessionDetail/LessonDetail';
 import { Entypo } from '@expo/vector-icons';
 import { AuthStore } from '../../services/auth';
-const VideoScreen = ({ route }) => {
+import JoyQDetail from '../../components/lessionDetail/JoyQDetail';
+import JoyQListLesson from '../../components/listLession/JoyQListLesson';
+const JoyQVideoScreen = ({ route }) => {
     const navigation = useNavigation();
     const data = route?.params?.data;
     const studyRouteAliasUrl = route?.params?.studyRouteAliasUrl;
-    const [cartItems, setCartItems] = useState([]);
-    const isFocused = useIsFocused();
-    const scrollViewRef = useRef(null);
     const { t } = useTranslation();
-
-    useEffect(() => {
-        if (isFocused) {
-            loadCartItems();
-        }
-    }, [isFocused]);
-
-    const loadCartItems = async () => {
-        try {
-            const storedCartItems = await AsyncStorage.getItem('cart-store');
-            if (storedCartItems !== null) {
-                setCartItems(JSON.parse(storedCartItems));
-            }
-        } catch (error) {
-            console.error('Error loading cart items:', error);
-        }
-    };
-
+    const scrollViewRef = useRef(null);
     useLayoutEffect(() => {
         const setHeaderOptions = async () => {
             const avatarUrl = await AsyncStorage.getItem('avatarUrl');
@@ -83,11 +62,10 @@ const VideoScreen = ({ route }) => {
 
         setHeaderOptions();
     }, []);
-
     return (
         <ScrollView style={{ backgroundColor: '#023468', height: '100%', width: '100%' }} ref={scrollViewRef}>
             <View style={{ paddingHorizontal: 16 }}>
-                <LessonDetail
+                <JoyQDetail
                     data={data}
                     navigation={navigation}
                     studyRouteAliasUrl={studyRouteAliasUrl}
@@ -95,11 +73,7 @@ const VideoScreen = ({ route }) => {
                     isScroll={true}
                     route={route}
                 />
-                {data?.extendData?.products ? (
-                    <SupportKit data={data} cartItems={cartItems} setCartItems={setCartItems} navigation={navigation} />
-                ) : (
-                    <></>
-                )}
+
                 <View>
                     <Text
                         style={{
@@ -122,7 +96,7 @@ const VideoScreen = ({ route }) => {
                         >
                             <View style={{ transform: [{ translateY: -30 }] }}>
                                 {data.extendData.relatedLessons.map((item, index) => (
-                                    <ListLession
+                                    <JoyQListLesson
                                         item={item}
                                         data={data}
                                         studyRouteAliasUrl={studyRouteAliasUrl}
@@ -145,4 +119,4 @@ const VideoScreen = ({ route }) => {
     );
 };
 
-export default VideoScreen;
+export default JoyQVideoScreen;

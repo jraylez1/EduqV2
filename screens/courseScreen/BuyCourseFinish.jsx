@@ -7,13 +7,16 @@ import { useTranslation } from 'react-i18next';
 
 const BuyCourseFinish = ({ route }) => {
     const data = route?.params?.data;
+    const aliasUrl = route?.params?.aliasUrl;
     const navigation = useNavigation();
     const { t } = useTranslation();
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
         });
     }, [navigation]);
+
     return (
         <View style={{ paddingHorizontal: 16, flex: 1, backgroundColor: '#023468', paddingBottom: 48 }}>
             <NativeBaseProvider>

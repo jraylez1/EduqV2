@@ -23,8 +23,14 @@ export const CourseStore = {
         }
     },
     async get(aliasUrl) {
+        const token = await AsyncStorage.getItem('access_token');
+
         try {
-            const response = await axios.get(`${EduQ}/api/course/get.json?aliasUrl=${aliasUrl}`);
+            const response = await axios.get(`${EduQ}/api/course/get.json?aliasUrl=${aliasUrl}`, {
+                headers: {
+                    Authorization: token,
+                },
+            });
             if (response.data && response.data.data) {
                 return response.data.data;
             } else {
@@ -47,6 +53,26 @@ export const CourseStore = {
                     },
                 },
             );
+            if (response.data && response.data.data) {
+                return response.data.data;
+            } else {
+                console.error('Invalid response format:', response.data);
+                return null;
+            }
+        } catch (error) {
+            return null;
+        }
+    },
+
+    async getStudyingRoute(aliasUrl) {
+        const token = await AsyncStorage.getItem('access_token');
+
+        try {
+            const response = await axios.get(`${EduQ}/api/course/get-studying-route.json?aliasUrl=${aliasUrl}`, {
+                headers: {
+                    Authorization: token,
+                },
+            });
             if (response.data && response.data.data) {
                 return response.data.data;
             } else {

@@ -27,6 +27,8 @@ import TopicScreen from './courseScreen/TopicScreen';
 import JoyQScreen from './joyQScreen/JoyQScreen';
 import LearningPathScreen from './joyQScreen/LearningPathScreen';
 import ClassroomScreen from './joyQScreen/ClassroomScreen';
+import JoyQVideoScreen from './joyQScreen/JoyQVideoScreen';
+import JoyQuestion from './joyQScreen/JoyQuestion';
 
 export {
     HomeScreen,
@@ -58,4 +60,6 @@ export {
     JoyQScreen,
     LearningPathScreen,
     ClassroomScreen,
+    JoyQVideoScreen,
+    JoyQuestion,
 };

@@ -33,6 +33,8 @@ import {
     JoyQScreen,
     LearningPathScreen,
     ClassroomScreen,
+    JoyQVideoScreen,
+    JoyQuestion,
 } from './screens';
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +72,8 @@ export default function App() {
                 <Stack.Screen name="JoyQScreen" component={JoyQScreen} />
                 <Stack.Screen name="LearningPathScreen" component={LearningPathScreen} />
                 <Stack.Screen name="ClassroomScreen" component={ClassroomScreen} />
+                <Stack.Screen name="JoyQVideoScreen" component={JoyQVideoScreen} />
+                <Stack.Screen name="JoyQuestion" component={JoyQuestion} />
             </Stack.Navigator>
         </NavigationContainer>
     );

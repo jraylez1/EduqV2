@@ -9,31 +9,11 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Domain } from '@env';
 import { useEffect } from 'react';
 
-const LessonDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScroll }) => {
+const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScroll }) => {
     const { t } = useTranslation();
     const videoRef = React.useRef(null);
     const [status, setStatus] = React.useState({});
     const [questionData, setQuestionData] = React.useState({});
-
-    const goToBuyCourse = async () => {
-        const isLoggedIn = await AuthStore.isLoggedIn();
-        if (isLoggedIn) {
-            const buyInfo = await CourseStore.getProductPackages(data.extendData.course.aliasUrl);
-            if (buyInfo) {
-                navigation.navigate('BuyCourse', { data: buyInfo });
-            } else {
-                navigation.navigate('UserScreen', {
-                    backScreen: 'CourseScreen',
-                    aliasUrl: data.extendData.course.aliasUrl,
-                });
-            }
-        } else {
-            navigation.navigate('UserScreen', {
-                backScreen: 'CourseScreen',
-                aliasUrl: data.extendData.course.aliasUrl,
-            });
-        }
-    };
 
     useEffect(() => {
         autoPlayVideo();
@@ -96,7 +76,7 @@ const LessonDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isS
             studyRouteAliasUrl,
             data.extendData.course.aliasUrl,
         );
-        navigation.navigate('QuestionScreen', {
+        navigation.navigate('JoyQuestion', {
             data: examQuestion.questions,
             idLesson: data.id,
             extendData: examQuestion.extendData,
@@ -110,13 +90,6 @@ const LessonDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isS
 
     return (
         <View>
-            <Text style={{ color: '#fff', fontSize: 18, lineHeight: 28 }}>
-                {data?.extendData?.course?.name} - {data?.extendData?.studyRoute?.name}
-            </Text>
-            <Text style={{ color: '#fff', fontSize: 24, lineHeight: 28, fontWeight: '700', marginTop: 8 }}>
-                {data?.name}
-            </Text>
-
             <View>
                 <View style={{ marginTop: 16 }}>
                     <View style={{ backgroundColor: 'black', borderTopLeftRadius: 6, borderTopRightRadius: 6 }}>
@@ -163,48 +136,10 @@ const LessonDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isS
                             borderBottomRightRadius: 6,
                         }}
                     >
-                        <Text style={{ fontSize: 24, lineHeight: 28, fontWeight: '700' }}>{t('Description')}</Text>
+                        <Text style={{ fontSize: 24, lineHeight: 28, fontWeight: '700' }}>{data.name}</Text>
                         <Text style={{ fontSize: 18, textAlign: 'justify', marginTop: 4 }}>{data?.description}</Text>
                     </View>
-                    {data?.extendData?.course?.isOwner ? (
-                        <View></View>
-                    ) : (
-                        <TouchableOpacity
-                            style={{
-                                flexDirection: 'row',
-                                padding: 16,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                backgroundColor: '#2e72ad',
-                                width: '60%',
-                                marginTop: 16,
-                                borderRadius: 6,
-                            }}
-                            onPress={() => goToBuyCourse()}
-                        >
-                            <FontAwesome5 name="cart-plus" size={24} color="#fff" />
-                            <Text style={{ color: '#fff', fontSize: 18, lineHeight: 28, marginLeft: 8 }}>
-                                {t('Buy this course')}
-                            </Text>
-                        </TouchableOpacity>
-                    )}
-                    <View style={{ marginTop: 16 }}>
-                        <Text
-                            style={{
-                                fontSize: 24,
-                                lineHeight: 28,
-                                fontWeight: '700',
-                                color: '#c45840',
-                                textTransform: 'uppercase',
-                                marginBottom: 8,
-                            }}
-                        >
-                            {t('Lesson Content')}
-                        </Text>
-                        <View style={{ backgroundColor: '#fffcea', padding: 8, borderRadius: 6 }}>
-                            <Text style={{ fontSize: 18, textAlign: 'justify' }}>{data?.description}</Text>
-                        </View>
-                    </View>
+
                     {data?.extendData?.course?.isOwner ? (
                         <>
                             {questionData && questionData.result != null ? (
@@ -314,4 +249,4 @@ const LessonDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isS
     );
 };
 
-export default LessonDetail;
+export default JoyQDetail;

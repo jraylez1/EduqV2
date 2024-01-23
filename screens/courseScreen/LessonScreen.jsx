@@ -21,14 +21,12 @@ const LessonScreen = ({ route }) => {
     const [idTopicSelect, setIdTopicSelect] = useState(route?.params?.idTopic);
     const [name, setName] = useState(route?.params?.name);
 
-    useEffect(() => {
-        loadLessonData();
-    }, [data]);
-
     const loadLessonData = async () => {
         const lessonData = await CourseStore.getStudyRoute(aliasUrl, idStudyRoute, studyRouteAliasUrl, idTopicSelect);
         setData(lessonData);
     };
+
+    loadLessonData();
 
     useLayoutEffect(() => {
         const setHeaderOptions = async () => {
