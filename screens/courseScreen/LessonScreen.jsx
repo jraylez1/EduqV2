@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import React, { useLayoutEffect, useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
@@ -10,6 +10,8 @@ import { Entypo } from '@expo/vector-icons';
 import { noImage } from '../../assets';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthStore } from '../../services/auth';
+import { NativeBaseProvider, Spinner, Heading, HStack } from 'native-base';
+
 const LessonScreen = ({ route }) => {
     const navigation = useNavigation();
     const [data, setData] = useState(null);
@@ -20,13 +22,27 @@ const LessonScreen = ({ route }) => {
     const [studyRouteAliasUrl, setStudyRouteAliasUrl] = useState(route?.params?.studyRouteAliasUrl);
     const [idTopicSelect, setIdTopicSelect] = useState(route?.params?.idTopic);
     const [name, setName] = useState(route?.params?.name);
+    const [lessonTopics, setLessonTopics] = useState([]);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [mainLessons, setMainLessons] = useState([]);
 
-    const loadLessonData = async () => {
-        const lessonData = await CourseStore.getStudyRoute(aliasUrl, idStudyRoute, studyRouteAliasUrl, idTopicSelect);
-        setData(lessonData);
+    const fetchData = async () => {
+        const classroomData = await CourseStore.getStudyRoute(
+            aliasUrl,
+            idStudyRoute,
+            studyRouteAliasUrl,
+            idTopicSelect,
+        );
+        const newData = classroomData.extendData?.mainLessons.slice((page - 1) * 10, page * 10);
+        setMainLessons((prevData) => [...prevData, ...newData]);
+        setLessonTopics(classroomData?.extendData?.filters?.lessonTopics);
+        setLoading(false);
     };
 
-    loadLessonData();
+    useEffect(() => {
+        fetchData();
+    }, [page]);
 
     useLayoutEffect(() => {
         const setHeaderOptions = async () => {
@@ -77,34 +93,32 @@ const LessonScreen = ({ route }) => {
         setHeaderOptions();
     }, []);
 
+    const handleEndReached = async () => {
+        if (!loading) {
+            setLoading(true);
+            setPage((prevPage) => prevPage + 1);
+        }
+    };
+
     const changeStudyRoute = async (idTopic) => {
         setIdTopicSelect(idTopic);
-        const lessonData = await CourseStore.getStudyRoute(
-            data.extendData.course.aliasUrl,
-            data.id,
-            studyRouteAliasUrl,
-            idTopicSelect,
-        );
-        setData(lessonData);
+        const classroomData = await CourseStore.getStudyRoute(aliasUrl, idStudyRoute, studyRouteAliasUrl, idTopic);
+        setMainLessons(classroomData.extendData?.mainLessons);
     };
+
     return (
-        <ScrollView style={{ backgroundColor: '#023468', height: '100%', width: '100%' }} ref={scrollViewRef}>
-            <ScrollView
-                showsHorizontalScrollIndicator={false}
-                horizontal={true}
-                contentContainerStyle={{ paddingHorizontal: 16 }}
-                style={{
-                    width: '100%',
-                    flex: 1,
-                    flexDirection: 'row',
-                }}
-            >
-                {data?.extendData?.filters?.lessonTopics &&
-                    data?.extendData?.filters?.lessonTopics.map((item, index) => (
-                        <View style={{ padding: 4 }} key={index}>
+        <View style={{ backgroundColor: '#023468', flex: 1, paddingHorizontal: 10, paddingTop: 10 }}>
+            <View style={{ height: '20%' }}>
+                <FlatList
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={lessonTopics}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item }) => (
+                        <View style={{ padding: 4 }}>
                             <TouchableOpacity
                                 style={{
-                                    height: '80%',
+                                    height: '100%',
                                     marginBottom: 16,
                                     backgroundColor: item.bgColor !== '' ? item.bgColor : '#ddd',
                                     paddingHorizontal: 8,
@@ -116,7 +130,6 @@ const LessonScreen = ({ route }) => {
                                     alignItems: 'center',
                                     width: 120,
                                 }}
-                                key={index}
                                 onPress={() => changeStudyRoute(item.id)}
                             >
                                 {item.iconUrl !== '' ? (
@@ -140,30 +153,44 @@ const LessonScreen = ({ route }) => {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                    ))}
-            </ScrollView>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Main lesson')}</Text>
+                    )}
+                />
             </View>
-            {data?.extendData?.mainLessons?.length > 0 ? (
-                <View
-                    style={{
-                        width: '100%',
-                        paddingHorizontal: 16,
-                        paddingBottom: 16,
-                        transform: [{ translateY: -30 }],
-                    }}
-                >
-                    {data?.extendData?.mainLessons?.map((item, index) => (
-                        <ListLession
-                            studyRouteAliasUrl={studyRouteAliasUrl}
-                            item={item}
-                            data={data}
-                            key={index}
-                            scrollViewRef={scrollViewRef}
-                            isScroll={false}
-                        />
-                    ))}
+
+            {mainLessons.length > 0 ? (
+                <View style={{ flex: 1, marginTop: 20 }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Main lesson')}</Text>
+                    </View>
+                    <FlatList
+                        data={mainLessons}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item }) => (
+                            <View style={{ transform: [{ translateY: -30 }] }}>
+                                <ListLession
+                                    studyRouteAliasUrl={studyRouteAliasUrl}
+                                    item={item}
+                                    aliasUrl={aliasUrl}
+                                    scrollViewRef={scrollViewRef}
+                                    isScroll={false}
+                                />
+                            </View>
+                        )}
+                        numColumns={2}
+                        onEndReached={handleEndReached}
+                        onEndReachedThreshold={0.1}
+                    />
+                    <View>
+                        {loading ? (
+                            <View style={{ marginVertical: 20 }}>
+                                <NativeBaseProvider>
+                                    <Spinner accessibilityLabel="Loading" color="#fff" />
+                                </NativeBaseProvider>
+                            </View>
+                        ) : (
+                            <></>
+                        )}
+                    </View>
                 </View>
             ) : (
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
@@ -171,43 +198,7 @@ const LessonScreen = ({ route }) => {
                     <Text style={styles.title}>{t('Loading lesson...')}</Text>
                 </View>
             )}
-
-            {data?.extendData?.additionLessons?.length > 0 ? (
-                <View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 4 }}>
-                        <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Additional lesson')}</Text>
-                    </View>
-                    {data?.extendData?.additionLessons.length > 0 ? (
-                        <View
-                            style={{
-                                width: '100%',
-                                paddingHorizontal: 16,
-                                paddingBottom: 16,
-                            }}
-                        >
-                            {data?.extendData?.additionLessons.map((item, index) => (
-                                <View style={{ transform: [{ translateY: -30 }] }} key={index}>
-                                    <ListLession
-                                        studyRouteAliasUrl={studyRouteAliasUrl}
-                                        item={item}
-                                        data={data}
-                                        scrollViewRef={scrollViewRef}
-                                        isScroll={false}
-                                    />
-                                </View>
-                            ))}
-                        </View>
-                    ) : (
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
-                            <Entypo name="box" size={40} color="white" />
-                            <Text style={styles.title}>{t('No lessons')}</Text>
-                        </View>
-                    )}
-                </View>
-            ) : (
-                <View></View>
-            )}
-        </ScrollView>
+        </View>
     );
 };
 const styles = StyleSheet.create({

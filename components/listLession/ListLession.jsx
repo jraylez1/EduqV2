@@ -7,17 +7,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { Domain } from '@env';
 
-const ListLession = ({ item, data, studyRouteAliasUrl, scrollViewRef, isScroll }) => {
+const ListLession = ({ item, aliasUrl, studyRouteAliasUrl, scrollViewRef, isScroll }) => {
     const navigation = useNavigation();
     const { t } = useTranslation();
 
     const goToFreeQVideo = async () => {
-        const freeQVideoData = await CourseStore.getLesson(
-            data?.extendData.course.aliasUrl,
-            item?.id,
-            studyRouteAliasUrl,
-            true,
-        );
+        const freeQVideoData = await CourseStore.getLesson(aliasUrl, item?.id, studyRouteAliasUrl, true);
         navigation.navigate('VideoScreen', { data: freeQVideoData, studyRouteAliasUrl: studyRouteAliasUrl });
         if (isScroll) {
             scrollViewRef.current.scrollTo({ y: 0, animated: true });

@@ -142,7 +142,7 @@ const JoyQScreen = ({ route }) => {
         const isLoggedIn = await AuthStore.isLoggedIn();
         if (isLoggedIn) {
             const buyInfo = await CourseStore.getProductPackages(data.aliasUrl);
-            if (buyInfo.isOwner) {
+            if (buyInfo?.isOwner) {
                 if (type === 2) {
                     const classroomData = await CourseStore.getStudyingRoute(data.aliasUrl);
                     navigation.navigate(routeLink, {
@@ -151,6 +151,8 @@ const JoyQScreen = ({ route }) => {
                         idStudyRoute: classroomData.id,
                         studyRouteAliasUrl: classroomData.aliasUrl,
                     });
+                } else {
+                    navigation.navigate(routeLink);
                 }
             } else {
                 setBuyCourseData(buyInfo);
@@ -206,7 +208,7 @@ const JoyQScreen = ({ route }) => {
                             }}
                         >
                             <Text style={{ textAlign: 'center', color: 'white', fontWeight: 'bold', fontSize: 24 }}>
-                                {route.title}
+                                {t(route.title)}
                             </Text>
                         </View>
                     </TouchableOpacity>
