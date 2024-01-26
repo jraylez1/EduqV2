@@ -9,7 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import mime from 'mime';
 import { AuthStore } from '../../services/auth';
 import { FileStore } from '../../services/file';
 import { LocationStore } from '../../services/location';
@@ -161,30 +160,20 @@ const ProfileScreen = ({ route }) => {
 
     const pickImage = async () => {
         try {
-            const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-            if (permissionResult.granted === false) {
-                alert('Permission to access media library is required!');
-                return;
-            }
-
-            const result = await ImagePicker.launchImageLibraryAsync();
-
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 1,
+            });
             if (!result.canceled) {
                 const fileUri = result.assets[0].uri;
-                const fileType = mime.getType(fileUri);
-                if (fileType === 'image/png' || fileType === 'image/jpeg') {
-                    const fileName = fileUri.split('/').pop();
-                    const fileInfo = await FileSystem.getInfoAsync(fileUri);
-                    const size = fileInfo.size;
+                const fileInfo = await FileSystem.getInfoAsync(fileUri);
+                const uploadedImage = await FileStore.addImage(fileInfo);
+                console.log(uploadedImage);
 
-                    const uploadedImage = await FileStore.addImage(fileName, fileType, size);
-                    console.log(uploadedImage);
-
-                    formik.setFieldValue('avatarUrl', fileUri);
-                } else {
-                    alert('Chỉ nhận ảnh PNG hoặc JPG.');
-                }
+                formik.setFieldValue('avatarUrl', fileUri);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -203,8 +192,8 @@ const ProfileScreen = ({ route }) => {
                 <ScrollView style={styles.container}>
                     <View style={styles.infoContainer}>
                         <View style={styles.avatarContainer}>
-                            {data.avatarUrl.length > 0 ? (
-                                <TouchableOpacity onPress={() => pickImage()}>
+                            {formik.values.avatarUrl !== '' ? (
+                                <View>
                                     <View style={styles.avatarBorder}>
                                         <Image
                                             source={{
@@ -213,13 +202,13 @@ const ProfileScreen = ({ route }) => {
                                             style={styles.avatarStyle}
                                         />
 
-                                        <View style={{ position: 'absolute', bottom: 0, right: 12 }}>
+                                        {/* <View style={{ position: 'absolute', bottom: 0, right: 12 }}>
                                             <FontAwesome name="camera" size={24} color="white" />
-                                        </View>
+                                        </View> */}
                                     </View>
-                                </TouchableOpacity>
+                                </View>
                             ) : (
-                                <TouchableOpacity onPress={() => pickImage()}>
+                                <View>
                                     <View style={styles.avatarBorder}>
                                         <Image
                                             source={{
@@ -228,11 +217,11 @@ const ProfileScreen = ({ route }) => {
                                             style={styles.avatarStyle}
                                         />
 
-                                        <View style={{ position: 'absolute', bottom: 0, right: 12 }}>
+                                        {/* <View style={{ position: 'absolute', bottom: 0, right: 12 }}>
                                             <FontAwesome name="camera" size={24} color="white" />
-                                        </View>
+                                        </View> */}
                                     </View>
-                                </TouchableOpacity>
+                                </View>
                             )}
                             <View style={{ alignItems: 'center' }}>
                                 <Text style={styles.userTitle}>{data.lastName + ' ' + data.firstName}</Text>
@@ -547,6 +536,7 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         borderRadius: 9999,
         position: 'relative',
+        backgroundColor: '#fff',
     },
     avatarStyle: {
         height: 128,

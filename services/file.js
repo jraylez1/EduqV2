@@ -1,14 +1,17 @@
 import axios from 'axios';
 import { Storage } from '@env';
+import mime from 'mime';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // axios.interceptors.request.use((request) => {
 //     console.log('Request:', request);
 //     return request;
 // });
 export const FileStore = {
-    async addImage(fileName, contentType, size) {
+    async addImage(file) {
         const token = await AsyncStorage.getItem('access_token');
-
+        const contentType = mime.getType(file.uri);
+        const fileName = file.uri.split('/').pop();
+        const size = file.size;
         try {
             const response = await axios.get(
                 `${Storage}/api/file/getuploadurl.json?idCategory=0&moduleName=&fileName=${fileName}&contentType=${contentType}&size=${size}&filePrefix=`,

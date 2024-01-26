@@ -45,7 +45,10 @@ const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScr
                     studyRouteAliasUrl,
                     true,
                 );
-                navigation.navigate('VideoScreen', { data: freeQVideoData, studyRouteAliasUrl: studyRouteAliasUrl });
+                navigation.navigate('JoyQVideoScreen', {
+                    data: freeQVideoData,
+                    studyRouteAliasUrl: studyRouteAliasUrl,
+                });
                 if (isScroll) {
                     scrollViewRef.current.scrollTo({ y: 0, animated: true });
                 }

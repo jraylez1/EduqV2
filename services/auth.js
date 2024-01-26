@@ -145,7 +145,17 @@ export const AuthStore = {
     async isLoggedIn() {
         try {
             const accessToken = await AsyncStorage.getItem('access_token');
-            if (accessToken) {
+
+            if (!accessToken) {
+                return false;
+            }
+            const response = await axios.get(`${Auth}/api/profile/get.json`, {
+                headers: {
+                    Authorization: accessToken,
+                },
+            });
+
+            if (response.data.error === false) {
                 return true;
             } else {
                 return false;

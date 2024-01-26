@@ -92,7 +92,7 @@ const QTestScreen = ({ route }) => {
                 </TouchableOpacity>
 
                 <View>
-                    {data.isOwner ? (
+                    {data?.isOwner ? (
                         <></>
                     ) : (
                         <View style={{ marginTop: 20, paddingHorizontal: 8 }}>
