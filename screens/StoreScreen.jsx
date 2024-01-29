@@ -4,7 +4,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { ProductStore } from '../services/product';
-import { Button, NativeBaseProvider, Icon } from 'native-base';
+import { Button, NativeBaseProvider } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ProductDetail from '../components/productDetail/ProductDetail';
 const StoreScreen = () => {

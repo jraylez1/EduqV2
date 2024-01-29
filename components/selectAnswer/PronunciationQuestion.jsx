@@ -11,7 +11,6 @@ import LineProgress from '../progressBar/LineProgress';
 import PronunciationFeedback from '../selectAnswer/PronunciationFeedback';
 import PronunciationAccordion from '../selectAnswer/PronunciationAccordion';
 import PronunciationWords from '../selectAnswer/PronunciationWords';
-import { AntDesign } from '@expo/vector-icons';
 const PronunciationQuestion = ({ data, onSelectAnswer, idCourse }) => {
     const { t } = useTranslation();
     const [recording, setRecording] = useState(null);

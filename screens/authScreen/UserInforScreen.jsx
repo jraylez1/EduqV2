@@ -26,9 +26,10 @@ const UserInforScreen = () => {
         getUserInfo();
     }, []);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         setShowModalLogout(false);
-        AuthStore.logout(navigation);
+        await AuthStore.logout(navigation);
+        AuthStore.isLoggedIn();
     };
     const changeLng = () => {
         setIsChange(!isChange);

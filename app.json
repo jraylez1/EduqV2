@@ -13,6 +13,7 @@
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
+            "requireFullScreen": true,
             "supportsTablet": true,
             "permissions": {
                 "microphone": true,
@@ -43,6 +44,12 @@
                 "expo-image-picker",
                 {
                     "photosPermission": "custom photos permission"
+                }
+            ],
+            [
+                "expo-screen-orientation",
+                {
+                    "initialOrientation": "PORTRAIT_UP"
                 }
             ]
         ],

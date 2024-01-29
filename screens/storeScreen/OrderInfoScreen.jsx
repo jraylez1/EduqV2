@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { LocationStore } from '../../services/location';
-// import RNPickerSelect from 'react-native-picker-select';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CartStore } from '../../services/cart';
 import ReCaptchaV3 from '../../components/reCaptcha/ReCaptchaV3';
@@ -92,7 +91,8 @@ const OrderInfoScreen = ({ route }) => {
     });
 
     const setInformation = () => {
-        if (AuthStore.isLoggedIn && data) {
+        const isLoggedIn = AuthStore.isLoggedIn();
+        if (isLoggedIn && data) {
             formik.setValues({
                 firstName: data.firstName || '',
                 lastName: data.lastName || '',

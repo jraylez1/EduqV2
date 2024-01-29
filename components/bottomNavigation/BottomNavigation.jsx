@@ -1,9 +1,10 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { HomeScreen, UserScreen, StoreScreen, UserInforScreen } from '../../screens';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AuthStore } from '../../services/auth';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +23,8 @@ const screenOptions = {
 };
 const BottomNavigation = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigation = useNavigation();
+
     const updateLoginStatus = async () => {
         const loggedIn = await AuthStore.isLoggedIn();
         setIsLoggedIn(loggedIn);

@@ -9,6 +9,8 @@ import SupportKit from '../../components/lessionDetail/SupportKit';
 import LessonDetail from '../../components/lessionDetail/LessonDetail';
 import { Entypo } from '@expo/vector-icons';
 import { AuthStore } from '../../services/auth';
+import { setHeaderOptions } from '../../assets/utils/setHeaderOptions ';
+
 const VideoScreen = ({ route }) => {
     const navigation = useNavigation();
     const data = route?.params?.data;
@@ -36,52 +38,8 @@ const VideoScreen = ({ route }) => {
     };
 
     useLayoutEffect(() => {
-        const setHeaderOptions = async () => {
-            const avatarUrl = await AsyncStorage.getItem('avatarUrl');
-            const isLoggedIn = await AuthStore.isLoggedIn();
-            navigation.setOptions({
-                headerTitle: '',
-                headerTitleAlign: 'center',
-                headerStyle: {
-                    backgroundColor: '#023468',
-                },
-                headerTintColor: '#fff',
-                headerRight: () => {
-                    return (
-                        <>
-                            {isLoggedIn ? (
-                                <TouchableOpacity onPress={() => navigation.navigate('UserInforScreen')}>
-                                    <Image
-                                        source={{
-                                            uri:
-                                                avatarUrl && avatarUrl !== ''
-                                                    ? avatarUrl
-                                                    : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png',
-                                        }}
-                                        style={{
-                                            objectFit: 'cover',
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 800,
-                                            backgroundColor: 'white',
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                            ) : (
-                                <AntDesign
-                                    name="customerservice"
-                                    size={24}
-                                    color="white"
-                                    onPress={() => navigation.navigate('ContactScreen')}
-                                />
-                            )}
-                        </>
-                    );
-                },
-            });
-        };
-
-        setHeaderOptions();
+        const headerTitle = '';
+        setHeaderOptions({ navigation, headerTitle });
     }, []);
 
     return (

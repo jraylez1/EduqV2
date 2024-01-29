@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { NativeBaseProvider, Input, Icon, Button } from 'native-base';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';

@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LogoEduQ, trial_register, toy_pngwing } from '../assets';
 import { CourseStore } from '../services/course';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,7 @@ const HomeScreen = () => {
     useEffect(() => {
         updateLoginStatus();
         getBestCourses();
-    }, []);
+    }, [navigation]);
 
     const updateLoginStatus = async () => {
         const loggedIn = await AuthStore.isLoggedIn();

@@ -1,16 +1,14 @@
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import React, { useLayoutEffect, useState, useRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
 import { CourseStore } from '../../services/course';
 import { SvgUri } from 'react-native-svg';
 import ListLession from '../../components/listLession/ListLession';
 import { useTranslation } from 'react-i18next';
 import { Entypo } from '@expo/vector-icons';
 import { noImage } from '../../assets';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthStore } from '../../services/auth';
-import { NativeBaseProvider, Spinner, Heading, HStack } from 'native-base';
+import { NativeBaseProvider, Spinner } from 'native-base';
+import { setHeaderOptions } from '../../assets/utils/setHeaderOptions ';
 
 const LessonScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -45,52 +43,8 @@ const LessonScreen = ({ route }) => {
     }, [page]);
 
     useLayoutEffect(() => {
-        const setHeaderOptions = async () => {
-            const avatarUrl = await AsyncStorage.getItem('avatarUrl');
-            const isLoggedIn = await AuthStore.isLoggedIn();
-            navigation.setOptions({
-                headerTitle: name,
-                headerTitleAlign: 'center',
-                headerStyle: {
-                    backgroundColor: '#023468',
-                },
-                headerTintColor: '#fff',
-                headerRight: () => {
-                    return (
-                        <>
-                            {isLoggedIn ? (
-                                <TouchableOpacity onPress={() => navigation.navigate('UserInforScreen')}>
-                                    <Image
-                                        source={{
-                                            uri:
-                                                avatarUrl && avatarUrl !== ''
-                                                    ? avatarUrl
-                                                    : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png',
-                                        }}
-                                        style={{
-                                            objectFit: 'cover',
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 800,
-                                            backgroundColor: 'white',
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                            ) : (
-                                <AntDesign
-                                    name="customerservice"
-                                    size={24}
-                                    color="white"
-                                    onPress={() => navigation.navigate('ContactScreen')}
-                                />
-                            )}
-                        </>
-                    );
-                },
-            });
-        };
-
-        setHeaderOptions();
+        const headerTitle = name;
+        setHeaderOptions({ navigation, headerTitle });
     }, []);
 
     const handleEndReached = async () => {

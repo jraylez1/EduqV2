@@ -26,7 +26,6 @@ const QTestAverageScreen = ({ route }) => {
 
     const goToQtestQuestion = async () => {
         const examQuestion = await CourseStore.qTestQuestions(0, true, idStudyRoute, aliasUrl);
-        console.log(examQuestion);
         navigation.navigate('QTestQuestionScreen', {
             data: examQuestion,
             accent: accent,

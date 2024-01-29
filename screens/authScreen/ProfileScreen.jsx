@@ -53,7 +53,8 @@ const ProfileScreen = ({ route }) => {
     }, []);
 
     const setInformation = () => {
-        if (AuthStore.isLoggedIn && data) {
+        const isLoggedIn = AuthStore.isLoggedIn();
+        if (isLoggedIn && data) {
             formik.setValues({
                 firstName: data.firstName || '',
                 lastName: data.lastName || '',

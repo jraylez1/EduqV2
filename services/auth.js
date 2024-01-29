@@ -59,21 +59,23 @@ export const AuthStore = {
                 } else {
                     await AsyncStorage.setItem('access_token', response.data.data.accessToken);
                     await AsyncStorage.setItem('avatarUrl', response.data.data.user.avatarUrl);
+
                     if (backScreen) {
+                        await this.isLoggedIn();
                         if (aliasUrl) {
                             const courseData = await CourseStore.get(aliasUrl);
-                            navigation.navigate(backScreen, {
+                            navigation.replace(backScreen, {
                                 data: courseData,
                             });
                         } else {
-                            navigation.navigate(backScreen);
+                            navigation.replace(backScreen);
                         }
                     } else {
                         navigation.replace('BottomNavigation', { screen: 'HomeScreen' });
                     }
                 }
             } else {
-                console.error('Invalid response format:', response.data);
+                console.error('Invalid response format:', response.data.message);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -148,17 +150,17 @@ export const AuthStore = {
 
             if (!accessToken) {
                 return false;
-            }
-            const response = await axios.get(`${Auth}/api/profile/get.json`, {
-                headers: {
-                    Authorization: accessToken,
-                },
-            });
-
-            if (response.data.error === false) {
-                return true;
             } else {
-                return false;
+                const response = await axios.get(`${Auth}/api/profile/get.json`, {
+                    headers: {
+                        Authorization: accessToken,
+                    },
+                });
+                if (response.data.error === false) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         } catch (error) {
             console.error('Error checking login status:', error);
@@ -170,8 +172,8 @@ export const AuthStore = {
         try {
             await AsyncStorage.removeItem('access_token');
             await AsyncStorage.removeItem('avatarUrl');
-            navigation.replace('BottomNavigation', { screen: 'UserScreen' });
             this.isLoggedIn();
+            navigation.replace('BottomNavigation', { screen: 'HomeScreen' });
         } catch (error) {
             console.error('Error logging out:', error);
         }

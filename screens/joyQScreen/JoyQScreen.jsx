@@ -1,9 +1,7 @@
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, BackHandler } from 'react-native';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { AntDesign } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthStore } from '../../services/auth';
 import { CourseStore } from '../../services/course';
 import { NativeBaseProvider, Modal, Center, Button } from 'native-base';
@@ -19,59 +17,31 @@ import {
     thingsToDoBg,
     huuCaoCo,
 } from '../../assets';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { setHeaderOptions } from '../../assets/utils/setHeaderOptions ';
+
 const JoyQScreen = ({ route }) => {
-    const data = route?.params?.data;
+    const { data } = route?.params;
     const [buyCourseData, setBuyCourseData] = useState(null);
     const navigation = useNavigation();
     const { t } = useTranslation();
-    useLayoutEffect(() => {
-        const setHeaderOptions = async () => {
-            const avatarUrl = await AsyncStorage.getItem('avatarUrl');
-            const isLoggedIn = await AuthStore.isLoggedIn();
-            navigation.setOptions({
-                headerTitle: data.name,
-                headerTitleAlign: 'center',
-                headerStyle: {
-                    backgroundColor: '#023468',
-                },
-                headerTintColor: '#fff',
-                headerRight: () => {
-                    return (
-                        <>
-                            {isLoggedIn ? (
-                                <TouchableOpacity onPress={() => navigation.navigate('UserInforScreen')}>
-                                    <Image
-                                        source={{
-                                            uri:
-                                                avatarUrl && avatarUrl !== ''
-                                                    ? avatarUrl
-                                                    : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png',
-                                        }}
-                                        style={{
-                                            objectFit: 'cover',
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 800,
-                                            backgroundColor: 'white',
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                            ) : (
-                                <AntDesign
-                                    name="customerservice"
-                                    size={24}
-                                    color="white"
-                                    onPress={() => navigation.navigate('ContactScreen')}
-                                />
-                            )}
-                        </>
-                    );
-                },
-            });
-        };
 
-        setHeaderOptions();
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+        return () => {
+            backHandler.remove();
+            ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
+        };
     }, []);
+    const handleBackPress = () => {
+        navigation.replace('BottomNavigation', { screen: 'HomeScreen' });
+        return true;
+    };
+    useLayoutEffect(() => {
+        const headerTitle = data.name;
+        setHeaderOptions({ navigation, headerTitle });
+    }, []);
+
     const [joyQRoutes, setJoQRoutes] = useState([
         {
             title: 'My Learning Path',
@@ -145,14 +115,14 @@ const JoyQScreen = ({ route }) => {
             if (buyInfo?.isOwner) {
                 if (type === 2) {
                     const classroomData = await CourseStore.getStudyingRoute(data.aliasUrl);
-                    navigation.navigate(routeLink, {
+                    navigation.replace(routeLink, {
                         name: classroomData.name,
                         aliasUrl: data.aliasUrl,
                         idStudyRoute: classroomData.id,
                         studyRouteAliasUrl: classroomData.aliasUrl,
                     });
                 } else {
-                    navigation.navigate(routeLink);
+                    navigation.replace(routeLink, { aliasUrl: data.aliasUrl });
                 }
             } else {
                 setBuyCourseData(buyInfo);

@@ -1,13 +1,12 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import { Entypo } from '@expo/vector-icons';
-import { AuthStore } from '../../services/auth';
 import JoyQDetail from '../../components/lessionDetail/JoyQDetail';
 import JoyQListLesson from '../../components/listLession/JoyQListLesson';
+import { setHeaderOptions } from '../../assets/utils/setHeaderOptions ';
+
 const JoyQVideoScreen = ({ route }) => {
     const navigation = useNavigation();
     const data = route?.params?.data;
@@ -15,52 +14,8 @@ const JoyQVideoScreen = ({ route }) => {
     const { t } = useTranslation();
     const scrollViewRef = useRef(null);
     useLayoutEffect(() => {
-        const setHeaderOptions = async () => {
-            const avatarUrl = await AsyncStorage.getItem('avatarUrl');
-            const isLoggedIn = await AuthStore.isLoggedIn();
-            navigation.setOptions({
-                headerTitle: '',
-                headerTitleAlign: 'center',
-                headerStyle: {
-                    backgroundColor: '#023468',
-                },
-                headerTintColor: '#fff',
-                headerRight: () => {
-                    return (
-                        <>
-                            {isLoggedIn ? (
-                                <TouchableOpacity onPress={() => navigation.navigate('UserInforScreen')}>
-                                    <Image
-                                        source={{
-                                            uri:
-                                                avatarUrl && avatarUrl !== ''
-                                                    ? avatarUrl
-                                                    : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png',
-                                        }}
-                                        style={{
-                                            objectFit: 'cover',
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 800,
-                                            backgroundColor: 'white',
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                            ) : (
-                                <AntDesign
-                                    name="customerservice"
-                                    size={24}
-                                    color="white"
-                                    onPress={() => navigation.navigate('ContactScreen')}
-                                />
-                            )}
-                        </>
-                    );
-                },
-            });
-        };
-
-        setHeaderOptions();
+        const headerTitle = '';
+        setHeaderOptions({ navigation, headerTitle });
     }, []);
     return (
         <ScrollView style={{ backgroundColor: '#023468', height: '100%', width: '100%' }} ref={scrollViewRef}>

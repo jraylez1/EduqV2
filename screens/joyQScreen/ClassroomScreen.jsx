@@ -1,21 +1,16 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, FlatList } from 'react-native';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { AntDesign } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthStore } from '../../services/auth';
 import { CourseStore } from '../../services/course';
 import { noImage } from '../../assets';
 import { Domain } from '@env';
 import { Entypo } from '@expo/vector-icons';
 import { NativeBaseProvider, Spinner, Heading, HStack } from 'native-base';
+import { setHeaderOptions } from '../../assets/utils/setHeaderOptions ';
 
 const ClassroomScreen = ({ route }) => {
-    const name = route?.params?.name;
-    const aliasUrl = route?.params?.aliasUrl;
-    const idStudyRoute = route?.params?.idStudyRoute;
-    const studyRouteAliasUrl = route?.params?.studyRouteAliasUrl;
+    const { name, aliasUrl, idStudyRoute, studyRouteAliasUrl } = route?.params;
     const [mainLessons, setMainLessons] = useState([]);
     const navigation = useNavigation();
     const { t } = useTranslation();
@@ -23,53 +18,10 @@ const ClassroomScreen = ({ route }) => {
     const [lessonTopics, setLessonTopics] = useState([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
-    useLayoutEffect(() => {
-        const setHeaderOptions = async () => {
-            const avatarUrl = await AsyncStorage.getItem('avatarUrl');
-            const isLoggedIn = await AuthStore.isLoggedIn();
-            navigation.setOptions({
-                headerTitle: name,
-                headerTitleAlign: 'center',
-                headerStyle: {
-                    backgroundColor: '#023468',
-                },
-                headerTintColor: '#fff',
-                headerRight: () => {
-                    return (
-                        <>
-                            {isLoggedIn ? (
-                                <TouchableOpacity onPress={() => navigation.navigate('UserInforScreen')}>
-                                    <Image
-                                        source={{
-                                            uri:
-                                                avatarUrl && avatarUrl !== ''
-                                                    ? avatarUrl
-                                                    : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png',
-                                        }}
-                                        style={{
-                                            objectFit: 'cover',
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 800,
-                                            backgroundColor: 'white',
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                            ) : (
-                                <AntDesign
-                                    name="customerservice"
-                                    size={24}
-                                    color="white"
-                                    onPress={() => navigation.navigate('ContactScreen')}
-                                />
-                            )}
-                        </>
-                    );
-                },
-            });
-        };
 
-        setHeaderOptions();
+    useLayoutEffect(() => {
+        const headerTitle = name;
+        setHeaderOptions({ navigation, headerTitle });
     }, []);
 
     const fetchData = async () => {
@@ -169,7 +121,9 @@ const ClassroomScreen = ({ route }) => {
                 <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 4 }} numberOfLines={1}>
                     {item.name}
                 </Text>
-                <Text numberOfLines={2}>{item.description}</Text>
+                <Text numberOfLines={2} style={{ minHeight: 35 }}>
+                    {item.description}
+                </Text>
                 <View
                     style={{
                         backgroundColor: item.isLocked ? '#dc3545' : '#00a2ce',

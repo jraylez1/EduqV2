@@ -1,11 +1,11 @@
-import { View, Text, SafeAreaView, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import React, { useLayoutEffect, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { NativeBaseProvider } from 'native-base';
 import { CourseStore } from '../../services/course';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthStore } from '../../services/auth';
+import { setHeaderOptions } from '../../assets/utils/setHeaderOptions ';
+
 const CourseScreen = ({ route }) => {
     const navigation = useNavigation();
     const data = route?.params?.data;
@@ -13,52 +13,8 @@ const CourseScreen = ({ route }) => {
     const [selectStudyRoute, setSelectStudyRoute] = useState(null);
 
     useLayoutEffect(() => {
-        const setHeaderOptions = async () => {
-            const avatarUrl = await AsyncStorage.getItem('avatarUrl');
-            const isLoggedIn = await AuthStore.isLoggedIn();
-            navigation.setOptions({
-                headerTitle: data.name,
-                headerTitleAlign: 'center',
-                headerStyle: {
-                    backgroundColor: '#023468',
-                },
-                headerTintColor: '#fff',
-                headerRight: () => {
-                    return (
-                        <>
-                            {isLoggedIn ? (
-                                <TouchableOpacity onPress={() => navigation.navigate('UserInforScreen')}>
-                                    <Image
-                                        source={{
-                                            uri:
-                                                avatarUrl && avatarUrl !== ''
-                                                    ? avatarUrl
-                                                    : 'https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png',
-                                        }}
-                                        style={{
-                                            objectFit: 'cover',
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 800,
-                                            backgroundColor: 'white',
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                            ) : (
-                                <AntDesign
-                                    name="customerservice"
-                                    size={24}
-                                    color="white"
-                                    onPress={() => navigation.navigate('ContactScreen')}
-                                />
-                            )}
-                        </>
-                    );
-                },
-            });
-        };
-
-        setHeaderOptions();
+        const headerTitle = data.name;
+        setHeaderOptions({ navigation, headerTitle });
     }, []);
 
     const getStudyRoutes = async () => {
