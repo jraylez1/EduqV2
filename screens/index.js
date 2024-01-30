@@ -29,6 +29,8 @@ import LearningPathScreen from './joyQScreen/LearningPathScreen';
 import ClassroomScreen from './joyQScreen/ClassroomScreen';
 import JoyQVideoScreen from './joyQScreen/JoyQVideoScreen';
 import JoyQuestion from './joyQScreen/JoyQuestion';
+import ModeScreen from './qTestScreen/ModeScreen';
+import QTestCustomQuestionScreen from './qTestScreen/QTestCustomQuestionScreen';
 
 export {
     HomeScreen,
@@ -62,4 +64,6 @@ export {
     ClassroomScreen,
     JoyQVideoScreen,
     JoyQuestion,
+    ModeScreen,
+    QTestCustomQuestionScreen,
 };

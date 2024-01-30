@@ -29,6 +29,19 @@ const QTestScreen = ({ route }) => {
             });
         }
     };
+
+    const goToAccentScreen = async () => {
+        const isLoggedIn = await AuthStore.isLoggedIn();
+        if (isLoggedIn) {
+            navigation.navigate('ChooseAccentScreen', { data: data });
+        } else {
+            alert('Bạn cần thực hiện đăng nhập trước khi vào học');
+            navigation.navigate('UserScreen', {
+                backScreen: 'HomeScreen',
+            });
+        }
+    };
+
     return (
         <View style={{ backgroundColor: '#023468', flex: 1, paddingTop: 40, alignItems: 'center' }}>
             <Text style={{ color: '#fff', marginBottom: 16, fontSize: 24, fontWeight: 'bold' }}>
@@ -36,10 +49,7 @@ const QTestScreen = ({ route }) => {
             </Text>
 
             <View style={{ width: '100%', height: '100%', alignItems: 'center' }}>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('ChooseAccentScreen', { data: data })}
-                    style={{ width: '100%', alignItems: 'center' }}
-                >
+                <TouchableOpacity onPress={() => goToAccentScreen()} style={{ width: '100%', alignItems: 'center' }}>
                     <Image
                         source={pronunciation}
                         style={{ width: '90%', height: 240, objectFit: 'cover', borderRadius: 12 }}

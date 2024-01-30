@@ -353,7 +353,7 @@ const PronunciationQtest = ({ data, onSelectAnswer, accent, setIsFinishAnswer, i
                                         {t('Overall score')}
                                     </Text>
                                     <CircularProgress
-                                        progress={recordingResult?.overall_score * 10}
+                                        progress={recordingResult?.overall_score}
                                         radius={70}
                                         strokeWidth={15}
                                         score={recordingResult?.overall_score}

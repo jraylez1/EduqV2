@@ -100,7 +100,10 @@ export const AuthStore = {
                                     index: 1,
                                     routes: [
                                         { name: 'BottomNavigation', params: { screen: 'HomeScreen' } },
-                                        { name: backScreen, params: { screen: backScreen } },
+                                        {
+                                            name: backScreen === 'HomeScreen' ? 'BottomNavigation' : backScreen,
+                                            params: { screen: backScreen },
+                                        },
                                     ],
                                 }),
                             );
