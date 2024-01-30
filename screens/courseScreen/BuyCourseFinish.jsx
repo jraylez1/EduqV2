@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, NativeBaseProvider, Icon } from 'native-base';
 import { AntDesign } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { CommonActions } from '@react-navigation/native';
 
 const BuyCourseFinish = ({ route }) => {
     const data = route?.params?.data;
@@ -16,6 +17,15 @@ const BuyCourseFinish = ({ route }) => {
             headerShown: false,
         });
     }, [navigation]);
+
+    const backToHome = () => {
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'BottomNavigation', params: { screen: 'HomeScreen' } }],
+            }),
+        );
+    };
 
     return (
         <View style={{ paddingHorizontal: 16, flex: 1, backgroundColor: '#023468', paddingBottom: 48 }}>
@@ -79,7 +89,7 @@ const BuyCourseFinish = ({ route }) => {
                             alignSelf="center"
                             leftIcon={<Icon as={AntDesign} name="home" size="md" />}
                             style={{ height: 48, marginTop: 16, width: '50%' }}
-                            onPress={() => navigation.replace('BottomNavigation', { screen: 'HomeScreen' })}
+                            onPress={() => backToHome()}
                         >
                             {t('Back to homepage')}
                         </Button>
@@ -116,7 +126,7 @@ const BuyCourseFinish = ({ route }) => {
                             alignSelf="center"
                             leftIcon={<Icon as={AntDesign} name="left" size="md" />}
                             style={{ height: 48, marginTop: 16, width: '50%' }}
-                            onPress={() => navigation.replace('BottomNavigation', { screen: 'HomeScreen' })}
+                            onPress={() => backToHome()}
                         >
                             {t('Back to homepage')}
                         </Button>

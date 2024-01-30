@@ -84,7 +84,6 @@ const ProductDetailScreen = ({ route }) => {
                 backgroundColor: '#023468',
                 height: '100%',
                 paddingHorizontal: 16,
-                // paddingTop: 48,
                 position: 'relative',
             }}
         >

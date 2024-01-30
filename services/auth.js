@@ -3,6 +3,7 @@ import { Auth } from '@env';
 import uuid from 'react-native-uuid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CourseStore } from './course';
+import { CommonActions } from '@react-navigation/native';
 
 // axios.interceptors.request.use((request) => {
 //     console.log('Request:', request);
@@ -64,14 +65,53 @@ export const AuthStore = {
                         await this.isLoggedIn();
                         if (aliasUrl) {
                             const courseData = await CourseStore.get(aliasUrl);
-                            navigation.replace(backScreen, {
-                                data: courseData,
-                            });
+                            if (courseData.isOwner) {
+                                alert('ban da so huu khoa hoc nay');
+                                navigation.dispatch(
+                                    CommonActions.reset({
+                                        index: 1,
+                                        routes: [
+                                            { name: 'BottomNavigation', params: { screen: 'HomeScreen' } },
+                                            {
+                                                name: backScreen,
+                                                params: { data: courseData },
+                                            },
+                                        ],
+                                    }),
+                                );
+                            } else {
+                                const buyInfo = await CourseStore.getProductPackages(aliasUrl);
+                                navigation.dispatch(
+                                    CommonActions.reset({
+                                        index: 1,
+                                        routes: [
+                                            { name: 'BottomNavigation', params: { screen: 'HomeScreen' } },
+                                            {
+                                                name: 'BuyCourse',
+                                                params: { data: buyInfo },
+                                            },
+                                        ],
+                                    }),
+                                );
+                            }
                         } else {
-                            navigation.replace(backScreen);
+                            navigation.dispatch(
+                                CommonActions.reset({
+                                    index: 1,
+                                    routes: [
+                                        { name: 'BottomNavigation', params: { screen: 'HomeScreen' } },
+                                        { name: backScreen, params: { screen: backScreen } },
+                                    ],
+                                }),
+                            );
                         }
                     } else {
-                        navigation.replace('BottomNavigation', { screen: 'HomeScreen' });
+                        navigation.dispatch(
+                            CommonActions.reset({
+                                index: 0,
+                                routes: [{ name: 'BottomNavigation', params: { screen: 'HomeScreen' } }],
+                            }),
+                        );
                     }
                 }
             } else {
@@ -173,7 +213,12 @@ export const AuthStore = {
             await AsyncStorage.removeItem('access_token');
             await AsyncStorage.removeItem('avatarUrl');
             this.isLoggedIn();
-            navigation.replace('BottomNavigation', { screen: 'HomeScreen' });
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'BottomNavigation', params: { screen: 'HomeScreen' } }],
+                }),
+            );
         } catch (error) {
             console.error('Error logging out:', error);
         }

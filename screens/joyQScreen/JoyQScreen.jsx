@@ -27,22 +27,17 @@ const JoyQScreen = ({ route }) => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
         return () => {
-            backHandler.remove();
             ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.DEFAULT);
         };
     }, []);
-    const handleBackPress = () => {
-        navigation.replace('BottomNavigation', { screen: 'HomeScreen' });
-        return true;
-    };
+
     useLayoutEffect(() => {
         const headerTitle = data.name;
         setHeaderOptions({ navigation, headerTitle });
     }, []);
 
-    const [joyQRoutes, setJoQRoutes] = useState([
+    const [joyQRoutes, setJoyQRoutes] = useState([
         {
             title: 'My Learning Path',
             color: '#fac05e',
@@ -115,14 +110,14 @@ const JoyQScreen = ({ route }) => {
             if (buyInfo?.isOwner) {
                 if (type === 2) {
                     const classroomData = await CourseStore.getStudyingRoute(data.aliasUrl);
-                    navigation.replace(routeLink, {
+                    navigation.navigate(routeLink, {
                         name: classroomData.name,
                         aliasUrl: data.aliasUrl,
                         idStudyRoute: classroomData.id,
                         studyRouteAliasUrl: classroomData.aliasUrl,
                     });
                 } else {
-                    navigation.replace(routeLink, { aliasUrl: data.aliasUrl });
+                    navigation.navigate(routeLink, { aliasUrl: data.aliasUrl });
                 }
             } else {
                 setBuyCourseData(buyInfo);
