@@ -66,7 +66,7 @@ export const AuthStore = {
                         if (aliasUrl) {
                             const courseData = await CourseStore.get(aliasUrl);
                             if (courseData.isOwner) {
-                                alert('ban da so huu khoa hoc nay');
+                                alert('Bạn đã sở hữu khóa học này');
                                 navigation.dispatch(
                                     CommonActions.reset({
                                         index: 1,
