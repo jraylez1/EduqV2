@@ -49,6 +49,13 @@ const StoreScreen = () => {
         setTotalQuantity(calculatedTotalQuantity);
     }, [cartItems]);
 
+    useEffect(() => {
+        const calculatedTotalQuantity = cartItems.reduce((accumulator, currentItem) => {
+            return accumulator + currentItem.quantity;
+        }, 0);
+        setTotalQuantity(calculatedTotalQuantity);
+    }, []);
+
     const loadCartItems = async () => {
         try {
             const storedCartItems = await AsyncStorage.getItem('cart-store');
@@ -89,7 +96,6 @@ const StoreScreen = () => {
             style={{
                 backgroundColor: '#023468',
                 height: '100%',
-                // paddingTop: 48,
                 paddingHorizontal: 16,
                 paddingBottom: 60,
                 position: 'relative',
