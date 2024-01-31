@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomNavigation from './components/bottomNavigation/BottomNavigation';
+import { AuthStore } from './services/auth';
+import { useEffect } from 'react';
 import {
     HomeScreen,
     UserScreen,
@@ -41,6 +43,13 @@ import {
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    useEffect(() => {
+        const checkLogin = async () => {
+            const isLoggedIn = await AuthStore.isLoggedIn();
+            console.log(isLoggedIn);
+        };
+        checkLogin();
+    }, []);
     return (
         <NavigationContainer>
             <Stack.Navigator>
