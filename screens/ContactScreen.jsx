@@ -22,12 +22,12 @@ const ContactScreen = () => {
     const [contact, setContact] = useState([
         {
             imageSource: phone,
-            content: '0833.211.211',
+            content: '0917072756',
             link: 'tel:0917072756',
         },
         {
             imageSource: zalo,
-            content: '0833.211.211',
+            content: '0917072756',
             link: 'tel:0917072756',
         },
         {

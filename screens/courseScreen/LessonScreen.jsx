@@ -58,79 +58,73 @@ const LessonScreen = ({ route }) => {
         setIdTopicSelect(idTopic);
         const classroomData = await CourseStore.getStudyRoute(aliasUrl, idStudyRoute, studyRouteAliasUrl, idTopic);
         setMainLessons(classroomData.extendData?.mainLessons);
+        setPage(1);
     };
 
-    return (
-        <View style={{ backgroundColor: '#023468', flex: 1, paddingHorizontal: 10, paddingTop: 10 }}>
-            <View style={{ height: '20%' }}>
-                <FlatList
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={lessonTopics}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <View style={{ padding: 4 }}>
-                            <TouchableOpacity
-                                style={{
-                                    height: '100%',
-                                    marginBottom: 16,
-                                    backgroundColor: item.bgColor !== '' ? item.bgColor : '#ddd',
-                                    paddingHorizontal: 8,
-                                    paddingVertical: 16,
-                                    borderRadius: 12,
-                                    borderColor: item.borderColor !== '' ? item.borderColor : '#3785F2',
-                                    borderWidth: 2,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    width: 120,
-                                }}
-                                onPress={() => changeStudyRoute(item.id)}
-                            >
-                                {item.iconUrl !== '' ? (
-                                    <SvgUri style={{ height: 80 }} uri={item?.iconUrl} />
-                                ) : (
-                                    <Image
-                                        source={noImage}
-                                        style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 12 }}
-                                    />
-                                )}
-                                <Text
-                                    numberOfLines={1}
-                                    style={{
-                                        color: item.textColor !== '' ? item.textColor : '#3785F2',
-                                        fontSize: 18,
-                                        fontWeight: '600',
-                                        marginTop: 8,
-                                    }}
-                                >
-                                    {item?.name}
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                />
-            </View>
+    const renderLessonTopicItem = ({ item }) => (
+        <View style={{ padding: 4 }}>
+            <TouchableOpacity
+                onPress={() => changeStudyRoute(item.id)}
+                style={{
+                    backgroundColor: item.bgColor !== '' ? item.bgColor : '#ddd',
+                    paddingHorizontal: 8,
+                    paddingVertical: 16,
+                    borderRadius: 12,
+                    borderColor: item.borderColor !== '' ? item.borderColor : '#3785F2',
+                    borderWidth: 2,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 120,
+                    height: 120,
+                    marginBottom: 16,
+                }}
+            >
+                {item.iconUrl !== '' ? (
+                    <SvgUri style={{ height: 60 }} uri={item?.iconUrl} />
+                ) : (
+                    <Image source={noImage} style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 12 }} />
+                )}
+                <Text
+                    numberOfLines={1}
+                    style={{
+                        color: item.textColor !== '' ? item.textColor : '#3785F2',
+                        fontSize: 18,
+                        fontWeight: '600',
+                        marginTop: 8,
+                    }}
+                >
+                    {item?.name}
+                </Text>
+            </TouchableOpacity>
+        </View>
+    );
 
+    const lessonTopicsHeader = () => (
+        <View>
+            <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={lessonTopics}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderLessonTopicItem}
+            />
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Main lesson')}</Text>
+            </View>
+        </View>
+    );
+
+    return (
+        <View style={{ backgroundColor: '#023468', flex: 1, paddingHorizontal: 10 }}>
             {mainLessons.length > 0 ? (
-                <View style={{ flex: 1, marginTop: 20 }}>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={{ color: '#fff', fontSize: 32, fontWeight: '700' }}>{t('Main lesson')}</Text>
-                    </View>
+                <View style={{ flex: 1 }}>
                     <FlatList
                         data={mainLessons}
+                        ListHeaderComponent={lessonTopicsHeader}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => (
-                            <View style={{ transform: [{ translateY: -30 }] }}>
-                                <ListLession
-                                    studyRouteAliasUrl={studyRouteAliasUrl}
-                                    item={item}
-                                    aliasUrl={aliasUrl}
-                                    scrollViewRef={scrollViewRef}
-                                    isScroll={false}
-                                />
-                            </View>
+                            <ListLession studyRouteAliasUrl={studyRouteAliasUrl} item={item} aliasUrl={aliasUrl} />
                         )}
-                        numColumns={2}
                         onEndReached={handleEndReached}
                         onEndReachedThreshold={0.1}
                     />

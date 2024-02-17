@@ -19,7 +19,7 @@ const ListLession = ({ item, aliasUrl, studyRouteAliasUrl, scrollViewRef, isScro
         }
     };
     return (
-        <TouchableOpacity style={{ width: '100%' }} onPress={() => goToFreeQVideo()}>
+        <TouchableOpacity style={{ width: '100%', paddingVertical: 10 }} onPress={() => goToFreeQVideo()}>
             <View
                 style={{
                     width: '100%',

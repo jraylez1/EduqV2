@@ -172,7 +172,6 @@ const ProfileScreen = ({ route }) => {
                 const fileUri = result.assets[0].uri;
                 const fileInfo = await FileSystem.getInfoAsync(fileUri);
                 const uploadedImage = await FileStore.addImage(fileInfo);
-                console.log(uploadedImage);
 
                 formik.setFieldValue('avatarUrl', fileUri);
             }

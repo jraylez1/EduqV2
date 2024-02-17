@@ -46,7 +46,6 @@ export default function App() {
     useEffect(() => {
         const checkLogin = async () => {
             const isLoggedIn = await AuthStore.isLoggedIn();
-            console.log(isLoggedIn);
         };
         checkLogin();
     }, []);

@@ -53,7 +53,11 @@ const CartScreen = () => {
                 setCartItems(updatedCartItems);
                 await AsyncStorage.setItem('cart-store', JSON.stringify(updatedCartItems));
             }
-            loadCartData();
+            const data = await AsyncStorage.getItem('cart-store');
+            if (JSON.parse(data).length > 0) {
+                const cartDataItems = await CartStore.getCartProducts(JSON.parse(data));
+                setCartItems(cartDataItems);
+            }
         } catch (error) {
             console.error('Error adding to cart:', error);
         }
@@ -229,7 +233,7 @@ const CartScreen = () => {
                 <Text style={{ color: '#fff', fontWeight: '500', fontSize: 24, lineHeight: 32, marginBottom: 8 }}>
                     {t('Shopping Cart Information')}
                 </Text>
-                <View style={{ height: 500 }}>
+                <View style={{ height: 400 }}>
                     {cartItems?.length > 0 ? (
                         <FlatList
                             data={cartItems}
