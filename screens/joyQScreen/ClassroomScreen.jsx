@@ -152,9 +152,10 @@ const ClassroomScreen = ({ route }) => {
             </View>
         </TouchableOpacity>
     );
-    return (
-        <View style={{ backgroundColor: '#023468', flex: 1, paddingHorizontal: 10, paddingTop: 10 }}>
-            <View style={{ height: '20%' }}>
+
+    const renderLessonTopicItem = ({ item }) => (
+        <View>
+            <View style={{ height: 120 }}>
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -179,11 +180,11 @@ const ClassroomScreen = ({ route }) => {
                                 onPress={() => changeStudyRoute(item.id)}
                             >
                                 {item.iconUrl !== '' ? (
-                                    <SvgUri style={{ height: 80 }} uri={item?.iconUrl} />
+                                    <SvgUri style={{ height: 60 }} uri={item?.iconUrl} />
                                 ) : (
                                     <Image
                                         source={noImage}
-                                        style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 12 }}
+                                        style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 12 }}
                                     />
                                 )}
                                 <Text
@@ -202,12 +203,16 @@ const ClassroomScreen = ({ route }) => {
                     )}
                 />
             </View>
-
+            <View style={{ backgroundColor: '#fff', padding: 4, borderRadius: 8, marginVertical: 10 }}></View>
+        </View>
+    );
+    return (
+        <View style={{ backgroundColor: '#023468', flex: 1, paddingHorizontal: 10, paddingTop: 10 }}>
             {mainLessons.length > 0 ? (
                 <View style={{ flex: 1 }}>
-                    <View style={{ backgroundColor: '#fff', padding: 4, borderRadius: 8 }}></View>
                     <FlatList
                         data={mainLessons}
+                        ListHeaderComponent={renderLessonTopicItem}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={renderItem}
                         numColumns={2}
