@@ -15,7 +15,8 @@ const JoyQVideoScreen = ({ route }) => {
     const scrollViewRef = useRef(null);
     useLayoutEffect(() => {
         const headerTitle = '';
-        setHeaderOptions({ navigation, headerTitle });
+        const isProgress = true;
+        setHeaderOptions({ navigation, headerTitle, isProgress });
     }, []);
     return (
         <ScrollView style={{ backgroundColor: '#023468', height: '100%', width: '100%' }} ref={scrollViewRef}>

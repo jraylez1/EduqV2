@@ -281,4 +281,19 @@ export const CourseStore = {
             return response.data;
         }
     },
+    async getCourseReport(request) {
+        const token = await AsyncStorage.getItem('access_token');
+        const params = new URLSearchParams(request).toString();
+        const response = await axios.get(`${EduQ}/api/course/course-report.json?${params}`, {
+            headers: {
+                Authorization: token,
+            },
+        });
+        if (response.data.error) {
+            alert(response.message);
+            return null;
+        } else {
+            return response.data;
+        }
+    },
 };

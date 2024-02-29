@@ -60,7 +60,7 @@ export const AuthStore = {
                 } else {
                     await AsyncStorage.setItem('access_token', response.data.data.accessToken);
                     await AsyncStorage.setItem('avatarUrl', response.data.data.user.avatarUrl);
-
+                    await AsyncStorage.setItem('userId', JSON.stringify(response.data.data.user.id));
                     if (backScreen) {
                         await this.isLoggedIn();
                         if (aliasUrl) {
@@ -215,6 +215,7 @@ export const AuthStore = {
         try {
             await AsyncStorage.removeItem('access_token');
             await AsyncStorage.removeItem('avatarUrl');
+            await AsyncStorage.removeItem('userId');
             this.isLoggedIn();
             navigation.dispatch(
                 CommonActions.reset({

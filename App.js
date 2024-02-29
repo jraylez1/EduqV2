@@ -39,6 +39,7 @@ import {
     JoyQuestion,
     ModeScreen,
     QTestCustomQuestionScreen,
+    ProgressScreen,
 } from './screens';
 const Stack = createNativeStackNavigator();
 
@@ -86,6 +87,7 @@ export default function App() {
                 <Stack.Screen name="JoyQuestion" component={JoyQuestion} />
                 <Stack.Screen name="ModeScreen" component={ModeScreen} />
                 <Stack.Screen name="QTestCustomQuestionScreen" component={QTestCustomQuestionScreen} />
+                <Stack.Screen name="ProgressScreen" component={ProgressScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

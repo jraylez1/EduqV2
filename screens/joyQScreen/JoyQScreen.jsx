@@ -34,7 +34,8 @@ const JoyQScreen = ({ route }) => {
 
     useLayoutEffect(() => {
         const headerTitle = data.name;
-        setHeaderOptions({ navigation, headerTitle });
+        const isProgress = true;
+        setHeaderOptions({ navigation, headerTitle, isProgress });
     }, []);
 
     const [joyQRoutes, setJoyQRoutes] = useState([

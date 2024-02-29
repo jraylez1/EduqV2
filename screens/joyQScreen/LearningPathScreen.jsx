@@ -26,7 +26,8 @@ const LearningPathScreen = ({ route }) => {
     const isFocused = useIsFocused();
     useLayoutEffect(() => {
         const headerTitle = t('My Learning Path');
-        setHeaderOptions({ navigation, headerTitle });
+        const isProgress = true;
+        setHeaderOptions({ navigation, headerTitle, isProgress });
     }, []);
 
     useEffect(() => {

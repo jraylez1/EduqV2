@@ -3,7 +3,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { AuthStore } from '../../services/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const setHeaderOptions = ({ navigation, headerTitle }) => {
+export const setHeaderOptions = ({ navigation, headerTitle, isProgress }) => {
     navigation.setOptions({
         headerTitle: headerTitle,
         headerTitleAlign: 'center',
@@ -20,7 +20,13 @@ export const setHeaderOptions = ({ navigation, headerTitle }) => {
                 headerRight: () => (
                     <>
                         {isLoggedIn ? (
-                            <TouchableOpacity onPress={() => navigation.navigate('UserInforScreen')}>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    isProgress
+                                        ? navigation.navigate('ProgressScreen')
+                                        : navigation.navigate('UserInforScreen')
+                                }
+                            >
                                 <Image
                                     source={{
                                         uri:

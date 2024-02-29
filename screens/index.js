@@ -31,6 +31,7 @@ import JoyQVideoScreen from './joyQScreen/JoyQVideoScreen';
 import JoyQuestion from './joyQScreen/JoyQuestion';
 import ModeScreen from './qTestScreen/ModeScreen';
 import QTestCustomQuestionScreen from './qTestScreen/QTestCustomQuestionScreen';
+import ProgressScreen from './joyQScreen/ProgressScreen';
 
 export {
     HomeScreen,
@@ -66,4 +67,5 @@ export {
     JoyQuestion,
     ModeScreen,
     QTestCustomQuestionScreen,
+    ProgressScreen,
 };

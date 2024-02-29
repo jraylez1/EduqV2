@@ -21,7 +21,8 @@ const ClassroomScreen = ({ route }) => {
 
     useLayoutEffect(() => {
         const headerTitle = name;
-        setHeaderOptions({ navigation, headerTitle });
+        const isProgress = true;
+        setHeaderOptions({ navigation, headerTitle, isProgress });
     }, []);
 
     const fetchData = async () => {
