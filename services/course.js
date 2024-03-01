@@ -296,4 +296,22 @@ export const CourseStore = {
             return response.data;
         }
     },
+    async getTopicReport(request) {
+        const token = await AsyncStorage.getItem('access_token');
+        const idTopicsString = request.idTopics.map((id) => `idTopics=${id}`).join('&');
+        const response = await axios.get(
+            `${EduQ}/api/course/topic-report.json?aliasUrl=${request.aliasUrl}&idUser=${request.idUser}&${idTopicsString}`,
+            {
+                headers: {
+                    Authorization: token,
+                },
+            },
+        );
+        if (response.data.error) {
+            alert(response.message);
+            return null;
+        } else {
+            return response.data;
+        }
+    },
 };

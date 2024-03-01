@@ -41,12 +41,18 @@ import {
     QTestCustomQuestionScreen,
     ProgressScreen,
 } from './screens';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
     useEffect(() => {
         const checkLogin = async () => {
             const isLoggedIn = await AuthStore.isLoggedIn();
+            if (isLoggedIn) {
+                console.log('login');
+            } else {
+                AuthStore.logout();
+            }
         };
         checkLogin();
     }, []);

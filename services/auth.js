@@ -213,6 +213,7 @@ export const AuthStore = {
 
     async logout(navigation) {
         try {
+            console.log('logout');
             await AsyncStorage.removeItem('access_token');
             await AsyncStorage.removeItem('avatarUrl');
             await AsyncStorage.removeItem('userId');
