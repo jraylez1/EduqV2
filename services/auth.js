@@ -202,6 +202,9 @@ export const AuthStore = {
                 if (response.data.error === false) {
                     return true;
                 } else {
+                    await AsyncStorage.removeItem('access_token');
+                    await AsyncStorage.removeItem('avatarUrl');
+                    await AsyncStorage.removeItem('userId');
                     return false;
                 }
             }
@@ -217,7 +220,7 @@ export const AuthStore = {
             await AsyncStorage.removeItem('access_token');
             await AsyncStorage.removeItem('avatarUrl');
             await AsyncStorage.removeItem('userId');
-            this.isLoggedIn();
+            // this.isLoggedIn();
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
