@@ -1,18 +1,20 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { CourseStore } from '../../services/course';
 import { Video } from 'expo-av';
 import { FontAwesome } from '@expo/vector-icons';
 import { Domain } from '@env';
 import { useEffect } from 'react';
-
+import { Actionsheet, useDisclose, Box, NativeBaseProvider, Center } from 'native-base';
+import { notifiEndVideo } from '../../assets/index';
+import { MaterialIcons, AntDesign, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScroll }) => {
     const { t } = useTranslation();
     const videoRef = React.useRef(null);
     const [status, setStatus] = React.useState({});
     const [questionData, setQuestionData] = React.useState({});
+    const { isOpen, onOpen, onClose } = useDisclose();
 
     useEffect(() => {
         autoPlayVideo();
@@ -34,23 +36,30 @@ const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScr
             studyRouteAliasUrl,
         );
 
-        if (videoEndedData.data) {
-            const match = videoEndedData?.data?.url.match(/\/m-(\d+)\.html/);
-            if (match) {
-                const idLessonMatch = match[1];
-                const freeQVideoData = await CourseStore.getLesson(
-                    data.extendData.course.aliasUrl,
-                    idLessonMatch,
-                    studyRouteAliasUrl,
-                    true,
-                );
-                navigation.navigate('JoyQVideoScreen', {
-                    data: freeQVideoData,
-                    studyRouteAliasUrl: studyRouteAliasUrl,
-                });
-                if (isScroll) {
-                    scrollViewRef.current.scrollTo({ y: 0, animated: true });
+        if (videoEndedData.data || videoEndedData.data.message !== '') {
+            onClose();
+            if (videoEndedData.data.url !== '/course/joyq') {
+                const match = videoEndedData?.data?.url.match(/\/m-(\d+)\.html/);
+                if (match) {
+                    const idLessonMatch = match[1];
+                    const freeQVideoData = await CourseStore.getLesson(
+                        data.extendData.course.aliasUrl,
+                        idLessonMatch,
+                        studyRouteAliasUrl,
+                        true,
+                    );
+                    navigation.navigate('JoyQVideoScreen', {
+                        data: freeQVideoData,
+                        studyRouteAliasUrl: studyRouteAliasUrl,
+                    });
+                    if (isScroll) {
+                        scrollViewRef.current.scrollTo({ y: 0, animated: true });
+                    }
                 }
+            } else {
+                alert(videoEndedData.message);
+                const courseData = await CourseStore.get(data.extendData.course.aliasUrl);
+                navigation.navigate('JoyQScreen', { data: courseData });
             }
         } else {
             alert(videoEndedData.message);
@@ -90,6 +99,16 @@ const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScr
         });
     };
 
+    const goToLesson = async (path) => {
+        const classroomData = await CourseStore.getStudyingRoute(data.extendData.course.aliasUrl);
+        navigation.navigate(path, {
+            name: classroomData.name,
+            aliasUrl: data.extendData.course.aliasUrl,
+            idStudyRoute: classroomData.id,
+            studyRouteAliasUrl: classroomData.aliasUrl,
+        });
+    };
+
     return (
         <View>
             <View>
@@ -109,7 +128,7 @@ const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScr
                                 resizeMode="contain"
                                 onPlaybackStatusUpdate={(playbackStatus) => {
                                     if (playbackStatus.isLoaded && playbackStatus.didJustFinish) {
-                                        onVideoEnded();
+                                        onOpen();
                                     }
                                     setStatus(playbackStatus);
                                 }}
@@ -212,6 +231,30 @@ const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScr
                                             {t('Redo the lesson')}
                                         </Text>
                                     </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={{
+                                            flexDirection: 'row',
+                                            padding: 12,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            backgroundColor: '#f77d68',
+                                            width: '100%',
+                                            marginTop: 16,
+                                            borderRadius: 6,
+                                        }}
+                                        onPress={onOpen}
+                                    >
+                                        <AntDesign
+                                            name="banckward"
+                                            size={20}
+                                            color="white"
+                                            style={{ fontWeight: 'bold', marginTop: 2, marginRight: 8 }}
+                                        />
+
+                                        <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28 }}>
+                                            {t('More Lesson')}
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
                             ) : (
                                 <View>
@@ -247,6 +290,113 @@ const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScr
                     )}
                 </View>
             </View>
+            <NativeBaseProvider>
+                <Actionsheet isOpen={isOpen} onClose={onClose}>
+                    <Actionsheet.Content style={{ backgroundColor: '#ffeeb6' }}>
+                        <Box w="100%" px={4} justifyContent="center" alignItems="center">
+                            <Image source={notifiEndVideo} />
+                        </Box>
+                        <Box marginTop={4}>
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: '#fff',
+                                    paddingHorizontal: 24,
+                                    paddingVertical: 8,
+                                    borderRadius: 20,
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                }}
+                                onPress={() => {
+                                    onClose();
+                                    if (videoRef.current) {
+                                        videoRef.current.playFromPositionAsync(0);
+                                    }
+                                }}
+                            >
+                                <MaterialIcons
+                                    name="replay"
+                                    size={20}
+                                    color="#f77d68"
+                                    style={{ fontWeight: 'bold', marginTop: 2, marginRight: 4 }}
+                                />
+                                <Text style={{ color: '#f77d68', fontWeight: 'bold', fontSize: 20 }}>
+                                    {t('Replay')}
+                                </Text>
+                            </TouchableOpacity>
+                        </Box>
+                        <Box
+                            w="100%"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            display="flex"
+                            flexDirection="row"
+                            marginTop={6}
+                            flexWrap="wrap"
+                        >
+                            <Box width="50%" justifyContent="center" alignItems="center">
+                                <AntDesign name="heart" size={24} color="#f77d68" />
+                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{t('Favorite')}</Text>
+                            </Box>
+                            <Box width="50%" justifyContent="center" alignItems="center">
+                                <TouchableOpacity
+                                    style={{ justifyContent: 'center', alignItems: 'center' }}
+                                    onPress={() => goToLesson('ClassroomScreen')}
+                                >
+                                    <FontAwesome name="puzzle-piece" size={24} color="#f77d68" />
+                                    <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
+                                        {t('More Lesson')}
+                                    </Text>
+                                </TouchableOpacity>
+                            </Box>
+                            <Box width="50%" justifyContent="center" alignItems="center" marginTop={4}>
+                                <TouchableOpacity
+                                    style={{ justifyContent: 'center', alignItems: 'center' }}
+                                    onPress={() => navigation.replace('BottomNavigation', { screen: 'StoreScreen' })}
+                                >
+                                    <FontAwesome5 name="shopping-cart" size={24} color="#f77d68" />
+                                    <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
+                                        {t('Go to store')}
+                                    </Text>
+                                </TouchableOpacity>
+                            </Box>
+                            <Box width="50%" justifyContent="center" alignItems="center" marginTop={4}>
+                                <TouchableOpacity
+                                    style={{ justifyContent: 'center', alignItems: 'center' }}
+                                    onPress={() => goToLesson('LearningPathScreen')}
+                                >
+                                    <FontAwesome5 name="bus" size={24} color="#f77d68" />
+                                    <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
+                                        {t('Learning path')}
+                                    </Text>
+                                </TouchableOpacity>
+                            </Box>
+                        </Box>
+
+                        <Box marginTop={4}>
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: '#f77d68',
+                                    paddingHorizontal: 24,
+                                    paddingVertical: 8,
+                                    borderRadius: 20,
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                }}
+                                onPress={() => onVideoEnded()}
+                            >
+                                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{t('Continue')}</Text>
+
+                                <AntDesign
+                                    name="right"
+                                    size={20}
+                                    color="white"
+                                    style={{ fontWeight: 'bold', marginTop: 2, marginLeft: 4 }}
+                                />
+                            </TouchableOpacity>
+                        </Box>
+                    </Actionsheet.Content>
+                </Actionsheet>
+            </NativeBaseProvider>
         </View>
     );
 };

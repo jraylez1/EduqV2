@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
-import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import React, { useLayoutEffect, useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { Entypo } from '@expo/vector-icons';
 import JoyQDetail from '../../components/lessionDetail/JoyQDetail';
@@ -13,11 +13,13 @@ const JoyQVideoScreen = ({ route }) => {
     const studyRouteAliasUrl = route?.params?.studyRouteAliasUrl;
     const { t } = useTranslation();
     const scrollViewRef = useRef(null);
+
     useLayoutEffect(() => {
         const headerTitle = '';
         const isProgress = true;
         setHeaderOptions({ navigation, headerTitle, isProgress });
     }, []);
+
     return (
         <ScrollView style={{ backgroundColor: '#023468', height: '100%', width: '100%' }} ref={scrollViewRef}>
             <View style={{ paddingHorizontal: 16 }}>

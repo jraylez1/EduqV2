@@ -6,8 +6,9 @@ import { CourseStore } from '../../services/course';
 import { noImage } from '../../assets';
 import { Domain } from '@env';
 import { Entypo } from '@expo/vector-icons';
-import { NativeBaseProvider, Spinner, Heading, HStack } from 'native-base';
+import { NativeBaseProvider, Spinner } from 'native-base';
 import { setHeaderOptions } from '../../assets/utils/setHeaderOptions ';
+import { SvgUri } from 'react-native-svg';
 
 const ClassroomScreen = ({ route }) => {
     const { name, aliasUrl, idStudyRoute, studyRouteAliasUrl } = route?.params;
@@ -51,7 +52,11 @@ const ClassroomScreen = ({ route }) => {
 
     const goToJoyQVideo = async (id) => {
         const joyQVideoData = await CourseStore.getLesson(aliasUrl, id, studyRouteAliasUrl, true);
-        navigation.navigate('JoyQVideoScreen', { data: joyQVideoData, studyRouteAliasUrl: studyRouteAliasUrl });
+        navigation.navigate('JoyQVideoScreen', {
+            data: joyQVideoData,
+            studyRouteAliasUrl: studyRouteAliasUrl,
+            aliasUrl: aliasUrl,
+        });
     };
 
     const changeStudyRoute = async (idTopic) => {
@@ -181,13 +186,26 @@ const ClassroomScreen = ({ route }) => {
                                 onPress={() => changeStudyRoute(item.id)}
                             >
                                 {item.iconUrl !== '' ? (
-                                    <SvgUri style={{ height: 60 }} uri={item?.iconUrl} />
+                                    item.iconUrl.endsWith('.svg') ? (
+                                        <SvgUri
+                                            uri={item.iconUrl}
+                                            width="80"
+                                            height="60"
+                                            style={{ borderRadius: 12 }}
+                                        />
+                                    ) : (
+                                        <Image
+                                            source={{ uri: item.iconUrl }}
+                                            style={{ width: 80, height: 60, resizeMode: 'cover', borderRadius: 12 }}
+                                        />
+                                    )
                                 ) : (
                                     <Image
                                         source={noImage}
                                         style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 12 }}
                                     />
                                 )}
+
                                 <Text
                                     numberOfLines={1}
                                     style={{

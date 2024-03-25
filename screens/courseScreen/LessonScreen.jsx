@@ -80,7 +80,14 @@ const LessonScreen = ({ route }) => {
                 }}
             >
                 {item.iconUrl !== '' ? (
-                    <SvgUri style={{ height: 60 }} uri={item?.iconUrl} />
+                    item.iconUrl.endsWith('.svg') ? (
+                        <SvgUri uri={item.iconUrl} width="80" height="60" style={{ borderRadius: 12 }} />
+                    ) : (
+                        <Image
+                            source={{ uri: item.iconUrl }}
+                            style={{ width: 80, height: 60, resizeMode: 'cover', borderRadius: 12 }}
+                        />
+                    )
                 ) : (
                     <Image source={noImage} style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 12 }} />
                 )}

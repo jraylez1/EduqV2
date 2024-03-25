@@ -98,6 +98,7 @@ const JoyQScreen = ({ route }) => {
             type: 1,
         },
     ]);
+
     const [showModal, setShowModal] = useState(false);
 
     const goToBuyCourseScreen = () => {

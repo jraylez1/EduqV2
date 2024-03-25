@@ -141,7 +141,7 @@ const UserInforScreen = () => {
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <TouchableOpacity
                                     style={styles.userInfoContainer}
-                                    onPress={() => navigation.navigate('TransactionScreen')}
+                                    // onPress={() => navigation.navigate('TransactionScreen')}
                                 >
                                     <AntDesign name="swap" size={24} color="white" />
                                     <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28, marginTop: 8 }}>
@@ -151,7 +151,7 @@ const UserInforScreen = () => {
 
                                 <TouchableOpacity
                                     style={styles.userInfoContainer}
-                                    onPress={() => navigation.navigate('AchievementsScreen')}
+                                    // onPress={() => navigation.navigate('AchievementsScreen')}
                                 >
                                     <MaterialCommunityIcons name="archive-check-outline" size={24} color="white" />
                                     <Text style={{ color: '#fff', fontSize: 20, lineHeight: 28, marginTop: 8 }}>

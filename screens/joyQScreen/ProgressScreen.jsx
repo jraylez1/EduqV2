@@ -233,7 +233,10 @@ const ProgressScreen = () => {
                                         style={{
                                             height: 40,
                                             backgroundColor: '#3c8685',
-                                            width: topicData.totalLessonsWidth + '%',
+                                            width:
+                                                topicData.totalCompleteWidth > 20
+                                                    ? topicData.totalCompleteWidth + '%'
+                                                    : '20%',
                                             borderRightWidth: 6,
                                             borderRightColor: '#fff',
                                             justifyContent: 'center',
@@ -247,14 +250,17 @@ const ProgressScreen = () => {
                                                 fontSize: 18,
                                             }}
                                         >
-                                            {topicData.totalLessonsWidth + '%'}
+                                            {topicData.totalCompleteWidth + '%'}
                                         </Text>
                                     </View>
                                     <View
                                         style={{
                                             height: 40,
                                             backgroundColor: '#a8dba9',
-                                            width: topicData.totalCompleteWidth + '%',
+                                            width:
+                                                topicData.totalCompleteWidth > 20
+                                                    ? `calc(100% - ${topicData.totalCompleteWidth}%)`
+                                                    : '80%',
                                             justifyContent: 'center',
                                         }}
                                     >
@@ -266,9 +272,7 @@ const ProgressScreen = () => {
                                                 fontSize: 18,
                                             }}
                                         >
-                                            {topicData.totalCompleteWidth >= 18
-                                                ? topicData.totalCompleteWidth + '%'
-                                                : ''}
+                                            {topicData.totalLessonsWidth >= 18 ? topicData.totalLessonsWidth + '%' : ''}
                                         </Text>
                                     </View>
                                 </View>

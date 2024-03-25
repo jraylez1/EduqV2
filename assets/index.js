@@ -34,3 +34,4 @@ export { default as level9 } from './images/level9.png';
 export { default as level10 } from './images/level10.png';
 export { default as road } from './images/road.png';
 export { default as codingMan } from './images/codingMan.jpg';
+export { default as notifiEndVideo } from './images/notifiEndVideo.png';
