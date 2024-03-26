@@ -36,9 +36,12 @@ const JoyQDetail = ({ data, navigation, studyRouteAliasUrl, scrollViewRef, isScr
             studyRouteAliasUrl,
         );
 
-        if (videoEndedData.data || videoEndedData.data.message !== '') {
+        if (videoEndedData.data) {
             onClose();
             if (videoEndedData.data.url !== '/course/joyq') {
+                if (videoEndedData.message !== '') {
+                    alert(videoEndedData.message);
+                }
                 const match = videoEndedData?.data?.url.match(/\/m-(\d+)\.html/);
                 if (match) {
                     const idLessonMatch = match[1];
