@@ -186,5 +186,8 @@
     "Go to store": "Cửa hàng",
     "Continue": "Tiếp tục",
     "Favorite": "Yêu thích",
-    "Replay": "Phát lại"
+    "Replay": "Phát lại",
+    "Delete account": "Xóa tài khoản",
+    "Your account will be deleted from the system. Are you sure you want to delete this account?": "Tài khoản của bạn sẽ bị xóa khỏi hệ thống,  bạn có chắc chắn muốn xóa tài khoản này?",
+    "Delete": "Xóa"
 }

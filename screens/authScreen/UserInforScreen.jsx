@@ -3,7 +3,7 @@ import React, { useState, useLayoutEffect, useEffect } from 'react';
 import { AuthStore } from '../../services/auth';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { NativeBaseProvider, Button, Center, Modal } from 'native-base';
+import { NativeBaseProvider, Button, Center, Modal, Popover } from 'native-base';
 import i18next from '../../services/i18next';
 import { vietnamflag, uk_flag } from '../../assets';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -15,7 +15,7 @@ const UserInforScreen = () => {
     const [showModalLogout, setShowModalLogout] = useState(false);
     const [userData, setUserData] = useState(null);
     const [isChange, setIsChange] = useState(true);
-
+    const [isOpen, setIsOpen] = useState(false);
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
@@ -40,6 +40,10 @@ const UserInforScreen = () => {
         }
     };
 
+    const deleteUser = async () => {
+        await AuthStore.deleteUser(navigation);
+    };
+
     const getUserInfo = async () => {
         const userInfo = await AuthStore.getProfile(navigation);
         if (userInfo != null) {
@@ -58,9 +62,46 @@ const UserInforScreen = () => {
                 <View style={styles.personInfoContainer}>
                     <Text style={styles.personInfoTitle}>{t('Personal information')}</Text>
                     <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity style={{ marginRight: 16 }} onPress={() => goToProfileScreen()}>
-                            <AntDesign name="user" size={24} color="white" />
-                        </TouchableOpacity>
+                        {/* <TouchableOpacity style={{ marginRight: 16 }} onPress={() => goToProfileScreen()}>
+                            <AntDesign name="deleteuser" size={24} color="white" />
+                        </TouchableOpacity> */}
+
+                        <Popover
+                            trigger={(triggerProps) => {
+                                return (
+                                    <TouchableOpacity
+                                        {...triggerProps}
+                                        style={{ marginRight: 16 }}
+                                        onPress={() => setIsOpen(true)}
+                                    >
+                                        <AntDesign name="deleteuser" size={24} color="white" />
+                                    </TouchableOpacity>
+                                );
+                            }}
+                            isOpen={isOpen}
+                            onClose={() => setIsOpen(!isOpen)}
+                        >
+                            <Popover.Content accessibilityLabel="Delete Customerd" w="56">
+                                <Popover.Arrow />
+                                <Popover.CloseButton />
+                                <Popover.Header>{t('Delete account')}</Popover.Header>
+                                <Popover.Body>
+                                    {t(
+                                        'Your account will be deleted from the system. Are you sure you want to delete this account?',
+                                    )}
+                                </Popover.Body>
+                                <Popover.Footer justifyContent="flex-end">
+                                    <Button.Group space={2}>
+                                        <Button colorScheme="coolGray" variant="ghost" onPress={() => setIsOpen(false)}>
+                                            {t('Cancel')}
+                                        </Button>
+                                        <Button colorScheme="danger" onPress={() => deleteUser()}>
+                                            {t('Delete')}
+                                        </Button>
+                                    </Button.Group>
+                                </Popover.Footer>
+                            </Popover.Content>
+                        </Popover>
 
                         <TouchableOpacity onPress={() => setShowModalLogout(true)}>
                             <AntDesign name="logout" size={24} color="white" />

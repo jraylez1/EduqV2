@@ -169,5 +169,8 @@
     "Go to store": "Go to store",
     "Continue": "Continue",
     "Favorite": "Favorite",
-    "Replay": "Replay"
+    "Replay": "Replay",
+    "Delete account": "Delete account",
+    "Your account will be deleted from the system. Are you sure you want to delete this account?": "Your account will be deleted from the system. Are you sure you want to delete this account?",
+    "Delete": "Delete"
 }

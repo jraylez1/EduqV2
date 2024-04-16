@@ -214,6 +214,31 @@ export const AuthStore = {
         }
     },
 
+    async deleteUser(navigation) {
+        try {
+            const token = await AsyncStorage.getItem('access_token');
+            const response = await axios.post(
+                `${Auth}/api/profile/delete-account.json`,
+                {},
+                {
+                    headers: {
+                        Authorization: token,
+                    },
+                },
+            );
+            if (response.data.error === false) {
+                alert('Xóa tài khoản thành công');
+                this.logout(navigation);
+            } else {
+                console.error('Invalid response format:', response.data);
+                return null;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    },
+
     async logout(navigation) {
         try {
             await AsyncStorage.removeItem('access_token');
