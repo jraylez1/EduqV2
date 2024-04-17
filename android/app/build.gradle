@@ -81,9 +81,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace 'com.fullbaster1999.EduqV2'
+    namespace 'com.qna.eduq'
     defaultConfig {
-        applicationId 'com.fullbaster1999.EduqV2'
+        applicationId 'com.qna.eduq'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

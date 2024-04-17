@@ -1,4 +1,4 @@
-package com.fullbaster1999.EduqV2;
+package com.qna.eduq;
 
 import android.app.Application;
 import android.content.res.Configuration;

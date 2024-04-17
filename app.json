@@ -26,7 +26,7 @@
                 "foregroundImage": "./assets/images/splash-logo-all.png",
                 "backgroundColor": "#ffffff"
             },
-            "package": "com.fullbaster1999.EduqV2"
+            "package": "com.qna.eduq"
         },
         "web": {
             "favicon": "./assets/favicon.png"

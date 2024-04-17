@@ -1,4 +1,4 @@
-package com.fullbaster1999.EduqV2;
+package com.qna.eduq;
 
 import android.os.Build;
 import android.os.Bundle;
